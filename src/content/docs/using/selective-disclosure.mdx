@@ -1,0 +1,190 @@
+---
+title: Selective Disclosure
+description: Privacy isn't all-or-nothing. Viewing keys, payment disclosure, and encrypted memos let you reveal exactly what you want to whoever you want.
+sidebar:
+  order: 3
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+A common misconception about privacy coins is that they're either fully
+opaque or not. Zcash is built around the opposite assumption: **privacy
+is the default, but selective disclosure is a first-class feature.** You
+can prove specific things to specific people without exposing everything
+to everyone.
+
+This lesson covers the three primary disclosure mechanisms — viewing
+keys, payment disclosure, and memos — and the situations each is for.
+
+## Why selective disclosure matters
+
+Real-world reasons people need to *reveal* something about their Zcash
+activity:
+
+- **Accounting.** A small business takes ZEC and needs to show its
+  bookkeeper a clean record of incoming payments without exposing the
+  spending side.
+- **Audits.** A company must satisfy a regulator, auditor, or tax
+  authority that its incoming ZEC was correctly accounted for.
+- **Donations with receipts.** A nonprofit accepts shielded donations
+  but needs to confirm to a specific donor that their gift arrived (for
+  a tax letter, for example).
+- **Compliance with travel rules and KYC counterparties.** Specific
+  exchanges may want proof a deposit came from a specific source.
+- **Forensic investigations** with the cooperating party's consent.
+
+In all of these, the user wants to expose *one slice* — typically
+incoming activity, or a single transaction, to a single party — while
+keeping the rest private. Zcash gives you primitives for exactly that.
+
+## Viewing keys
+
+Every shielded Zcash account has a hierarchy of keys. The relevant ones
+for disclosure:
+
+- **Spending key** — full authority. Can spend, view, and reveal
+  anything. Never share.
+- **Full viewing key (FVK)** — can decrypt every incoming and outgoing
+  shielded payment for the account, including memos. Cannot spend.
+- **Incoming viewing key (IVK)** — can decrypt every *incoming*
+  payment, including memos and amounts. Cannot see outgoing payments.
+  Cannot spend.
+
+Sharing your **incoming viewing key** with an auditor lets them see
+exactly what you've received without learning what you've spent or being
+able to move funds. Sharing your **full viewing key** lets them see
+both sides, still without spend authority.
+
+Most wallets expose IVK and FVK export under an "Account → Advanced" or
+similar menu. It's typically a long base58 or bech32 string.
+
+A workflow that comes up often:
+
+```
+You         Bookkeeper
+ │ Generate IVK in wallet.
+ ├─ Send IVK ────────────►
+ │                        │ Imports into a view-only Zcash node.
+ │                        │ Sees all incoming shielded payments,
+ │                        │ amounts, dates, and memos.
+ │                        │ Builds your books from the read-only feed.
+ │                        │ Cannot spend, cannot see your sends.
+```
+
+## Unified viewing keys
+
+NU5 introduced **Unified Full Viewing Keys (UFVKs)** and **Unified
+Incoming Viewing Keys (UIVKs)** that aggregate viewing capabilities
+across all the receivers in a Unified Address. So a single UFVK gives
+your auditor visibility into *every* pool you receive in (Orchard,
+Sapling, transparent), in one string.
+
+Specified in [ZIP-316](https://zips.z.cash/zip-0316) alongside UAs.
+
+## Payment disclosure (single-transaction proofs)
+
+Sometimes you want to prove **one specific transaction** rather than
+hand out a viewing key over your whole account. Zcash supports a
+construction often called **payment disclosure**: a small message
+demonstrating that a specific transaction sent a specific amount to a
+specific recipient, signed by the sender's keys.
+
+Use cases:
+
+- "Yes, I made the donation. Here's the cryptographic proof." A
+  disclosure that satisfies the recipient and any third party they show
+  it to, without revealing your other activity.
+- "This is the deposit I'm claiming." Settling a dispute with an
+  exchange or counterparty.
+- Internal reconciliation when your accounting system needs ground truth
+  about a specific in or out.
+
+Wallet support for payment disclosure varies. ECC's reference work
+([this blog post on payment disclosure](https://electriccoin.co/blog/zcashs-shielded-pool-stats-an-update/),
+and [zcashd](https://github.com/zcash/zcash) RPC interfaces like
+`z_getpaymentdisclosure`, where present) demonstrates it. Newer light
+wallets are gaining feature parity over time.
+
+## Memos
+
+Every shielded output in Zcash carries an **encrypted memo field** — up
+to ~512 bytes per output. Memos are decrypted by the recipient using
+their incoming viewing key. The sender can also see memos they sent via
+their outgoing viewing key.
+
+Memos are *not* visible to the network. They're cryptographically tied
+to the specific transaction, so an attacker who sees the memo in a
+disclosure context can confirm it really came from that transaction.
+
+Practical uses:
+
+- **Invoice IDs and order numbers.** A merchant's payment gateway can
+  match incoming payments to invoices automatically by checking memos.
+- **Donor names** for a tax-deductible-receipt workflow.
+- **Personal messages** between humans paying each other.
+- **Settlement instructions** in B2B Zcash flows.
+
+Memos are one of those features that doesn't sound like much in a
+bullet point and turns out to do a lot in real systems.
+
+## What disclosure does NOT do
+
+Important constraints to keep in mind:
+
+- **Selective disclosure is sender-controlled, not recipient-controlled.**
+  An auditor can't *demand* a viewing key; you have to choose to share
+  it. (For incoming-side audits this is fine; you control the keys to
+  your own incoming-side data.)
+- **A viewing key, once shared, can't be revoked.** Treat sharing one
+  like sharing a password — the holder retains visibility forever, or
+  until you migrate to a new account.
+- **Disclosure doesn't expose other people's data.** A viewing key for
+  your wallet shows only your incoming/outgoing transactions, not
+  anything about counterparties' other activity.
+- **Disclosure isn't designed for hostile auditing.** It assumes a
+  cooperative model. Privacy in adversarial contexts (e.g. responses to
+  subpoenas) is a separate legal and technical question.
+
+## Compliance posture
+
+A frequent question: "Can a Zcash user satisfy a regulator who insists
+on auditability?" The honest answer is: yes, technically and in practice.
+
+- An exchange or business can require viewing keys from customers
+  whose deposits it lists, satisfying its visibility-into-source-of-
+  funds requirements.
+- A tax authority can be given an FVK for the period under audit, and
+  reproduce the user's complete shielded ledger.
+- An individual can produce a payment disclosure for any specific
+  transaction in question.
+
+This is a feature, not a workaround. Zcash was designed by
+cryptographers who anticipated the regulator question. The
+disclosure primitives are the answer.
+
+## Where to go from here
+
+You now know:
+
+- The default privacy property of shielded transactions.
+- How to receive, send, and verify them ([previous lesson](/using/your-first-shielded-tx/)).
+- How to *un*-privatize specific slices when you need to, on your terms.
+
+The remaining module — Ecosystem — zooms out from the protocol to the
+governance, economics, and orgs that keep the project shipping.
+
+<Aside type="tip" title="Key takeaways">
+- **Privacy in Zcash is selective by design**, not all-or-nothing.
+- **Incoming viewing key (IVK)** = audit incoming activity, see memos,
+  no spend power. **Full viewing key (FVK)** adds outgoing visibility.
+- **Payment disclosure** proves one specific transaction's contents
+  without exposing the rest of your wallet.
+- **Encrypted memos** (~512 bytes per shielded output) are the practical
+  workhorse of receipt-style use cases.
+- **A viewing key, once shared, can't be revoked.** Share like a
+  password.
+- Selective disclosure makes Zcash workable for accounting, audits, and
+  compliance use cases without breaking the default privacy property.
+</Aside>

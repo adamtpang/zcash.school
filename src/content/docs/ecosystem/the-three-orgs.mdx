@@ -1,0 +1,169 @@
+---
+title: The Three Orgs
+description: Electric Coin Company, the Zcash Foundation, and Zcash Community Grants — what each does, how they're funded, and why the structure exists.
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+Zcash is unusual among major cryptocurrencies in having a deliberate,
+multi-party governance structure with three distinct organizations
+sharing responsibility. This isn't accidental — it was set up to
+balance research, stewardship, and ecosystem funding without any single
+party holding unilateral control.
+
+## Electric Coin Company (ECC)
+
+[Electric Coin Company](https://electriccoin.co/) (ECC) is the original
+team. Started by Zooko Wilcox in 2015 to ship the Zerocash design as
+its own chain, ECC was historically the lead protocol developer and
+flagship-wallet maintainer.
+
+What ECC does today:
+
+- Maintains [zcashd](https://github.com/zcash/zcash) (the original full
+  node), and now contributes to **zebrad** (the Rust-based full node).
+- Builds the **Zashi** wallet (mobile, shielded-by-default, the modern
+  recommendation).
+- Drives major protocol research — the Halo line, Pasta curves, Orchard
+  pool design — and most of the cryptography innovations Zcash has
+  shipped.
+- Stewards the trademark and brand.
+
+ECC is a privately held US-based company. It's funded primarily through
+its share of the Zcash Dev Fund (see below) along with grants and
+contracts.
+
+## Zcash Foundation (ZF)
+
+The [Zcash Foundation](https://zfnd.org/) (ZF) is a US-based 501(c)(3)
+nonprofit, founded in 2017, whose mission is to steward the Zcash
+protocol and the broader ecosystem in the public interest.
+
+What ZF does:
+
+- Maintains [zebrad](https://github.com/ZcashFoundation/zebra), the
+  independent Rust full-node implementation. Having two
+  implementations is a meaningful security property; bugs in one are
+  unlikely to be in the other.
+- Stewards [ZIPs](https://zips.z.cash/) (Zcash Improvement Proposals)
+  and the upgrade process.
+- Hosts the Zcon conference, runs community calls, and funds research
+  directly through its own grant programs.
+- Acts as a check on ECC. The two organizations are independent and
+  occasionally disagree publicly on direction, which is a feature of
+  the structure.
+
+ZF is funded primarily through its share of the Dev Fund and
+philanthropic contributions.
+
+## Zcash Community Grants (ZCG)
+
+[Zcash Community Grants](https://zcashcommunitygrants.org/) is a
+community-elected committee that allocates a portion of the Dev Fund
+to ecosystem projects — wallets, infrastructure, research, education,
+and outreach.
+
+ZCG was created to address a gap: ECC and ZF do core development, but a
+healthy ecosystem needs a long tail of wallets, exchanges integrations,
+educational material, regional community-building, and so on. ZCG funds
+that long tail through a public application and review process.
+
+The committee is elected from the Zcash community. Grants are public,
+applications are public, and outcomes are reported back. It's the most
+broadly participatory of the three orgs.
+
+## The Dev Fund
+
+The Zcash protocol mints a fixed amount of new ZEC per block as a
+mining reward. Of that, a defined percentage — currently **20%** — is
+allocated to development funding, split among ECC, ZF, and ZCG.
+
+This is the **Dev Fund** (originally introduced in
+[ZIP-1014](https://zips.z.cash/zip-1014) for the 2020–2024 period; the
+post-2024 fund structure was set by subsequent ZIPs). It is enforced at
+consensus level: every miner who finds a block automatically pays the
+Dev Fund recipients in the block reward, and any block that doesn't is
+invalid. There's no off-chain donation step.
+
+The split has changed over time and is renegotiated through ZIPs at
+each Dev Fund renewal cycle. The high-level shape:
+
+- A portion to ECC (protocol R&D and Zashi).
+- A portion to ZF (zebrad, ZIPs, ecosystem stewardship).
+- A portion to ZCG (community grants).
+- A portion that goes back to miners (subject to the period and the
+  specific ZIP).
+
+The next renewal is a topic of active community debate; check the ZIPs
+and forum threads for the current proposal landscape.
+
+## Why three, not one
+
+The pragmatic case for a three-org structure:
+
+- **No single point of capture.** No one organization can unilaterally
+  push protocol changes; ZIPs require coordination.
+- **Two implementations.** ECC and ZF maintain independent full nodes,
+  which is a strong defense against implementation-level bugs.
+- **Clear separation of for-profit and nonprofit.** ECC can move fast
+  and contract commercially; ZF holds the public-interest mandate.
+- **Long-tail funding.** ZCG is structurally close to community needs
+  in a way the development orgs aren't.
+
+The trade-off is that decisions take longer and disagreements are
+public. For a privacy protocol that needs to be trusted by users
+worldwide, that's a feature. Decisions made in private by a single team
+are exactly what shielded money users are trying to avoid.
+
+## How decisions actually get made
+
+A typical Zcash decision flow:
+
+1. Someone (ECC, ZF, a community member, ZCG-funded researcher)
+   proposes a change.
+2. A draft ZIP is written and discussed on
+   [the forum](https://forum.zcashcommunity.com/), GitHub, or community
+   calls.
+3. The ZIP is iterated through public review.
+4. ECC and ZF discuss and signal whether they'll implement.
+5. If both implement, the change ships in the next network upgrade
+   alongside the broader NU bundle.
+6. Network upgrades require near-universal node operator and miner
+   adoption to activate; failure to coordinate would simply not
+   activate.
+
+This is slower than "team A pushes a change," and it's that way on
+purpose.
+
+## What this means for users
+
+If you're using Zcash:
+
+- **You can run your own node** — either implementation. That's a
+  meaningful right, exercised by real people.
+- **You can read every protocol change** as a ZIP before it ships.
+- **You can apply for funding** from ZCG if you want to build something.
+- **No one can credibly turn the privacy property off**, because no
+  single org has the authority. Coordinated capture across ECC, ZF, ZCG,
+  miners, and the user community is the bar. That bar is high.
+
+The next lesson goes deeper into the ZIP process and major upgrades.
+
+<Aside type="tip" title="Key takeaways">
+- **Three organizations**: Electric Coin Company (R&D, Zashi), Zcash
+  Foundation (zebrad, ZIPs, ecosystem), Zcash Community Grants (long-
+  tail funding).
+- **The Dev Fund** is consensus-enforced — currently 20% of the block
+  reward, split among the three orgs and renegotiated by ZIP at each
+  renewal cycle.
+- **Two independent full-node implementations** (zcashd and zebrad)
+  protect against bugs and capture.
+- **Decision flow** is public ZIPs → discussion → both implementations
+  ship → network upgrade activates.
+- The structure is intentionally pluralistic. Trust is distributed by
+  design.
+</Aside>

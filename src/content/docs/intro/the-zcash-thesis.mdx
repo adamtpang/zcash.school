@@ -1,0 +1,126 @@
+---
+title: The Zcash Thesis
+description: A public blockchain can have default-private transactions if you use cryptography correctly. Zcash is the longest-running production attempt to do that.
+sidebar:
+  order: 3
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+The Zcash thesis is short: **a blockchain's consensus rules can be public
+while every transaction's amount and parties are encrypted, and cryptography
+can prove the rules were followed without revealing what happened.**
+
+Everything else in Zcash — the addresses, the pools, the upgrade history,
+the trade-offs — is engineering downstream of that single bet.
+
+## What you keep, what you hide
+
+Zcash keeps the parts of a blockchain that make it a blockchain:
+
+- A public, append-only ledger anyone can verify
+- Proof-of-work consensus producing ordered blocks (~75-second block time)
+- A fixed monetary policy (21 million ZEC, halvings every ~4 years)
+- A network of full nodes anyone can run
+
+It hides the parts of a blockchain that leak everything about you:
+
+- The sender of a shielded transaction
+- The recipient of a shielded transaction
+- The amount of a shielded transaction
+- (Optionally) a small encrypted memo passed between sender and recipient
+
+The trick is that nodes can still verify those hidden transactions are
+**valid** — money is conserved, the sender owns the funds, no double-spend —
+without ever decrypting them. That's the job of zero-knowledge proofs, which
+the next module covers in depth.
+
+## A short history
+
+Zcash didn't come from nowhere. The path looked roughly like this:
+
+- **2013** — Cryptographers Matthew Green, Ian Miers, and others publish
+  [Zerocoin](https://zerocoin.org/), a Bitcoin extension adding optional
+  anonymity through cryptographic accumulators. Proofs were too large to ship.
+- **2014** — The follow-up paper
+  [Zerocash: Decentralized Anonymous Payments from Bitcoin](http://zerocash-project.org/paper)
+  introduced compact zk-SNARKs and a workable design. Authors include Eli
+  Ben-Sasson, Alessandro Chiesa, Christina Garman, Matthew Green, Ian Miers,
+  Eran Tromer, and Madars Virza.
+- **2015** — The Zerocash team forms a company (later **Electric Coin
+  Company**) led by Zooko Wilcox to ship the design as its own chain.
+- **October 28, 2016** — Zcash genesis block. The first network is the
+  "Sprout" pool, using a trusted setup with the famous "Ceremony" to
+  generate parameters.
+- **October 2018 — Sapling.** A second-generation shielded protocol with
+  100× faster proofs, smaller memory footprint, and mobile-viable wallets.
+- **November 2020 — Heartwood / Canopy.** Treasury and consensus changes;
+  the first halving.
+- **May 2022 — NU5 (Network Upgrade 5).** Introduces the **Orchard** pool
+  and **Halo 2**, eliminating the need for trusted setups. Unified Addresses
+  arrive in this period.
+- **2024+ — NU6 and beyond.** Ongoing work: deprecating Sprout (ZIP-2003),
+  refining the dev fund, and planning future scaling work.
+
+The point of the timeline isn't trivia. It's that **Zcash has shipped real
+upgrades for nearly a decade** and the cryptography it pioneered (zk-SNARKs,
+recursive proofs, Halo) now powers Ethereum rollups, ZK identity systems,
+and a dozen other privacy projects. The lineage is well-cited and the
+codebase is open.
+
+## What Zcash does *not* claim
+
+It's worth being precise:
+
+- Zcash is not anonymous communication. It hides transaction contents, not
+  IP addresses. Use it through Tor or a VPN if network-layer privacy matters
+  to you.
+- Zcash is not free of metadata. Transaction *timing*, *fees*, and the act
+  of using the chain at all are still observable.
+- Zcash supports both transparent and shielded transactions. Choosing a
+  transparent address gives you Bitcoin-equivalent privacy (i.e. very
+  little). Choosing the shielded path is what produces the strong privacy
+  property.
+- Privacy is *strong* but not magical. It is well-studied and the production
+  pools have not had a privacy-breaking bug, but cryptographic guarantees
+  always come with a model. We'll surface the relevant assumptions as we
+  go.
+
+## What "default-private" actually means
+
+In modern Zcash with **Unified Addresses** and shielded-by-default wallets
+like [Zashi](https://electriccoin.co/zashi/), the friction of using
+shielded mode is essentially zero. You receive to a unified address, the
+sender's wallet automatically picks the most private compatible pool
+(Orchard if available), and your balance lives encrypted on-chain.
+
+Compare that with Bitcoin, where being private requires you to (a) know
+about CoinJoin, (b) use a wallet that supports it, (c) coordinate with
+other users, (d) tolerate the timing and fee overhead, and (e) hope your
+counterparties don't peel the anonymity set apart afterward.
+
+Defaults shape outcomes. Zcash's default is private. That's the thesis,
+delivered.
+
+## Where the rest of the course goes
+
+You now have the *why*. The rest of the course gives you the *how*:
+
+- **Module 2 — Zero-knowledge proofs.** What the cryptography actually does.
+- **Module 3 — Protocol.** Addresses, pools, notes, nullifiers, Halo 2.
+- **Module 4 — Using Zcash.** Wallets, sending shielded transactions,
+  selective disclosure for compliance and accounting.
+- **Module 5 — Ecosystem.** The orgs, governance, supply, and roadmap.
+
+<Aside type="tip" title="Key takeaways">
+- **The thesis is one sentence:** public consensus, encrypted transactions,
+  cryptographic proof of validity.
+- **Zcash launched October 28, 2016** and has shipped through five major
+  network upgrades since.
+- **Zcash hides sender, recipient, and amount** in shielded transactions,
+  while keeping the chain itself fully verifiable.
+- **Modern wallets make shielded mode the default**, removing the friction
+  that kept earlier shielded usage low.
+</Aside>

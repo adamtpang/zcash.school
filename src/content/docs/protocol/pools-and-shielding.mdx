@@ -1,0 +1,162 @@
+---
+title: Pools, Shielding, and Deshielding
+description: What "pools" are in Zcash, what changes when value moves between transparent and shielded sides, and the privacy implications of each transition.
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+Zcash organizes value into a small number of **pools** — separate
+shielded sets, plus the transparent UTXO set. Understanding pools is
+mostly about understanding the *transitions* between them, because that's
+where most observable information leaks live.
+
+## What a pool is
+
+A pool is a set of notes (or, for the transparent pool, UTXOs) that share
+a cryptographic protocol. Each shielded pool has its own:
+
+- Note format and commitment scheme
+- Note Merkle tree of all commitments ever created in that pool
+- Nullifier set (used to mark notes as spent — covered in
+  [the next lesson](/protocol/notes-and-nullifiers/))
+- Proof system for spends
+
+Live pools as of NU5 and beyond:
+
+| Pool        | First active | Status                                                                  |
+| ----------- | ------------ | ----------------------------------------------------------------------- |
+| Transparent | 2016         | Active                                                                  |
+| Sprout      | 2016         | Deprecated. Migration to Sapling/Orchard required ([ZIP-2003](https://zips.z.cash/zip-2003)). |
+| Sapling     | 2018         | Active                                                                  |
+| Orchard     | 2022         | Active. **Preferred** — no trusted setup, modern proofs.               |
+
+## What "shielding" and "deshielding" mean
+
+The term **"shielding"** is overloaded in casual conversation. Be precise:
+
+- **Shielding** = moving value from the transparent pool into a shielded
+  pool. (`t → z` or `t → Orchard`.)
+- **Deshielding** = moving value from a shielded pool back to the
+  transparent pool. (`z → t` or `Orchard → t`.)
+- **Cross-pool** = moving value between two shielded pools, e.g.
+  `Sapling → Orchard`.
+- **Fully shielded** = both inputs and outputs are in shielded pools, with
+  no transparent leg. The strongest privacy.
+
+Each transition has different observability. The visible/encrypted
+breakdown for a typical transaction:
+
+| Transaction type    | Inputs     | Outputs    | Amount visible? | Sender visible? | Recipient visible? |
+| ------------------- | ---------- | ---------- | --------------- | --------------- | ------------------ |
+| t → t               | transparent| transparent| Yes             | Yes             | Yes                |
+| t → z (shielding)   | transparent| shielded   | **Yes (input)** | Yes (sender)    | No                 |
+| z → t (deshielding) | shielded   | transparent| **Yes (output)**| No              | Yes (recipient)    |
+| z → z (fully shielded) | shielded| shielded   | No              | No              | No                 |
+| Sapling → Orchard   | Sapling    | Orchard    | No              | No              | No                 |
+
+<Aside type="caution" title="Pool transitions leak amounts">
+**Any transaction with a transparent leg makes that leg's amount visible
+on-chain.** A `t → z` shield publishes the amount being shielded.
+A `z → t` deshield publishes the amount being deshielded.
+
+If you shield 7.831 ZEC and then later deshield 7.831 ZEC to a different
+address, you've handed an observer a strong correlation hint — even though
+the shielded portion in between was opaque. Where strong privacy matters,
+**stay shielded the whole way**, ideally by having both you and the
+counterparty use shielded receiving addresses.
+</Aside>
+
+## Why z → z is the gold standard
+
+In a fully shielded `z → z` transaction (or any pool-internal shielded
+flow):
+
+- **No amounts** are visible on-chain.
+- **No sender or recipient addresses** are visible.
+- The only public artifacts are the transaction's *existence*, its *fee*,
+  the *nullifiers* being published (which are pseudorandom), and the *new
+  commitments* being added to the Merkle tree (which are pseudorandom).
+
+There's no clustering edge to draw. Two shielded transactions that are
+unrelated and two that are related to each other look identical from the
+outside.
+
+## Pool migration: why Sapling → Orchard happens
+
+A common operation today is moving value from the older Sapling pool into
+the newer Orchard pool. There are two reasons people do this:
+
+1. **Stronger trust model.** Orchard uses Halo 2, which has no trusted
+   setup. (Sapling's Groth16 is well-studied but has a one-honest-participant
+   assumption from the Powers of Tau ceremony.)
+2. **Better anonymity set in the future.** As more activity migrates to
+   Orchard, the Orchard anonymity set grows, making each Orchard
+   transaction more privacy-preserving.
+
+Modern wallets (Zashi, Ywallet) handle Sapling → Orchard migration as a
+normal-looking shielded internal transaction. From a privacy standpoint
+it's a clean cross-pool move with no transparent leg; the amount stays
+hidden the whole way.
+
+## Sprout deprecation
+
+The original 2016 Sprout pool is being deprecated under
+[ZIP-2003](https://zips.z.cash/zip-2003). If you have legacy Sprout
+funds (from very early Zcash usage), you'll need to migrate them to
+Sapling or Orchard before deprecation completes. Most users don't have
+any — Sprout volume has been small for years.
+
+## Practical guidance
+
+A short rule of thumb:
+
+- **Receive into shielded** wherever possible (Orchard via UA preferred).
+- **Spend shielded → shielded** wherever possible.
+- **Treat any t-leg in a transaction as fully public** for that leg's
+  amount and the side carrying the t-address.
+- **If you must shield from t,** shield in *standardized round amounts*
+  if anonymity matters — moving precisely 7.831 ZEC across the
+  shield/deshield boundary is a glaring hint. Most users don't have to
+  worry about this; if you do, you probably already know.
+- **Don't deshield-then-reshield** for "extra" privacy — you've added a
+  visible round trip and learned nothing. Stay in the shielded pool.
+
+## What a Zcash node actually stores
+
+For each pool, a node maintains:
+
+1. The Merkle tree of all *note commitments* ever created in that pool.
+2. The set of all *nullifiers* ever published.
+3. The frontier (current root) of the commitment tree.
+
+A shielded transaction proves, in zero knowledge, that the spend (a) is
+authorized for a real note in that tree, (b) publishes a fresh
+nullifier that hasn't appeared before, and (c) creates new commitments
+that conserve value with the spent note(s).
+
+Validation of a shielded transaction therefore reduces to:
+
+- Verify the SNARK.
+- Check the nullifier isn't already in the set.
+- Insert the new commitments into the tree and the new nullifier into the
+  set.
+
+That's the whole privacy machinery, viewed from a node's perspective.
+The next lesson goes deeper into the note/nullifier model.
+
+<Aside type="tip" title="Key takeaways">
+- **Pools** = separate shielded sets (Sprout, Sapling, Orchard) plus the
+  transparent UTXO set.
+- **Shielding** moves value t → z; **deshielding** moves it z → t. Both
+  expose the amount in the transparent leg.
+- **Fully shielded (z → z) is the gold standard.** No amount, sender,
+  recipient, or memo visible.
+- **Sapling → Orchard migration** is normal and shielded — strengthens
+  trust model and anonymity set.
+- **Sprout is being deprecated** under ZIP-2003. Migrate any legacy
+  Sprout funds.
+</Aside>

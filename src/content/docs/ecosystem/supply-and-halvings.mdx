@@ -1,0 +1,147 @@
+---
+title: Supply and Halvings
+description: Zcash's monetary policy mirrors Bitcoin's — 21 million ZEC, halvings every four years — but the block-time and fund-allocation details are worth understanding directly.
+sidebar:
+  order: 3
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+The economics of Zcash were deliberately patterned after Bitcoin's:
+fixed maximum supply, predictable issuance schedule, halvings every
+four years. The differences are in the block time and how the block
+reward is allocated. This lesson covers the headline numbers and the
+practical implications.
+
+## The headline numbers
+
+| Property             | Value                                       |
+| -------------------- | ------------------------------------------- |
+| Maximum supply       | **21,000,000 ZEC**                          |
+| Block time (target)  | **~75 seconds** (since Blossom, Dec 2019)   |
+| Initial block reward | 12.5 ZEC                                    |
+| Halving cadence      | Every 4 years (~840,000 blocks at 75s)      |
+| First halving        | November 2020 (Canopy NU activation period) |
+| Second halving       | November 2024                               |
+| Smallest unit        | 1 zatoshi = 0.00000001 ZEC                  |
+
+The 21M cap and the four-year halving cadence are the most directly
+Bitcoin-shaped properties of Zcash.
+
+## Why the numbers came out this way
+
+Zcash launched in October 2016 with the goal of being a *privacy-
+preserving Bitcoin*: same monetary policy, same scarcity properties,
+but with shielded transactions. Reusing the supply schedule gave Zcash
+familiar economic semantics for anyone migrating from Bitcoin and made
+the ZEC/BTC parity narrative easy to communicate.
+
+The block-time choice was originally 2.5 minutes (150s), faster than
+Bitcoin's 10 minutes but slow enough to keep orphan rates low on a
+privacy chain with somewhat heavier validation. **Blossom** (December
+2019) halved the block time to 75 seconds — keeping issuance per unit
+of wall-clock time identical (rewards per block also halved at
+Blossom) but giving users faster confirmation feedback.
+
+## Halvings, in practice
+
+A halving is a doubling-down on scarcity: every 4 years the per-block
+reward halves, so issuance asymptotically approaches the 21M cap.
+Zcash halvings have happened on schedule:
+
+- **Nov 18, 2020** — first halving. Pre-halving block reward 12.5 ZEC
+  → post-halving 6.25 ZEC. Coincided with the Canopy upgrade and the
+  introduction of the Dev Fund (ZIP-1014).
+- **Nov 2024** — second halving. Block reward 6.25 → 3.125 ZEC.
+
+Future halvings continue every ~4 years until the issuance-per-block
+becomes effectively zero (around year ~130 from genesis), at which
+point miner incentives transition entirely to fees.
+
+## Where the block reward goes
+
+This is where Zcash diverges meaningfully from Bitcoin. The Bitcoin
+block reward goes 100% to the miner. The Zcash block reward is split:
+
+- A **majority share** to the miner.
+- A **Dev Fund share** — currently 20% of the block reward, split among
+  ECC, ZF, and ZCG.
+
+The Dev Fund is consensus-enforced — covered in detail in
+[The Three Orgs](/ecosystem/the-three-orgs/). The exact split between
+the three recipient orgs and the renewal cadence is itself governed by
+ZIPs (ZIP-1014 covered 2020–2024; subsequent ZIPs cover the current
+window).
+
+This design says, explicitly: **a privacy protocol's long-term
+maintenance is too important to leave to volunteer effort or
+unilateral foundations.** Hard-coding a small slice of issuance to
+ongoing development is one of the more interesting governance design
+choices in cryptocurrency.
+
+## Zcash supply vs. Bitcoin supply
+
+A useful side-by-side:
+
+| Property                | Bitcoin            | Zcash                                  |
+| ----------------------- | ------------------ | -------------------------------------- |
+| Max supply              | 21M BTC            | 21M ZEC                                |
+| Block time              | 10 minutes         | 75 seconds                             |
+| First halving           | Nov 2012           | Nov 2020                               |
+| Genesis                 | Jan 2009           | Oct 2016                               |
+| Dev fund?               | No                 | Yes, 20% (currently) of block reward   |
+| Privacy default         | None               | Default-shielded in modern wallets     |
+| Smallest unit           | satoshi (1e-8 BTC) | zatoshi (1e-8 ZEC)                     |
+
+The supply curves overlap closely once you account for the four-year
+genesis offset, but the per-block details and the consensus-level Dev
+Fund are real differences.
+
+## Why scarcity matters for a privacy coin
+
+A common question: does Zcash's privacy depend on scarcity? Mostly no.
+The cryptographic guarantees come from the SNARK construction and
+note-and-nullifier model, not from monetary policy. ZEC could be
+inflationary or fixed-supply and the privacy properties wouldn't
+change.
+
+But scarcity affects two things downstream:
+
+1. **The cost of attacking the chain.** Like Bitcoin, Zcash is secured
+   by proof-of-work. A predictable issuance + market-priced ZEC means
+   miners have predictable incentives to keep hashing. Privacy is only
+   useful on a chain that survives.
+2. **The mental model users bring.** A "21M cap, halvings every 4
+   years" coin invites the same long-term-store-of-value framing as
+   Bitcoin. Zcash leans into that explicitly.
+
+## Where to track it
+
+Useful resources:
+
+- [zcashblockexplorer.com](https://zcashblockexplorer.com/) and
+  [zcashexplorer.app](https://zcashexplorer.app/) — current supply,
+  block height, recent activity.
+- [Z2M](https://z2m.org/) and similar dashboards — shielded pool
+  composition over time.
+- [Zcash Block Reward Schedule](https://z.cash/support/faq/) (FAQ on
+  z.cash) — links to current parameters.
+
+These are the canonical places to verify any specific number rather
+than trusting a static document. Block reward and the Dev Fund split
+in particular get updated by NUs; verify against the live chain when
+something matters.
+
+<Aside type="tip" title="Key takeaways">
+- **21 million ZEC max supply**, halvings every 4 years — same shape
+  as Bitcoin.
+- **Block time is ~75 seconds** since Blossom (Dec 2019).
+- **First halving Nov 2020, second Nov 2024.** Future halvings on the
+  same cadence.
+- **20% of the block reward goes to the Dev Fund** (ECC + ZF + ZCG),
+  enforced by consensus, set by ZIP, renegotiated periodically.
+- Privacy properties don't depend on scarcity, but **a healthy
+  proof-of-work chain is the substrate the privacy lives on**.
+</Aside>

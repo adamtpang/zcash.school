@@ -1,0 +1,171 @@
+---
+title: Orchard and Halo 2
+description: What's actually new in Orchard — Pallas/Vesta curves, Halo 2 proofs, no trusted setup, and a recursive future.
+sidebar:
+  order: 4
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+The Orchard pool is the modern shielded pool of Zcash, activated in
+**Network Upgrade 5 (NU5) on May 31, 2022**. It builds on everything
+Sapling did right — note model, nullifiers, encrypted memos — and replaces
+the underlying cryptography with a system that doesn't need trusted
+setup. This lesson is about what changed and why it's worth caring about.
+
+## What Orchard inherits from Sapling
+
+The user-facing model is unchanged:
+
+- Note-and-nullifier accounting.
+- Note commitment Merkle tree per pool.
+- Encrypted ciphertexts, ~512-byte memo fields, viewing keys, diversified
+  addresses.
+- The zk-SNARK proof model: prove Merkle inclusion, derive the nullifier,
+  conserve value.
+
+If you understood the [previous lesson on notes and nullifiers](/protocol/notes-and-nullifiers/),
+you already understand Orchard at the protocol level.
+
+## What Orchard changes
+
+The differences are under the hood, where the cryptography lives.
+
+### 1. New elliptic curves: Pasta (Pallas + Vesta)
+
+Sapling uses BLS12-381 — a pairing-friendly curve well-suited to Groth16.
+
+Orchard uses the **Pasta curves**: a *2-cycle* of elliptic curves named
+**Pallas** and **Vesta**. The two curves have the property that the base
+field of one equals the scalar field of the other, and vice versa. That
+matches a curve cycle's structure perfectly, and curve cycles are what
+make recursive SNARKs efficient.
+
+The Pasta curves were designed specifically for Halo 2 by the ECC team
+and have been adopted across the wider Halo 2 ecosystem (Mina's Kimchi,
+Penumbra, several others).
+
+### 2. Halo 2 instead of Groth16
+
+Sapling: Groth16. Tiny ~192-byte proofs, fast verification, requires a
+trusted setup ceremony.
+
+Orchard: Halo 2. ~1.5 KB proofs, slightly larger but still cheap to
+verify, and **no trusted setup required**. Parameters are derived
+deterministically from public values; there's no toxic waste, no
+ceremony, no one-honest-participant assumption.
+
+The proof-size increase is more than justified by the trust improvement
+for almost every user, and proofs are still small enough to fit
+comfortably on-chain.
+
+### 3. PLONKish arithmetization
+
+Halo 2 uses a flexible arithmetization style sometimes called
+**PLONKish**. Instead of the rigid R1CS used by Groth16, circuits are
+built from **custom gates** and **lookup arguments**.
+
+In practice this means:
+
+- Common operations (Poseidon hash, range checks, elliptic curve ops) can
+  be expressed in fewer gates.
+- Lookup arguments make some operations dramatically cheaper than they
+  would be in raw arithmetic.
+- The same engine can be reused across very different circuit families
+  with different optimization profiles.
+
+The Orchard circuit is hand-tuned to take advantage of this flexibility,
+and it shows: proving is faster than the equivalent in older systems
+despite proving a richer set of statements.
+
+### 4. New nullifier construction
+
+Sapling's nullifier construction has a property that, while privacy-safe,
+has been criticized for some technical details around viewing keys and
+divulgement scenarios. Orchard tightens the construction with a different
+key-tree design and a Poseidon-based hash, addressing the long-standing
+concerns.
+
+The user-facing impact is invisible. The cryptographic-hygiene impact is
+real.
+
+### 5. Recursive proof composition (the future)
+
+Halo 2's most exciting property isn't deployed in production Zcash yet,
+but it's worth knowing about: Halo 2 can verify *its own proofs inside
+its own circuits*, with bounded constant-size accumulators per
+recursion level. This is **recursive proof composition** without trusted
+setup.
+
+What it unlocks:
+
+- **Compressed history.** A single proof could attest to validity of a
+  long chain of past transactions or blocks.
+- **Proof aggregation.** Many proofs collapsed into one for cheaper
+  on-chain verification.
+- **Light clients with strong guarantees.** A small proof of the entire
+  chain's validity, downloaded once, that scales sublinearly with chain
+  length.
+
+Zcash's research direction includes leveraging this for scaling and
+faster wallet sync. The infrastructure to support recursion in the
+network exists in the proving stack now; the protocol-level deployment
+is ongoing work.
+
+## NU5 — the upgrade that shipped Orchard
+
+[Network Upgrade 5](https://electriccoin.co/blog/nu5-launches-on-zcash-mainnet/)
+activated on **mainnet block 1,687,104** on May 31, 2022. It included:
+
+- The Orchard pool and its Halo 2 proof system.
+- **Unified Addresses** ([ZIP-316](https://zips.z.cash/zip-0316)) — see
+  [the addresses lesson](/protocol/addresses/).
+- **Unified full viewing keys** — for selective disclosure across pools.
+- A v5 transaction format ([ZIP-225](https://zips.z.cash/zip-0225))
+  carrying the new bundle types.
+
+Activation went smoothly. Wallets and exchanges had been preparing for
+months, and Orchard transactions started flowing within hours of the
+mainnet activation block.
+
+## Orchard from a wallet's perspective
+
+If you're using a modern Zcash wallet (Zashi, Ywallet, Nighthawk), you
+probably never see the words "Orchard" or "Sapling" in the UI. The
+wallet:
+
+- Generates a Unified Address for you.
+- Uses Orchard internally for its keys and balances.
+- Falls back to Sapling when sending to recipients who only have Sapling
+  receivers.
+- Surfaces the user-meaningful concept ("shielded balance") not the
+  pool-meaningful one.
+
+This is the design intent. Pools are an implementation detail; what users
+should care about is "is this private?"
+
+## Why this is a milestone, not a feature
+
+Many cryptocurrencies launch with version 1 of their cryptography and
+ride it for life. Zcash has shipped three SNARK generations to
+production, each one a meaningful improvement, while keeping value-
+forward compatibility through pool migrations.
+
+Orchard is the moment Zcash crossed an academic-to-production threshold
+the rest of the field is still chasing: **a deployed, trustless,
+recursive-capable SNARK securing real money.** That's the headline.
+
+<Aside type="tip" title="Key takeaways">
+- **Orchard activated in NU5 on May 31, 2022** as Zcash's third shielded
+  pool.
+- It uses **Halo 2** over the **Pasta (Pallas/Vesta)** curve cycle, a
+  PLONKish arithmetization, and a **trustless setup**.
+- Proofs are ~1.5 KB (slightly larger than Sapling's Groth16 ~192 bytes)
+  but with no toxic-waste assumption.
+- **Recursive proof composition** is unlocked by Halo 2's design and is a
+  research direction for Zcash scaling and light clients.
+- **Modern wallets default to Orchard** through Unified Addresses; users
+  don't need to think about pools to benefit.
+</Aside>

@@ -1,0 +1,169 @@
+---
+title: ZIPs and Network Upgrades
+description: Zcash's improvement-proposal process, the major upgrades it has shipped, and how to read a ZIP when you want the source of truth.
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+If you want to know what Zcash *actually* does, the **Zcash Improvement
+Proposals (ZIPs)** are the source of truth. They define every protocol
+parameter, address format, network upgrade, and consensus rule that the
+two node implementations have to agree on. This lesson is a tour of the
+process and the major upgrades that have shipped.
+
+The canonical index lives at **[zips.z.cash](https://zips.z.cash/)**.
+Bookmark it.
+
+## What a ZIP is
+
+A ZIP is a structured document that proposes, specifies, and records a
+change to Zcash. It follows the lineage of Bitcoin's BIPs and Ethereum's
+EIPs and shares the spirit:
+
+- **Open-numbering.** ZIPs are numbered sequentially as they enter the
+  index. Anyone can write one.
+- **Statuses.** Draft → Proposed → Final; some are Withdrawn, Replaced,
+  or Rejected. The status is part of the file.
+- **Sections.** Abstract, Motivation, Specification, Reference
+  Implementation, Test Vectors, Security/Privacy Considerations.
+- **Authoritative.** When a ZIP is Final and a network upgrade
+  activates referencing it, that's the spec. Both ECC's zcashd and ZF's
+  zebrad implement against that spec.
+
+## How a ZIP becomes activated code
+
+The process from idea to running on mainnet, simplified:
+
+1. **Draft.** Someone writes a ZIP and posts it for discussion on the
+   forum, the ZIPs repo, or the community calls. There's no gatekeeper
+   to filing.
+2. **Review.** The ZIP editors and the wider community comment, the
+   author iterates. Other engineers write reference implementations or
+   test vectors.
+3. **Implementation in both nodes.** ECC and ZF build the change in
+   zcashd and zebrad. Tests and cross-implementation conformance
+   matter.
+4. **Bundling into a Network Upgrade (NU).** A set of ZIPs is
+   collected into the next NU, which has a well-known activation block
+   height.
+5. **Coordinated activation.** Operators upgrade their nodes ahead of
+   the activation height. At the height, the new rules become
+   consensus.
+
+If activation goes wrong (insufficient adoption, last-minute bug), the
+NU can be deferred. In Zcash's history, NUs have generally activated
+smoothly.
+
+## The major upgrades to date
+
+A condensed timeline:
+
+| Upgrade        | Activated   | Highlights                                                                  |
+| -------------- | ----------- | --------------------------------------------------------------------------- |
+| Genesis        | Oct 2016    | Sprout pool, BCTV14 SNARK, Sprout trusted-setup ceremony.                    |
+| **Overwinter** | Jun 2018    | Versioned transactions, replay protection, foundation for future upgrades.   |
+| **Sapling**    | Oct 2018    | Sapling pool. Groth16 SNARK. Mobile-viable shielded wallets.                 |
+| **Blossom**    | Dec 2019    | Halved block time from 150s to 75s.                                         |
+| **Heartwood** | Jul 2020    | Shielded coinbase. Flyclient-style chain proofs.                            |
+| **Canopy**     | Nov 2020    | First halving. Initial Dev Fund (ZIP-1014).                                  |
+| **NU5**        | May 2022    | Orchard pool. Halo 2. Unified Addresses (ZIP-316). Trustless setup.          |
+| **NU6**        | Nov 2024    | Dev Fund continuation, refinements, Sprout deprecation work (ZIP-2003).      |
+
+(Subsequent NUs continue at roughly an annual cadence; check
+zips.z.cash for the current state.)
+
+A few of these are inflection points worth dwelling on:
+
+### Sapling — the first usable shielded wallet experience
+
+Before Sapling, generating a shielded transaction took *minutes* of
+proving on a desktop and gigabytes of memory. Sapling's Groth16-based
+construction dropped that to *seconds* and tens of megabytes. That's
+the moment "shielded mobile wallet" went from impossible to feasible.
+
+### NU5 — the trustless setup milestone
+
+NU5 introduced the Orchard pool with Halo 2 (no trusted setup) and
+Unified Addresses. Beyond the cryptography, NU5 was the first NU to
+ship a brand-new pool since Sapling, and it did so without breaking
+existing Sapling activity. Coexistence of two active shielded pools
+required careful design.
+
+### Sprout deprecation (ongoing)
+
+[ZIP-2003](https://zips.z.cash/zip-2003) describes the deprecation of
+the original Sprout pool. The mechanism allows a long migration window
+before consensus stops accepting Sprout spends. If you have legacy
+Sprout funds, migrate them.
+
+## How to read a ZIP
+
+The first time you open a ZIP it can look intimidating. A reader's
+shortcut:
+
+1. **Read the Abstract and Motivation first.** These are written for
+   humans. You'll know whether you care after one paragraph.
+2. **Skim the Specification.** This is the formal part. You don't need
+   to follow every byte to get the shape.
+3. **Read the Security and Privacy Considerations carefully.** This is
+   where the trade-offs are surfaced honestly. Pay particular attention
+   if you're evaluating whether a change weakens or strengthens the
+   privacy property.
+4. **Check the Reference Implementation links** if you're hands-on.
+
+Some ZIPs to know by name as a baseline:
+
+- [ZIP-32](https://zips.z.cash/zip-0032) — HD key derivation. Why your
+  seed words restore your accounts.
+- [ZIP-316](https://zips.z.cash/zip-0316) — Unified Addresses and keys.
+- [ZIP-317](https://zips.z.cash/zip-0317) — Modern fee model.
+- [ZIP-1014](https://zips.z.cash/zip-1014) — The 2020–2024 Dev Fund.
+- [ZIP-2003](https://zips.z.cash/zip-2003) — Sprout deprecation.
+
+## Where governance happens
+
+The places where ZIP discussion actually occurs:
+
+- **[forum.zcashcommunity.com](https://forum.zcashcommunity.com/)** —
+  long-form discussion. The most consequential debates run here.
+- **[zips GitHub repo](https://github.com/zcash/zips)** — the source of
+  truth for in-flight and finalized ZIPs.
+- **Community calls** — the ZF runs them; recordings posted publicly.
+- **Reddit** ([r/zec](https://www.reddit.com/r/zec/)) and X — useful
+  signal but not authoritative.
+
+If you want to be a thoughtful participant in Zcash governance — even
+just as an informed user — those are the channels.
+
+## What changes shipping looks like for users
+
+Most NUs are invisible to users. You update your wallet (or your wallet
+auto-updates), your light-client backend follows the new consensus
+rules, and life goes on. The NUs you might *notice*:
+
+- **NU5**: your wallet probably switched from Sapling-default to
+  Orchard-default. Your address may have changed format from `zs1...`
+  to `u1...`.
+- **Sapling**: if you used Sprout, you saw the migration notice.
+- **Block-time change at Blossom**: confirmation times got noticeably
+  faster.
+
+The cadence is roughly one NU per year. Each one is small enough to
+ship safely and large enough to matter.
+
+<Aside type="tip" title="Key takeaways">
+- **ZIPs** are the source of truth for Zcash protocol behavior.
+  [zips.z.cash](https://zips.z.cash/) is the canonical index.
+- **Network Upgrades (NUs)** bundle ZIPs and activate at a coordinated
+  block height after both node implementations ship the changes.
+- **Major historical NUs**: Overwinter, Sapling, Blossom, Heartwood,
+  Canopy, NU5 (Orchard + UAs), NU6.
+- **NU5 was the trustless-setup milestone**; Sapling was the
+  shielded-on-mobile milestone.
+- To read a new ZIP fast: Abstract → Motivation → Security/Privacy →
+  Specification.
+</Aside>

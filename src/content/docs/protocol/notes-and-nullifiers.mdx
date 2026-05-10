@@ -1,0 +1,175 @@
+---
+title: Notes and Nullifiers
+description: Inside the shielded pool — Zcash's note-based model, commitment trees, and how nullifiers prevent double-spends without revealing which note was spent.
+sidebar:
+  order: 3
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+Bitcoin tracks money as UTXOs — discrete unspent outputs visible to all.
+Zcash, in its shielded pools, tracks money as **notes** — encrypted
+commitments visible only to the owner. To spend a note without revealing
+which one, Zcash uses **nullifiers**. This lesson is about that pair of
+ideas, which together do the heavy lifting of shielded privacy.
+
+## A note, more concretely
+
+A *note* is a record describing one chunk of value owned by a recipient.
+At minimum it contains:
+
+- **Value** (`v`) — how much ZEC the note is worth.
+- **Recipient diversifier and key material** — who can spend it.
+- **A random nullifier seed (`rho`)** — used later to derive the nullifier
+  when the note is spent.
+- **A random blinding factor (`r`)** — for the commitment.
+
+Nothing about a note appears in plaintext on-chain. Instead, the chain
+records:
+
+- A **note commitment** — `cm = Commit(v, recipient, rho, r)`. A
+  cryptographic hash that hides everything inside the note but pins the
+  values down so they can't be changed later.
+- An **encrypted note ciphertext** — sent in the transaction body,
+  decryptable only by the recipient's incoming viewing key. Lets the
+  recipient learn `(v, rho, r, memo)` and recognize the note as theirs.
+
+To anyone watching, the commitment looks like a random hash. Only the
+recipient (and anyone holding the relevant viewing key) can decrypt the
+ciphertext and learn anything.
+
+## The note commitment tree
+
+Every commitment ever created in a pool is appended to that pool's
+**incremental Merkle tree**. The tree's root is a small fingerprint of the
+entire history of shielded outputs.
+
+Why a tree? Because a spender needs to prove "the note I'm spending is in
+the set of all valid notes" without revealing *which* one. A Merkle tree
+gives you that: you supply a path from your leaf (your commitment) to the
+root, and the verifier checks the path. But a plain Merkle path leaks the
+leaf's index.
+
+In Zcash, the path is checked **inside the zk-SNARK**. The SNARK proves
+"I know a leaf, somewhere in the tree, that commits to a note I'm
+authorized to spend, and here's a zero-knowledge witness that the leaf
+sits under the public root." The verifier learns nothing about which leaf
+was used.
+
+That single trick — *prove inclusion, hide which element* — is the
+Bitcoin-meets-shielded breakthrough.
+
+## The double-spend problem in a private setting
+
+Bitcoin prevents double-spends trivially: each UTXO has a unique
+identifier, and once spent it's removed from the UTXO set. Try to spend
+it twice and the second attempt references something that no longer
+exists.
+
+In Zcash, the spender can't reveal *which* note they're spending — that
+would defeat the privacy. So the chain has no way to look up the note's
+ID and mark it spent.
+
+The solution: **nullifiers**.
+
+## Nullifiers
+
+A nullifier is a deterministic, unique value derived from:
+
+- The note's `rho` (the random seed inside the note).
+- The spender's nullifier-deriving key (part of the spending key).
+
+Given the same note and the same spending key, the nullifier is always
+the same. Given different notes, nullifiers are different. Given different
+spenders attempting to spend the same note, only the legitimate spender
+(holding the correct key) can derive the legitimate nullifier.
+
+When a shielded note is spent, the transaction publishes its nullifier
+on-chain. Nodes maintain a set of all nullifiers ever published. A
+spend is valid only if its nullifier has not appeared before.
+
+The result:
+
+- **Privacy.** The nullifier reveals nothing about which note was spent —
+  it's a pseudorandom output of a hash with secret inputs. Without the
+  spending key, you can't even tell whether two nullifiers come from the
+  same wallet.
+- **Double-spend prevention.** The same note always derives the same
+  nullifier, so trying to spend it twice publishes the same nullifier
+  twice. The second spend is rejected.
+
+This is the elegant piece of Zcash's design: **double-spend prevention
+through deterministic anonymous tags.**
+
+## A diagram in words
+
+Imagine the shielded state as two sets:
+
+```
+COMMITMENTS (Merkle tree)              NULLIFIERS (set)
+  ─ cm1                                  ─ nf_a
+  ─ cm2                                  ─ nf_b
+  ─ cm3                                  ─ nf_c
+  ─ cm4                                  …
+  ─ cm5
+  …
+```
+
+A shielded transaction does two things:
+
+1. **Adds new commitments** (one per output note) to the Merkle tree.
+   Each commitment is fresh and pseudorandom — no link to any specific
+   sender or recipient is visible.
+2. **Adds new nullifiers** (one per spent note) to the nullifier set.
+   Each nullifier is fresh and pseudorandom — no link to any specific
+   commitment in the tree is visible.
+
+The two sets are separate. There's no public mapping from nullifiers to
+commitments — that mapping exists only in the spender's wallet, secured
+by the spending key.
+
+## Discovering your incoming notes
+
+When someone sends you a shielded note, they include the encrypted note
+ciphertext in the transaction. Your wallet decrypts every shielded
+output it sees, using your incoming viewing key, and one of them
+succeeds: that's your note.
+
+This is called **trial decryption**. Modern wallets accelerate it with
+strategies like the
+[FlyClient-style sync optimization](https://electriccoin.co/blog/explaining-zcash-light-clients/),
+[ZIP-307 light client protocol](https://zips.z.cash/zip-0307), and ECC's
+zip-32 hierarchical viewing keys. The user-visible result: shielded
+wallet sync is now seconds-to-minutes, not hours.
+
+Once decrypted, your wallet stores the note's plaintext and can spend it
+later by deriving its nullifier and constructing the SNARK proof.
+
+## Why this is a different mental model from UTXO
+
+In Bitcoin, a transaction is "consume these specific UTXOs, produce these
+specific UTXOs." Both inputs and outputs are publicly identified.
+
+In Zcash shielded, a transaction is "consume notes whose nullifiers I now
+publish, produce notes whose commitments I now publish, and prove with a
+SNARK that the consumed notes existed in the tree, are mine, and the math
+balances." Inputs and outputs are decoupled at the public layer — only
+the prover and recipient can connect them.
+
+This is the simplest sentence describing Zcash's privacy: **the public
+ledger sees nullifiers and commitments; the witness graph that connects
+them lives only in private wallets.**
+
+<Aside type="tip" title="Key takeaways">
+- **Notes** are private records of value, owned by a recipient and
+  encrypted on-chain.
+- **Note commitments** appear in a Merkle tree per pool. Spenders prove
+  Merkle inclusion in zero knowledge.
+- **Nullifiers** are deterministic anonymous tags derived from the note
+  and the spender's key. Publishing the same one twice is a double-spend.
+- **The chain stores commitments and nullifiers as separate, pseudorandom
+  sets**. The mapping between them lives only in the prover's wallet.
+- This decoupling is the structural heart of Zcash's privacy.
+</Aside>

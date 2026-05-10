@@ -1,0 +1,185 @@
+---
+title: Your First Shielded Transaction
+description: A step-by-step guide to receiving and sending shielded ZEC for the first time, with notes on fees, sync time, and the realistic gotchas.
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+You've installed a wallet. You've backed up your seed. You're ready to
+make your first shielded Zcash transaction. This lesson walks through the
+generic flow so you have a mental model that matches whatever wallet UI
+you're using.
+
+We won't promise specific button names. UIs evolve faster than written
+guides. The flow is the same.
+
+## The four stages
+
+A first shielded send breaks naturally into four stages:
+
+1. **Get ZEC.** Acquire some, in either transparent or shielded form.
+2. **Receive shielded.** Move your balance into a shielded pool.
+3. **Send shielded → shielded.** Make the actual private payment.
+4. **Verify.** Confirm both sides reflect the transfer correctly.
+
+## Stage 1 — getting ZEC
+
+You have three realistic paths:
+
+- **Buy from an exchange** that lists ZEC. Most major exchanges list it.
+  Withdraw to your wallet's address. **Important**: most exchanges
+  withdraw to *transparent* addresses only, so you'll need to shield
+  after receipt.
+- **Receive from a friend or counterparty** who already has ZEC.
+  Generate a Unified Address and have them send to it. They pick the
+  most private compatible pool — if they're on a modern wallet, you'll
+  receive directly into Orchard, no manual shielding required.
+- **Earn it.** Mining, freelance payments in ZEC, or grant payments from
+  an org that pays in ZEC.
+
+For a first-timer, "receive from a friend" is by far the smoothest.
+"Buy and shield" is the most common. The instructions below focus on the
+buy-and-shield case because it's the one that involves the most steps.
+
+## Stage 2 — moving into a shielded pool
+
+If your wallet supports auto-shielding (Zashi, Ywallet, Nighthawk all
+do), there's effectively no manual stage 2. You receive into a UA, and
+funds either land in Orchard (if the sender supports it) or in
+transparent (if the sender is an exchange that only sends transparent).
+
+In the second case, the wallet typically prompts you to **shield** the
+incoming transparent funds. Confirm the prompt. The wallet builds a
+`t → Orchard` shielding transaction.
+
+<Aside type="caution" title="Shielding leaks the amount">
+The shielding transaction has a *transparent leg* — the input. The
+amount being shielded is visible on-chain. If anonymity around the
+*size* of your holdings matters, prefer to receive shielded directly
+(from a friend, from a service that supports shielded sends, or from
+yourself moving funds across wallets shielded-to-shielded).
+</Aside>
+
+After confirmation, give it a couple of blocks for finality. Zcash
+blocks are ~75 seconds, so a 6-block confidence wait is roughly 7-8
+minutes.
+
+## Stage 3 — sending shielded → shielded
+
+In the wallet:
+
+1. Tap **Send**.
+2. Paste the recipient's Unified Address (preferred) or `zs1` Sapling
+   address.
+3. Enter the amount.
+4. (Optional) write a memo. Memos in shielded sends are encrypted on-
+   chain and visible only to the recipient. Up to ~512 bytes per output.
+   This is one of Zcash's underrated features — encrypted invoice
+   metadata, donation messages, or simple notes between humans.
+5. Confirm the fee. Fees are tiny — typically a few thousand zatoshis
+   (1 ZEC = 100,000,000 zatoshis), well under a cent at typical ZEC
+   prices. ([ZIP-317](https://zips.z.cash/zip-0317) introduced the
+   modern fee model.)
+6. Tap **Send**.
+
+Behind the scenes, your wallet:
+
+- Picks one or more notes whose total value covers the send + fee.
+- Constructs a SNARK proof for the spend (this can take a few seconds
+  on a modern phone — that's the proving step).
+- Constructs new commitments for the recipient and your change.
+- Broadcasts the transaction.
+
+You'll see "Pending" in the UI, and within a block or two it'll move to
+"Confirmed."
+
+## Stage 4 — verifying
+
+What to check on each side:
+
+- **Sender's wallet:** balance went down by `amount + fee`. Outgoing
+  transaction shows up in history. If the sender wrote a memo, it shows
+  the memo (memos are visible to the sender too — derived from the
+  outgoing viewing key).
+- **Recipient's wallet:** balance went up by `amount`. Incoming
+  transaction shows up. If a memo was sent, it's readable.
+- **Public chain:** if you look up the transaction ID on a block
+  explorer ([zcashexplorer.app](https://zcashexplorer.app/) or others),
+  you'll see something like:
+
+  ```
+  Type:        Shielded
+  Inputs:      (encrypted)
+  Outputs:     (encrypted)
+  Fee:         0.00005 ZEC
+  ```
+
+  No amount. No addresses. That's the property you wanted.
+
+## What can go wrong
+
+A few common stumbles:
+
+- **Sync takes a while on first run.** A new wallet has to scan the
+  chain for incoming notes. With light clients this is minutes, not
+  hours, but the first sync is the slowest. Subsequent opens are
+  incremental.
+- **You sent to a `zs1` address from a wallet that doesn't support
+  Sapling.** Rare but possible with very old or very new transparent-
+  only wallets. Read the wallet's "supported address types" docs.
+- **The transparent fallback fired silently.** If you sent to a UA whose
+  transparent receiver was used because neither side supports a stronger
+  pool, you may have leaked the amount/recipient publicly without
+  realizing it. Modern wallets warn about this; older or non-UA-aware
+  ones may not. Check the explorer if you're unsure.
+- **Recipient says "I don't see it."** Their wallet may not have
+  finished syncing, or their viewing key may not yet have decrypted the
+  output. Wait a few blocks; if still missing, look up the transaction
+  on an explorer to confirm broadcast.
+
+## Costs and timing in practice
+
+For typical 2026-era usage:
+
+| Aspect           | Typical value                                            |
+| ---------------- | -------------------------------------------------------- |
+| Fee              | ~5,000 zatoshis (0.00005 ZEC) — well under a cent        |
+| Block time       | ~75 seconds                                              |
+| Proving time     | A few seconds on a modern phone                          |
+| Finality wait    | 6 blocks (~7–8 minutes) is conservative; 1–2 is common   |
+
+Compared to typical L1 alternatives, Zcash shielded transactions are
+cheap and fast. The proving step on the sender's device is the only
+real "wait" specific to Zcash, and modern wallets parallelize and cache
+where they can.
+
+## After your first transaction
+
+Once you've made a shielded send, you've used most of what Zcash offers.
+Where to go next:
+
+- **Memos for messaging.** Send small messages with payments — receipts,
+  notes, donation acknowledgements.
+- **Selective disclosure.** Share a viewing key with an accountant or
+  auditor. Covered in the [next lesson](/using/selective-disclosure/).
+- **Multi-pool awareness.** If you're a power user, learn how Sapling
+  → Orchard migration looks for your specific wallet.
+- **Try a different wallet.** Test recovery from your seed. This is the
+  best way to confirm your backup actually works.
+
+<Aside type="tip" title="Key takeaways">
+- The four-stage flow: **get → receive shielded → send shielded → verify**.
+- **Receiving from a friend with a modern wallet** is the smoothest path
+  because it skips manual shielding.
+- **The shielding step (`t → z`) leaks the input amount.** Plan around
+  this if anonymity-set size matters.
+- **Memos** are encrypted, ~512 bytes per shielded output, and one of
+  the best practical features of Zcash.
+- **Fees are sub-cent**, block time is ~75s, finality is minutes.
+- After the first send, expand into memos, selective disclosure, and a
+  recovery test — your wallet workflow is now real.
+</Aside>

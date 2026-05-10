@@ -1,0 +1,146 @@
+---
+title: The Bitcoin Transparency Problem
+description: How Bitcoin's pseudonymity collapses into identification — UTXO clustering, change-address heuristics, and the chain-analysis industry.
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+Bitcoin is often described as "pseudonymous," and on its surface that's true:
+addresses don't have your name attached. The problem is that pseudonymity is
+a property of *individual addresses*, not of *people*. Once you understand
+how an outside observer can stitch many addresses together into one identity,
+the pseudonymity claim falls apart.
+
+This lesson walks through how that stitching works and why the resulting
+chain-analysis industry exists.
+
+## The UTXO model in one paragraph
+
+Bitcoin tracks money as **Unspent Transaction Outputs (UTXOs)** — like an ever-growing
+pile of coins of different sizes. To spend, your wallet picks a few UTXOs whose
+total covers the amount you want to send, signs them, and produces new UTXOs:
+one for the recipient, and usually one for "change" sent back to yourself.
+Every input and output is a public address with a public amount.
+
+That model has two consequences for privacy:
+
+1. **Co-spent inputs are linked.** If a single transaction spends UTXOs from
+   addresses A and B, A and B are almost certainly controlled by the same
+   wallet. A signed them both — only the wallet holding both keys could.
+2. **Change outputs leak.** When you spend a 1.0 BTC UTXO to send 0.3 BTC,
+   your wallet creates a 0.7 BTC change output. An observer who can guess
+   *which* output is the change (often easy) just learned another address
+   belonging to you.
+
+Apply these two heuristics across millions of transactions and you can group
+the chain's hundreds of millions of addresses into a much smaller number of
+**clusters**, each cluster representing a single wallet or entity.
+
+## Common heuristics chain analysts actually use
+
+Real-world deanonymization combines many heuristics. A non-exhaustive list:
+
+- **Common-input ownership.** As above: inputs to one transaction share an
+  owner. This alone collapses huge swaths of the address space.
+- **Change-address detection.** Heuristics that guess the change output:
+  - The output that uses the same address format as the inputs (when the
+    other doesn't)
+  - The output with "imprecise" satoshi values vs. a clean round number
+  - The smaller output when the larger looks like a typical payment
+  - The address that has never appeared on-chain before
+- **Address reuse.** Reusing an address for multiple receipts directly links
+  every payer who sent to it.
+- **Round-trip patterns.** Funds that leave a wallet, hop through a few
+  addresses, and land back in a related cluster.
+- **Timing analysis.** Transactions broadcast within seconds of each other
+  from the same network vantage often share an origin.
+- **Off-chain leaks.** A donation address pasted publicly. An exchange-issued
+  address tied to a KYC'd account. A merchant-payment plugin that publishes
+  payment addresses next to invoices.
+
+None of these heuristics need to be perfect. They just need to be *good
+enough* to narrow a target down to one cluster, after which a single off-chain
+data point closes the loop.
+
+## The chain-analysis industry
+
+A whole industry exists to do this clustering at scale and sell the results to
+exchanges, law enforcement, and compliance teams:
+
+- **Chainalysis** (founded 2014) — the largest, with contracts across major
+  governments and exchanges.
+- **Elliptic** (founded 2013) — UK-based, similar product surface.
+- **TRM Labs**, **CipherTrace** (acquired by Mastercard in 2021),
+  **Crystal Blockchain**, and many smaller players.
+
+Their products do roughly four things: cluster addresses into entities,
+attribute clusters to known services (this cluster is Coinbase, that one is
+Binance, this one is a darknet market), score addresses for "risk," and
+expose all of it through APIs that exchanges plug into for compliance.
+
+The relevant point for our purposes: **deanonymizing Bitcoin is a commercial
+service that thousands of companies pay for.** The pseudonymity model has
+already failed in the marketplace.
+
+## The KYC on-ramp problem
+
+The clustering attack only delivers identities if some of the clusters
+contain a real-name anchor. The on-ramps provide it.
+
+Almost every fiat-to-crypto exchange in regulated jurisdictions performs
+**Know Your Customer (KYC)** verification — your government ID, proof of
+address, sometimes a selfie. When you withdraw BTC from that exchange, the
+exchange knows the destination address belongs to you.
+
+From there the chain-analysis cluster of that address inherits the
+identification. Every other address in the cluster — including ones you used
+to receive from a friend, donate, or pay a freelancer — is now linked to your
+real identity in a private database.
+
+You don't have to do anything wrong for this to happen. You just have to
+buy or sell a single coin through a regulated exchange.
+
+## How bad is it in practice?
+
+Public-facing tools like
+[OXT.me](https://oxt.me/) and [mempool.space](https://mempool.space/)
+let anyone follow address graphs by hand. Private chain-analysis suites do
+much more. Empirical studies have repeatedly shown:
+
+- A large fraction of Bitcoin addresses can be clustered into a small number
+  of entities.
+- Most "ordinary" wallet usage exposes the user's full transaction graph
+  through routine heuristics, not exotic attacks.
+- Mixing services (CoinJoin, etc.) raise the cost of clustering but don't
+  change the underlying property of the chain — and many mixers themselves
+  have been deanonymized or seized.
+
+Privacy on Bitcoin is achievable, but it's a constant uphill battle against
+defaults. **Privacy on Zcash is the default.** That's the design difference
+worth understanding.
+
+## Why this matters for the next chapter
+
+The Zcash thesis — coming up next — is that you can build a public blockchain
+where the *consensus rules are public* but the *transaction contents are
+encrypted*, and prove with cryptography that everything still adds up. That
+flips the default: instead of pseudonymity that decays into identification,
+you get privacy that holds up under analysis, with optional disclosure when
+you choose.
+
+<Aside type="tip" title="Key takeaways">
+- **Bitcoin is pseudonymous, not private.** Addresses look anonymous; people
+  do not.
+- **Two simple heuristics — common-input ownership and change-address
+  detection — collapse most of the address space into wallet clusters.**
+- **A multi-billion-dollar industry sells the resulting identification to
+  exchanges and governments.**
+- **KYC on-ramps anchor clusters to real names.** A single regulated trade
+  exposes your historical graph.
+- **Privacy needs to be the default**, not a fragile add-on layered over a
+  transparent base.
+</Aside>

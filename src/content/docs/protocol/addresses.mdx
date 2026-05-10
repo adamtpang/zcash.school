@@ -1,0 +1,161 @@
+---
+title: Zcash Addresses
+description: The three address types — transparent, Sapling, and Unified — what each looks like, what each leaks, and why Unified Addresses are the modern default.
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+Zcash has three live address types. The differences between them are not
+cosmetic — each represents a different *pool*, with different cryptography
+and different privacy behavior. This lesson tells you how to recognize
+them and what each gives away.
+
+## Transparent addresses (t-addr)
+
+A transparent address looks like a Bitcoin address with a `t1` or `t3`
+prefix:
+
+```
+t1abcDefGhiJkLmnoPqRstUvWxYz1234567
+t3SomeMultisigOrScriptAddress12345
+```
+
+- **`t1`** — pay-to-public-key-hash (P2PKH), single-key.
+- **`t3`** — pay-to-script-hash (P2SH), used for multisig and more
+  complex scripts.
+
+Transparent addresses are functionally Bitcoin: same UTXO model, same
+chain-analysis exposure, same address-clustering risk. Sender, recipient,
+amount, and the full transaction graph are public. Use them when you have
+to interoperate with services that don't support shielded sends — and
+nowhere else.
+
+## Sapling shielded addresses (z-addr)
+
+A Sapling address starts with `zs1` and is much longer:
+
+```
+zs1zk39e3vy5fz0g28e6sxyhz5xq4nhe96f3xq45sjwd2axxe7nx0h6h7jca6...
+```
+
+When you receive to a `zs1` address, the on-chain transaction reveals:
+
+- That a shielded output was created.
+- The transaction's fee.
+- (Sometimes) a hash of the encrypted memo.
+
+It does **not** reveal:
+
+- The amount.
+- Your address.
+- The sender's address.
+- The memo contents.
+
+Sapling has been live since October 2018 and powered the bulk of shielded
+activity from then until Orchard's arrival. It uses Groth16 (with a
+trusted setup — see [the previous module](/zk/trusted-setups-and-halo/)).
+
+## Unified Addresses (UA)
+
+Modern Zcash addresses look like:
+
+```
+u1aa3kmwerpyu5p4t...c3h3xqz... (typically 200–500+ characters)
+```
+
+A Unified Address is a *bundle of receivers*. Inside one `u1...` string,
+your wallet may include any combination of:
+
+- An **Orchard** receiver
+- A **Sapling** receiver
+- A **transparent** receiver
+
+When someone sends to your UA, their wallet picks the **most private
+receiver they're capable of using**. So if their wallet supports Orchard
+and yours does too, the funds land in Orchard. If theirs only supports
+Sapling, the funds land in Sapling. The fallback is transparent.
+
+That auto-negotiation is the real magic of UAs. Users don't have to know
+which pools they support — the wallet figures it out. As wallets upgrade,
+existing UAs automatically benefit from new pools without users
+publishing new addresses.
+
+UAs are specified in [ZIP-316](https://zips.z.cash/zip-0316).
+
+### What a UA reveals
+
+A UA itself doesn't reveal which receivers it contains. The encoding mixes
+them together. An observer who sees only the address can't tell whether it
+includes an Orchard receiver, a Sapling one, both, or even a transparent
+one — they're indistinguishable from the outside.
+
+That property compounds privacy: address sharing leaks less, and your
+transaction graph doesn't get easier to cluster just because you handed a
+UA to a friend.
+
+## Diversified addresses
+
+Both Sapling and Orchard support **diversified addresses**: many distinct
+addresses that all spend to the same underlying viewing/spending key. You
+can hand a unique address to every counterparty without creating new
+keys, and from the chain's perspective they look unrelated.
+
+This is the Zcash answer to "should I reuse addresses?" — you don't have
+to. Generate a fresh diversified address each time, and your wallet
+reconciles all incoming notes under one account.
+
+## Picking what to publish
+
+A short policy that holds up well:
+
+1. **Default — publish a Unified Address.** It's forward-compatible,
+   privacy-maximizing, and looks the same to senders regardless of
+   pool support.
+2. **Need to receive from a non-UA-aware service?** Use a Sapling z-addr.
+   Almost every service that supports shielded receipts handles z-addrs.
+3. **Receiving from an exchange that doesn't support shielded sends?**
+   Use a transparent address — but treat the funds as exposed and shield
+   them ASAP. (The shielding step itself is partially observable; see
+   the [next lesson](/protocol/pools-and-shielding/).)
+
+## A worked comparison
+
+Sender: Alice. Recipient: Bob. Amount: 5 ZEC. Bob has Orchard support.
+
+| Bob publishes | Sender's wallet's behavior                                         | What an observer sees                                       |
+| ------------- | ------------------------------------------------------------------ | ----------------------------------------------------------- |
+| `t1...`       | Builds a transparent transaction.                                  | Alice → Bob, 5 ZEC, both addresses public.                  |
+| `zs1...`      | Builds a Sapling-shielded transaction (z→z if Alice has Sapling).  | A shielded tx. Fee. No amount, no parties, no memo.         |
+| `u1...`       | Picks Orchard (best both can do). Builds an Orchard-shielded tx.   | A shielded tx in the Orchard pool. Same opacity, no toxic-waste assumption. |
+
+The third row is the goal state: Bob did nothing extra; the sender's
+software made the right choice automatically.
+
+## Things to remember about address handling
+
+- **Don't post t-addrs publicly if you care about privacy.** Treat them
+  the same as Bitcoin addresses for chain-analysis exposure.
+- **Verify you copied the right kind of address before pasting.**
+  Backspace away anything between `u1`, `zs1`, `t1`, or `t3`.
+- **Memo fields are encrypted in shielded sends.** Up to ~512 bytes of
+  arbitrary data in shielded outputs (more on this in
+  [Selective Disclosure](/using/selective-disclosure/)).
+- **Receiver addresses are not transferable across pools.** A Sapling
+  z-addr can't receive Orchard funds. UAs solve this by carrying multiple
+  receivers.
+
+<Aside type="tip" title="Key takeaways">
+- **Three address types**: transparent (`t1`/`t3`), Sapling (`zs1`),
+  Unified (`u1`).
+- **Transparent addresses are Bitcoin-equivalent** — fully public,
+  cluster-able, KYC-anchorable.
+- **Sapling shields amount and parties** behind a Groth16 proof.
+- **Unified Addresses bundle multiple receivers** so the sender's wallet
+  picks the strongest pool both sides support — Orchard preferred.
+- **Default to publishing a Unified Address.** It future-proofs you and
+  reduces address-graph leakage.
+</Aside>

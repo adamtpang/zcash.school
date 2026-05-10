@@ -1,0 +1,155 @@
+---
+title: Wallets
+description: How to pick a Zcash wallet — Zashi, Ywallet, Nighthawk, and Zecwallet Lite — by use case, with notes on which pools each supports.
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+The right Zcash wallet depends on what you want to do with it. This
+lesson covers the four wallets most people end up using, what each is
+optimized for, and what to check before picking one.
+
+The single most important variable: **does the wallet support Orchard
+shielded transactions?** A wallet without Orchard support can still
+participate in Zcash, but you won't get the strongest privacy or be in
+the same anonymity set as modern users.
+
+## The shortlist
+
+| Wallet                     | Platform        | Built by | Orchard | Notable                                  |
+| -------------------------- | --------------- | -------- | ------- | ---------------------------------------- |
+| **Zashi**                  | iOS / Android   | ECC      | Yes     | Shielded by default, modern recommendation |
+| **Ywallet**                | iOS / Android / Desktop | Hanh Huynh-Huu | Yes | Multi-pool, power-user features            |
+| **Nighthawk**              | iOS / Android   | NighthawkApps | Yes | Shielded-first, simpler UI               |
+| **Zecwallet Lite**         | Desktop / iOS   | Community | Sapling-only (legacy) | Long-standing, lighter on features         |
+
+Wallet support evolves; double-check Orchard status on the wallet's
+own site before picking. The
+[Zcash Foundation's wallet page](https://zfnd.org/wallets/) is one
+source of truth.
+
+## Zashi — the modern recommendation
+
+[Zashi](https://electriccoin.co/zashi/) is built by the **Electric Coin
+Company** and reflects ECC's current opinion on what a great Zcash
+wallet looks like. It is:
+
+- **Shielded by default.** Receiving uses a Unified Address; the wallet
+  prefers Orchard.
+- **Mobile-only**, optimized for everyday flows like sending, receiving,
+  and viewing memos.
+- **Open source** ([Android](https://github.com/Electric-Coin-Company/zashi-android),
+  [iOS](https://github.com/Electric-Coin-Company/zashi-ios)).
+- **Light-client based.** Sync is fast on modern phones thanks to
+  ZIP-307 light-wallet protocols.
+
+If you're new and want one wallet to start with, Zashi is the easy pick.
+
+## Ywallet — the power-user wallet
+
+[Ywallet](https://ywallet.app/) supports the broadest set of Zcash
+features:
+
+- All three live pools (transparent, Sapling, Orchard).
+- Multi-account, multi-device.
+- Shielded → shielded conversions, pool migrations, transparent
+  shielding.
+- Hardware-wallet integration on some platforms.
+- Advanced features like crosschain functionality.
+
+Trade-offs: more features mean more UI surface and more ways to
+accidentally reduce your privacy if you don't read carefully. If you're
+running multiple accounts, hardware-backed keys, or specific shielded
+operations, this is the wallet that will let you do them.
+
+## Nighthawk — shielded-first, simpler
+
+[Nighthawk](https://nighthawkwallet.com/) is a community-built
+shielded-by-default wallet for mobile. It targets the same use case as
+Zashi (everyday shielded payments) with a different UI and an
+independent codebase. Some users prefer it for its visual style or its
+particular feature mix.
+
+Both Zashi and Nighthawk are shielded-first. Picking between them is
+mostly a preference call.
+
+## Zecwallet Lite — long-standing desktop option
+
+[Zecwallet Lite](https://www.zecwallet.co/) was historically the
+go-to desktop wallet. Active development has slowed and it has not
+shipped Orchard support; it remains useful for legacy Sapling flows but
+shouldn't be the wallet of choice for new users today. Treat it as a
+transitional tool if you have older wallet state to recover.
+
+## Things to check on any Zcash wallet
+
+Before you commit funds to a wallet, look for:
+
+1. **Open-source code** with a public repo. Privacy software you can't
+   audit is privacy software you have to trust.
+2. **Active maintenance** — recent commits, recent releases, response to
+   issues. Stale wallets are a security risk.
+3. **Orchard support** if you care about strongest privacy + future-
+   proofing.
+4. **A clear backup story.** Most Zcash wallets use a 24-word seed
+   phrase compatible with [ZIP-32](https://zips.z.cash/zip-0032). Read
+   the backup instructions and test recovery on a second device before
+   funding.
+5. **A view-key story** if you'll do accounting, audits, or any
+   selective-disclosure use case (see
+   [Selective Disclosure](/using/selective-disclosure/)).
+
+## Hardware wallets and Zcash
+
+Hardware support for Zcash shielded operations is limited. Trezor and
+Ledger have historically supported transparent ZEC; shielded support has
+trailed because the proving overhead is high for embedded devices.
+
+There's ongoing work — for example,
+[Zcash Foundation's hardware-wallet research](https://zfnd.org/) — but
+as of this writing, treat shielded hardware-wallet integration as
+emerging rather than mature. Mobile wallets with strong device-based key
+storage are the practical alternative.
+
+## Custodial alternatives
+
+Custodial wallets (exchanges, brokerages) hold ZEC on your behalf. They
+tend to support transparent ZEC only and require you to deshield to
+withdraw. Treat them as bridges to fiat, not as your primary wallet for
+holding or transacting.
+
+If your goal is shielded money, your money should live in a self-custody
+shielded wallet. Anything else compromises the property you came for.
+
+## Onboarding checklist
+
+A practical first-run sequence:
+
+1. Install a wallet from its official site (verify the URL — typo-squat
+   wallets exist).
+2. Generate a new seed and **write it down on paper**, not in a
+   password manager you don't fully trust.
+3. Verify recovery on a second device before funding.
+4. Generate a Unified Address. Share it as your default.
+5. Receive a tiny amount first. Confirm the balance shows up shielded.
+6. Then move larger amounts.
+
+The next lesson walks through your first shielded transaction in more
+detail.
+
+<Aside type="tip" title="Key takeaways">
+- **Zashi** is the modern default for everyday shielded use, mobile,
+  ECC-built.
+- **Ywallet** is the power-user choice when you need multi-pool,
+  multi-account, or advanced operations.
+- **Nighthawk** is a strong alternative to Zashi; same shielded-first
+  ethos.
+- **Zecwallet Lite** is legacy; not the right choice for new users.
+- **Always confirm Orchard support** on the wallet's site before
+  picking.
+- Self-custody, paper backup, recovery test, then fund.
+</Aside>

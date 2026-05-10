@@ -1,0 +1,130 @@
+---
+title: Why Privacy Matters
+description: Financial privacy is the historical baseline. A fully-public ledger isn't normal — and the chilling effects of one are easy to underestimate.
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+For most of human history, money was private by default. You handed someone a
+coin and the transaction left no public record. Cash, in this sense, is the
+single best privacy technology we ever invented for value transfer — and
+Bitcoin, despite its many virtues, accidentally rolled that property back.
+
+This chapter is about why getting privacy back is worth the engineering effort
+the rest of this course will explain.
+
+## Privacy is the historical default
+
+Before talking about cryptocurrency, take a moment to notice what financial
+privacy used to feel like. When you bought groceries with cash, the cashier
+didn't know your name, your bank balance, or what you bought last week. The
+store didn't either. Neither did your employer, your ex, your government, or
+the person standing behind you in line.
+
+That privacy wasn't a special feature. It was just how money worked.
+
+Digital payments — cards, transfers, apps — gave that up in exchange for
+convenience, but the trade was bounded: each intermediary saw only its slice
+of your activity. Your bank knew your bank stuff. Visa knew your card stuff.
+The waiter saw the tip, not the rent.
+
+A fully-public blockchain dissolves those boundaries.
+
+## What a transparent ledger actually exposes
+
+On a transparent chain like Bitcoin's, anyone with an internet connection can
+see every transaction that ever happened — amounts, timestamps, and the
+addresses involved. "Pseudonymous" sounds reassuring, but as we'll cover in
+the [next lesson](/intro/bitcoin-transparency-problem/), in practice
+pseudonyms collapse into identities the moment you cash out, post a donation
+address, or reuse the same wallet twice.
+
+Some concrete chilling effects of a transparent ledger:
+
+- **Salary visibility.** If your employer pays you in BTC and you ever spend
+  any of it, your employer learns approximately how much you've saved, what
+  you spend on, and when you sold. Your coworkers can compare salaries.
+- **Asymmetric knowledge in relationships.** A partner, ex, family member, or
+  stalker who learns *one* of your addresses can watch your spending forever.
+  They don't need a warrant.
+- **Donations as opposition research.** Activists, journalists, and
+  whistleblowers who accept public donations broadcast every contributor's
+  wallet. Authoritarian regimes have used this exact pattern.
+- **Commercial counterparty risk.** A supplier sees a customer's payments to
+  every other supplier. A landlord sees a tenant's other landlords. Strategic
+  pricing follows.
+- **Permanent retroactive exposure.** Privacy you "had" today can evaporate
+  tomorrow if a future deanonymization tool links yesterday's transactions to
+  your name. The ledger is forever.
+
+None of this requires illegal behavior. None of it requires you to be
+"interesting." The ledger doesn't care.
+
+## The Cypherpunk framing
+
+The Cypherpunk movement of the early 1990s anticipated all of this. Eric
+Hughes opened the [Cypherpunk Manifesto](https://www.activism.net/cypherpunk/manifesto.html)
+in 1993 with a line that still defines the project:
+
+> "Privacy is necessary for an open society in the electronic age. […]
+> Privacy is not secrecy. A private matter is something one doesn't want the
+> whole world to know, but a secret matter is something one doesn't want
+> anybody to know. Privacy is the power to selectively reveal oneself to the
+> world." — Eric Hughes, 1993
+
+Note the framing: privacy isn't the same as secrecy, and it isn't a thing you
+need to *justify*. It's the default condition of being an autonomous person.
+The interesting question isn't "should I get to be private?" — it's "what
+technology preserves that property when transactions move online?"
+
+## Privacy ≠ illicit
+
+A common reflex when this topic comes up is "but what about crime?" Worth
+addressing directly:
+
+- The vast majority of financial crime — money laundering, tax evasion,
+  sanctions evasion — happens through banks, shell companies, real estate, and
+  cash. The
+  [UN estimates](https://www.unodc.org/unodc/en/money-laundering/overview.html)
+  illicit funds at 2–5% of global GDP, almost all in the traditional system.
+- Privacy-preserving cryptocurrencies are a tiny slice of total crypto activity
+  and a vanishingly small slice of total illicit finance.
+- Most uses of financial privacy are mundane: paying for therapy, buying a
+  birthday gift, donating to a charity, paying a contractor, splitting rent,
+  receiving a salary you don't want HR's interns gossiping about.
+
+Treating privacy itself as suspicious is the same logical error as treating
+locks on doors as evidence of crime. The tools are general-purpose. The
+defaults shape the society.
+
+## Where this leaves us
+
+If we accept that:
+
+1. Privacy is the historical default of money.
+2. A fully-transparent ledger destroys that property in ways that ripple
+   outward forever.
+3. Privacy and law-abiding behavior are not in tension.
+
+…then we want a digital currency that gives us the privacy of cash with the
+auditability of a blockchain. That's a hard cryptographic problem. Zcash is
+one of the most thoroughly studied attempts to solve it.
+
+The [next lesson](/intro/bitcoin-transparency-problem/) walks through how
+Bitcoin's pseudonymity actually breaks in practice — useful background before
+we get to what Zcash does differently.
+
+<Aside type="tip" title="Key takeaways">
+- **Cash was the original privacy technology.** Public blockchains are a
+  historical anomaly, not a baseline.
+- **A transparent ledger is forever.** Privacy you have today can be undone by
+  a future tool that links your wallet to your identity.
+- **Privacy ≠ secrecy ≠ crime.** Privacy is the power to selectively reveal
+  yourself. Most uses are mundane and legitimate.
+- **The interesting question is technical**: how do you build digital money
+  that preserves privacy by default?
+</Aside>

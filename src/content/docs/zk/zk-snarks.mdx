@@ -1,0 +1,178 @@
+---
+title: zk-SNARKs
+description: What every letter of "zk-SNARK" means, and a high-level walkthrough of how a program becomes a tiny proof you can verify in milliseconds.
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+
+Zcash's shielded protocol is built on **zk-SNARKs**: zero-knowledge proofs
+of a particular shape that make on-chain verification practical. Once you
+get past the acronym, the construction is approachable in outline. This
+lesson gives you that outline.
+
+We won't reach the elliptic-curve pairings. We'll go right up to where they
+start, and link out to the canonical deeper material at the end.
+
+## Decoding the acronym
+
+A zk-SNARK is a **Z**ero-**K**nowledge **S**uccinct **N**on-interactive
+**AR**gument of **K**nowledge. Each word matters:
+
+- **Zero-Knowledge.** The verifier learns the statement is true and nothing
+  more. (Same property as [the previous lesson](/zk/intuition/).)
+- **Succinct.** The proof is *small* and the verifier's work is *fast*,
+  even if the underlying computation is huge. A typical Zcash proof is a
+  few hundred bytes and verifies in milliseconds, regardless of how complex
+  the transaction's circuit was.
+- **Non-interactive.** The prover sends one message. No back-and-forth, no
+  challenges from the verifier mid-protocol. This is what makes proofs
+  postable to a blockchain.
+- **ARgument of Knowledge.** "Argument" instead of "proof" because soundness
+  holds against computationally bounded adversaries (a polynomial-time
+  attacker can't forge a proof, but an attacker with infinite compute could
+  in principle). "Of Knowledge" means the prover doesn't just convince the
+  verifier the statement is true — the prover demonstrates they actually
+  *know* a witness (e.g. the spending key, the note, the secret).
+
+Each property is non-trivial to achieve. Modern zk-SNARKs achieve all four
+simultaneously, which is why they're a big deal.
+
+## Why each property matters for a blockchain
+
+Suppose Zcash used a proof system with the same security but *not*
+succinct or non-interactive:
+
+- **Not succinct?** Every node would have to download and reverify a
+  multi-megabyte proof per shielded transaction. The chain would grind to
+  a halt.
+- **Not non-interactive?** Verifiers would need to challenge the prover
+  live. There's no "live" on a public blockchain — verification happens
+  weeks or years after the transaction was made.
+
+So zk-SNARK is the minimum useful shape of the primitive for shielded
+on-chain transactions. Other constructions (zk-STARKs, Bulletproofs,
+Plonkish proofs) hit the same shape with different trade-offs.
+
+## The pipeline: program → proof
+
+You start with a *statement* you want to prove — for example, "I know x
+such that SHA256(x) starts with twenty zero bits." Turning that into a
+zk-SNARK proof goes through roughly four stages.
+
+### 1. Express the statement as an arithmetic circuit
+
+The prover and verifier first agree on a circuit: a directed graph of
+addition and multiplication gates over a finite field. Inputs are split
+into:
+
+- **Public inputs** — what the verifier sees (e.g. the transaction's
+  nullifier).
+- **Private inputs / witness** — what only the prover knows (e.g. the
+  spending key).
+
+The circuit's output is `0` if and only if all the statement's constraints
+are satisfied. "I followed the rules" becomes "every gate evaluates
+correctly under these inputs."
+
+### 2. Convert the circuit to R1CS
+
+A **Rank-1 Constraint System (R1CS)** is a list of equations of the form
+`(A·z) · (B·z) = (C·z)` where `z` is a vector containing the inputs and
+intermediate wire values. Each gate becomes one R1CS equation.
+
+R1CS is the "assembly language" of older SNARK constructions. It's just an
+intermediate representation — concrete, mechanical, and easy to verify
+piecewise.
+
+### 3. Convert R1CS to QAP
+
+A **Quadratic Arithmetic Program (QAP)** lifts the long list of R1CS
+equations into a *single* polynomial identity that holds if and only if
+all the underlying equations hold.
+
+This is the magic step. Instead of "check 100,000 constraints," you check
+"is this single polynomial divisible by a known target polynomial?" One
+polynomial check stands in for a whole circuit.
+
+### 4. Polynomial commitment + pairing-based proof
+
+The prover commits to the relevant polynomials in a way that hides their
+coefficients but lets the verifier evaluate them at a secret challenge
+point. In Groth16 (Zcash's Sapling proof system), this is done with
+**bilinear pairings on elliptic curves** — a deep area of cryptography
+that lets the verifier check polynomial relations from short group
+elements.
+
+The output is a constant-sized proof (a few group elements), and
+verification is a few pairing checks. Both are independent of how big the
+original circuit was.
+
+## What's actually inside a Zcash shielded proof
+
+For a shielded Zcash transaction, the prover convinces the verifier of
+something like:
+
+- For each input note: "I know a spend authorization signature, the note's
+  commitment exists in the Merkle tree of all notes ever created, and the
+  nullifier I'm publishing is the correct one for this note."
+- For each output note: "The new commitment is well-formed for the value
+  and recipient described in the encrypted ciphertext."
+- For the transaction as a whole: "Inputs minus outputs equals the public
+  fee." (Value is balanced, no money is created or destroyed.)
+
+All of those statements are encoded in the circuit. The proof commits to
+all of it without revealing any of the witness data. The network checks
+the proof, accepts the nullifier set update, and the transaction is final.
+
+## The proof systems Zcash has used
+
+Zcash has lived through three generations of zk-SNARK construction:
+
+- **Sprout (2016)** — used the **BCTV14** SNARK. Proofs were ~300 bytes
+  but proving was slow and required a one-time **trusted setup ceremony**
+  to generate parameters.
+- **Sapling (2018)** — switched to **Groth16**, a streamlined SNARK with
+  tiny ~192-byte proofs and dramatically faster proving (seconds on a
+  laptop, not minutes). Required a second trusted setup ceremony — the
+  [Powers of Tau](https://zfnd.org/powers-of-tau/).
+- **Orchard (2022)** — uses **Halo 2**, a SNARK construction that
+  *eliminates trusted setup entirely* via a recursive proof composition
+  technique called *amortization without pairings*. Slightly larger proofs
+  (~1.5 KB) than Groth16 but no toxic-waste concern.
+
+The next lesson focuses on that Halo 2 transition — it's one of the most
+significant practical-cryptography milestones in the field.
+
+## Where to go deeper
+
+If you want the full mathematical picture, the canonical reading list is:
+
+- Vitalik Buterin's three-part series on
+  [Quadratic Arithmetic Programs](https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649),
+  [pairings](https://medium.com/@VitalikButerin/exploring-elliptic-curve-pairings-c73c1864e627),
+  and
+  [zk-SNARKs themselves](https://medium.com/@VitalikButerin/zk-snarks-under-the-hood-b33151a013f6).
+- Christian Reitwiessner's
+  [zkSNARKs in a nutshell](https://blog.ethereum.org/2016/12/05/zksnarks-in-a-nutshell).
+- The [Zcash Protocol Specification](https://zips.z.cash/protocol/protocol.pdf)
+  (long, formal, but the source of truth).
+
+Don't feel obligated to read these to use Zcash. They're for the moment
+you want to actually *understand* the proof, not just rely on it.
+
+<Aside type="tip" title="Key takeaways">
+- **zk-SNARK** = Zero-Knowledge, Succinct, Non-interactive, Argument of
+  Knowledge.
+- **Succinctness** is what makes proofs blockchain-shaped: tiny size,
+  millisecond verification, regardless of circuit complexity.
+- **The pipeline:** statement → circuit → R1CS → QAP → polynomial
+  commitment → proof.
+- **Zcash has gone through three SNARK generations**: BCTV14 (Sprout),
+  Groth16 (Sapling), Halo 2 (Orchard). Each shipped real upgrades to
+  proof size, proving speed, or trust assumptions.
+- The deep math is optional reading; the abstraction is the useful part.
+</Aside>
