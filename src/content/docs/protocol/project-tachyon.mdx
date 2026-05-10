@@ -1,0 +1,169 @@
+---
+title: Project Tachyon
+description: The next major Zcash upgrade — recursive proofs, oblivious sync, and post-quantum privacy as a side effect. Sean Bowe's scalability roadmap, explained.
+sidebar:
+  order: 5
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-11</span>
+
+> *Field trip to the future of the shielded pool.* 🛡️
+
+**Project Tachyon** is the multi-year Zcash scalability roadmap led by
+[Sean Bowe](https://twitter.com/ebfull) (one of Halo's original authors)
+and collaborators across ECC and the broader Zcash research community. It
+is to Orchard what Sapling was to Sprout: a cleaner foundation that
+unlocks the next decade.
+
+This lesson explains what Tachyon changes, the cryptography under the
+hood, and why it gets **post-quantum privacy** almost for free.
+
+## What's wrong with status quo Zcash
+
+Before Tachyon, sending a shielded transaction requires the spender to
+*scan the chain* for incoming notes. Wallets do this efficiently with
+light-client protocols, but the work is fundamentally proportional to
+how much shielded activity the chain has. As shielded activity grows,
+that scan grows with it.
+
+Two related problems compound:
+
+1. **Spender-side bottleneck.** Building a proof requires you to know
+   your notes, which requires syncing. New devices, occasional users,
+   and emerging markets are penalized most.
+2. **Linearly-growing state.** The note commitment tree and nullifier
+   set grow as the chain grows. Nodes carry it forever.
+
+These aren't bugs — they're costs of the current architecture. Tachyon
+proposes a different architecture.
+
+## The core idea: Proof-Carrying Data
+
+Tachyon leans on **Proof-Carrying Data (PCD)**, the recursive-proof
+construction that Halo 2 was designed to make practical. PCD lets a
+proof attest not just to "this state transition is valid" but to "this
+state transition is valid *and* the chain of state transitions leading
+to it was also valid, all the way back."
+
+Concretely:
+
+- **Wallets no longer need to scan everything.** A succinct proof can
+  certify that a node's view of the chain is correct, including the
+  parts relevant to the wallet, in time roughly independent of how big
+  the chain is.
+- **Validation amortizes.** Aggregating proofs across blocks (and
+  eventually across users) means total verification work doesn't have
+  to scale linearly with activity.
+- **Nodes can be lighter** without sacrificing the security model.
+
+This is the same family of techniques that powers Ethereum zkEVMs and
+modern recursive SNARK projects — Zcash had the cryptography first, and
+Tachyon is the production deployment of those ideas inside its own
+chain.
+
+## Oblivious sync
+
+A killer feature: **oblivious sync.** The phrase is technical, the
+intuition isn't.
+
+Today, a shielded Zcash wallet has to do *trial decryption* on every
+output added to the chain, looking for the ones encrypted to it. The
+network can tell roughly how active a wallet is (it's online,
+downloading data) but can't tell *which* notes are its.
+
+Oblivious sync goes further: a wallet can learn which notes are its
+*without revealing to anyone — not even the light-wallet server — that
+those notes are the ones it cares about.* The cryptographic primitives
+(private information retrieval, oblivious transfer, combined with the
+new proof system) let the server hand the wallet the relevant data
+without learning which data was relevant.
+
+The user-visible effect: wallets get faster *and* network-level
+metadata leakage drops. Better privacy, better performance, same
+trust model. Rare.
+
+## Post-quantum privacy, for free
+
+The proof systems in current Zcash (Groth16 for Sapling, Halo 2 for
+Orchard) rest on the **discrete log problem** on elliptic curves. A
+sufficiently powerful quantum computer would, in principle, break that
+assumption.
+
+In practice, Zcash's privacy model has two parts:
+
+1. **Confidentiality of past transactions** — once a shielded
+   transaction is on-chain, can someone learn its contents later?
+2. **Unforgeability** — can someone fake a valid spend?
+
+The Tachyon architecture replaces parts of the proving stack with
+**post-quantum-secure** alternatives — specifically, hash-based and
+lattice-based commitments where it matters. The result is that
+**historical shielded transactions remain confidential even against a
+future quantum adversary.**
+
+This is a bigger deal than it sounds. Without it, an adversary who
+records the public chain today could, decades from now, run quantum
+attacks against past privacy. Tachyon kills that
+"harvest-now-decrypt-later" threat for shielded confidentiality before
+it becomes a real one.
+
+<Aside type="caution" title="Hedge">
+**As of 2026, Tachyon is research-led work in active development.** The
+specific cryptographic constructions and activation timelines are
+governed by ZIPs and community process. Treat this lesson as a map of
+intent, not a deployment guide. Track
+[github.com/zcash](https://github.com/zcash) and the
+[forum](https://forum.zcashcommunity.com/) for the live state.
+</Aside>
+
+## What changes for users
+
+If Tachyon ships as planned, in roughly this order of user-visibility:
+
+- **Faster initial wallet sync.** Especially on mobile and after a
+  long offline period.
+- **Smaller wallet bandwidth** when keeping in sync.
+- **Less metadata leaked** to light-wallet infrastructure providers.
+- **Future-proof confidentiality** against quantum advances.
+- **Same Unified Address you already have.** Address format is stable;
+  the upgrade is under the hood.
+
+Everything you learned in the earlier protocol lessons — notes,
+nullifiers, the commitment tree, Halo 2's PLONKish circuits — remains
+the conceptual base. Tachyon is the engineering layer above it that
+makes the architecture sustain another decade of growth.
+
+## Why the name
+
+A *tachyon* is a hypothetical particle that travels faster than light.
+The cryptographic joke: Tachyon proofs let you "outrun" the linear
+cost of chain growth. Whether you find the joke funny depends on how
+many crypto papers you've read.
+
+## Where to follow it
+
+- **[forum.zcashcommunity.com](https://forum.zcashcommunity.com/)** —
+  Tachyon-tagged threads, design discussions, ZIP drafts.
+- **[Sean Bowe's research notes](https://twitter.com/ebfull)** — high
+  signal on the cryptography side.
+- **[github.com/zcash](https://github.com/zcash)** — reference
+  implementation work.
+- **[electriccoin.co/blog](https://electriccoin.co/blog/)** —
+  longer-form milestone posts.
+
+<Aside type="tip" title="Key takeaways">
+- **Project Tachyon** is Zcash's next-generation scalability and
+  efficiency upgrade, led by Sean Bowe and collaborators.
+- It uses **Proof-Carrying Data (PCD)** — recursive SNARK composition
+  — to make wallet sync and node validation effectively independent of
+  chain size.
+- **Oblivious sync** lets wallets discover their notes without
+  revealing to a light-wallet server which notes they care about.
+- Tachyon's new proving stack includes **post-quantum-secure**
+  components, so historical shielded confidentiality holds against a
+  future quantum adversary.
+- As of 2026 the work is research-led and in active development.
+  Activation timing is governed by ZIPs and community consensus.
+</Aside>
