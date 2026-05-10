@@ -1,0 +1,65 @@
+---
+title: Zcash School
+description: Learn Zcash from first principles — privacy, zero-knowledge proofs, and how shielded money works.
+template: splash
+hero:
+  tagline: Private money, explained from scratch.
+  image:
+    file: ../../assets/logo.svg
+  actions:
+    - text: Start Learning
+      link: /intro/why-privacy/
+      icon: right-arrow
+      variant: primary
+    - text: Skip to Using Zcash
+      link: /using/wallets/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+	<Card title="Why Privacy" icon="seti:lock">
+		Cash was always private. A public ledger flipped that default. Start with
+		why financial privacy is a baseline, not a luxury.
+		<br />
+		[Read the chapter →](/intro/why-privacy/)
+	</Card>
+	<Card title="How ZK Works" icon="puzzle">
+		Zero-knowledge proofs let you prove a statement is true without revealing
+		why. Build the intuition, then meet zk-SNARKs and Halo 2.
+		<br />
+		[Read the chapter →](/zk/intuition/)
+	</Card>
+	<Card title="Send Your First Shielded Transaction" icon="rocket">
+		Pick a wallet, get a unified address, and send shielded-to-shielded ZEC.
+		Concrete steps, no jargon.
+		<br />
+		[Read the chapter →](/using/your-first-shielded-tx/)
+	</Card>
+</CardGrid>
+
+## What you'll learn
+
+This is a free, opinionated, end-to-end course in **Zcash** — the privacy-preserving
+cryptocurrency that uses zero-knowledge proofs to keep transaction amounts and
+parties private by default. We assume nothing. By the end you'll understand:
+
+- Why financial privacy matters and what Bitcoin gave up
+- How zero-knowledge proofs work, including zk-SNARKs and the trustless **Halo 2** system
+- How Zcash structures addresses, pools, notes, and nullifiers
+- How to actually use Zcash — wallets, shielded transactions, and selective disclosure
+- The orgs, governance process, and economics of the network
+
+## Who this is for
+
+Curious newcomers, Bitcoin holders looking for privacy, developers who want a
+solid mental model before reading the spec, and journalists or policy folks who
+need accurate primary-source material on how shielded money works.
+
+<div class="site-footer-note">
+	Independent educational project. Not affiliated with the Electric Coin Company
+	or the Zcash Foundation. All content is community-reviewed and links to primary
+	sources where possible.
+</div>
