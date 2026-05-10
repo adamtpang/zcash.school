@@ -1,49 +1,71 @@
-# Starlight Starter Kit: Basics
+# Zcash School
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+A free, opinionated, end-to-end course on **Zcash** — the privacy-preserving
+cryptocurrency that uses zero-knowledge proofs to keep transaction amounts and
+parties private by default.
 
+> *Enrollment is open. Attendance is anonymous.*
+
+Live site: <https://zcash.school>
+
+## What's here
+
+- **Module 1 — Why Privacy Matters** — financial privacy as the historical
+  default, the Bitcoin transparency problem, the cypherpunk lineage, and the
+  Zcash thesis.
+- **Module 2 — Zero-Knowledge Proofs** — intuition, zk-SNARKs, and the
+  trustless Halo 2 setup behind Zcash's Orchard pool.
+- **Module 3 — How Zcash Works** — addresses, pools, notes, nullifiers,
+  Orchard, and Project Tachyon (the next major upgrade).
+- **Module 4 — Using Zcash** — wallets, your first shielded transaction,
+  selective disclosure, and accepting Zcash as a merchant.
+- **Module 5 — Ecosystem & Economics** — the orgs (post Q1 2026 five-org
+  restructure), ZIPs and upgrades, the supply schedule.
+
+## About the Zcash Network School
+
+This site is part of the **Zcash Network School (ZNS)**, a three-month
+educational program supported by a Zcash Foundation community grant. ZNS
+deliverables include educational events, office hours, wallet activations,
+and POS/vendor onboarding. Forum thread:
+<https://forum.zcashcommunity.com/t/zcash-network-school/55269>.
+
+Sister sites:
+
+- [zcash.me](https://zcash.me)
+- [zcashnames.com](https://zcashnames.com)
+
+## Stack
+
+- [Astro](https://astro.build/) + [Starlight](https://starlight.astro.build/)
+- TypeScript (strict)
+- pnpm
+- Deployed on Vercel as a static site
+
+## Local development
+
+```bash
+pnpm install
+pnpm dev      # http://localhost:4321
+pnpm build    # production build to ./dist
+pnpm preview  # preview the production build
+pnpm og       # regenerate the social OG image from the SVG source
 ```
-pnpm create astro@latest -- --template starlight
-```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Contributing
 
-## 🚀 Project Structure
+Issues and pull requests welcome. Lessons aim to:
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+- Be accurate against the spec ([zips.z.cash](https://zips.z.cash/))
+- Link to primary sources where possible
+- Hedge with "as of NU5" or similar where the protocol may change
+- Include a "Last reviewed" date at the top of each lesson
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+## License
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+Content and code are released under the MIT License unless otherwise noted.
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+## Affiliation
 
-Static assets, like favicons, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+This is an independent educational project. It is not affiliated with the
+Electric Coin Company or the Zcash Foundation. Tuition free, knowledge zero.

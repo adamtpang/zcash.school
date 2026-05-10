@@ -1,13 +1,15 @@
 ---
 title: Resources
-description: Curated links — official sites, the spec and ZIPs, community spaces, and the academic foundations of Zcash.
+description: Curated links — official sites, the spec and ZIPs, community spaces, sister projects, and the academic foundations of Zcash.
 sidebar:
   order: 99
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+<span class="last-reviewed">Last reviewed: 2026-05-11</span>
+
+> *The curriculum is encrypted. The reading list isn't.*
 
 A short, curated list of the most useful Zcash resources. Each link is
 something you'll come back to.
@@ -42,13 +44,21 @@ something you'll come back to.
 
 - **[forum.zcashcommunity.com](https://forum.zcashcommunity.com/)** —
   long-form community discussion. Where governance debates happen.
-- **[r/zec](https://www.reddit.com/r/zec/)** — the Zcash subreddit.
+- **[Zcash Network School thread](https://forum.zcashcommunity.com/t/zcash-network-school/55269)**
+  — the parent program this site is part of.
+- **[r/zcash](https://www.reddit.com/r/zcash)** — the Zcash subreddit.
 - **[Zcash Discord](https://discord.gg/zcash)** — real-time chat;
   invitation links rotate, so check
   [zfnd.org/community](https://zfnd.org/community/) for the current
   one.
-- **[Zcash on X](https://twitter.com/electriccoinco)** — ECC's
-  account; ZF and ZCG also have their own.
+- On X / Twitter:
+  [@zcash](https://twitter.com/zcash),
+  [@ElectricCoinCo](https://twitter.com/ElectricCoinCo),
+  [@ZcashFoundation](https://twitter.com/ZcashFoundation),
+  and the unofficial-but-canonical
+  [@genzcash](https://twitter.com/genzcash) — ECC's CEO once called
+  it the project's "memetic warfare division," which tells you
+  everything you need to know.
 
 ## Wallets
 
@@ -62,11 +72,36 @@ something you'll come back to.
 - **[Zcash Foundation wallet directory](https://zfnd.org/wallets/)** —
   vetted wallet list.
 
+## Merchant tooling
+
+- **[CipherPay](https://cipherpay.app)** — non-custodial "Stripe for
+  Zcash," hosted checkout, Shopify/WooCommerce plugins.
+- **[ZGo](https://zgo.cash)** — in-person POS, any phone becomes a
+  terminal. $1/day or $6/week.
+- **[BTCPay Server](https://btcpayserver.org/)** — open-source self-
+  hosted gateway with Zcash plugin.
+- **[NOWPayments](https://nowpayments.io/)** / **[CoinGate](https://coingate.com/)** /
+  **[Plisio](https://plisio.net/)** — custodial multi-coin gateways.
+
+See the full lesson: [Accepting Zcash in Your Business](/using/merchants/).
+
 ## Block explorers
 
 - **[zcashexplorer.app](https://zcashexplorer.app/)**
 - **[zcashblockexplorer.com](https://zcashblockexplorer.com/)**
 - **[blockchair.com/zcash](https://blockchair.com/zcash)**
+
+## Sister projects and community sites
+
+The Zcash Network School ecosystem includes a few sibling sites worth
+visiting:
+
+- **[zcash.me](https://zcash.me)** — James's project, NS-flavored
+  user-onboarding site.
+- **[zcashnames.com](https://zcashnames.com)** — James's naming-service
+  work on Zcash.
+- **[ZNS intern documentation](https://hackmd.io/@zec/znsintern)** —
+  the working notes for the Zcash Network School program.
 
 ## Academic and deep-technical reading
 
@@ -79,16 +114,25 @@ something you'll come back to.
   - [zk-SNARKs Under the Hood](https://medium.com/@VitalikButerin/zk-snarks-under-the-hood-b33151a013f6)
 - **[Halo paper (Bowe, Grigg, Hopwood)](https://eprint.iacr.org/2019/1021)**
   — recursive proof composition without trusted setup.
-- **[The Cypherpunk Manifesto (Eric Hughes, 1993)](https://www.activism.net/cypherpunk/manifesto.html)**
+
+## Cypherpunk foundational reading
+
+- **[A Cypherpunk's Manifesto (Eric Hughes, 1993)](https://www.activism.net/cypherpunk/manifesto.html)**
   — the philosophical anchor of all of this.
+- **[The Crypto Anarchist Manifesto (Tim May, 1988)](https://www.activism.net/cypherpunk/crypto-anarchy.html)**
+  — the five-years-earlier predecessor.
+- The [Cypherpunk mailing list archives](https://lists.cpunks.org/) —
+  the actual conversations that produced all this.
 
 ## Things this site is intentionally not
 
 - This site is not a real-time price/news source. Use exchanges or
   data dashboards for that.
 - This site is not a wallet. We link to wallets; we don't host one.
-- This site is not affiliated with ECC, ZF, or ZCG. It's a community
-  educational project that links to primary sources where they exist.
+- This site is not affiliated with ECC, ZF, or ZCG. It is a
+  Zcash-Foundation-funded community project under the
+  [Zcash Network School](https://forum.zcashcommunity.com/t/zcash-network-school/55269)
+  program. We link to primary sources where they exist.
 
 If you spot an error or want to suggest an addition, open an issue at
 the GitHub repository for this site — link in the site footer.

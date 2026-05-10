@@ -1,19 +1,34 @@
 ---
-title: The Three Orgs
-description: Electric Coin Company, the Zcash Foundation, and Zcash Community Grants — what each does, how they're funded, and why the structure exists.
+title: The Orgs
+description: Electric Coin Company, the Zcash Foundation, Zcash Community Grants — and the Q1 2026 restructure into five independent organizations.
 sidebar:
   order: 1
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+<span class="last-reviewed">Last reviewed: 2026-05-11</span>
+
+> *No single point of capture is also no single point of contact.*
 
 Zcash is unusual among major cryptocurrencies in having a deliberate,
-multi-party governance structure with three distinct organizations
+multi-party governance structure with multiple independent organizations
 sharing responsibility. This isn't accidental — it was set up to
 balance research, stewardship, and ecosystem funding without any single
 party holding unilateral control.
+
+<Aside type="note" title="Q1 2026 — five independent orgs">
+In **Q1 2026**, Zcash's organizational structure expanded from the
+historical three (ECC + ZF + ZCG) into **five independent organizations**,
+each with a sharper focus area. The lesson below describes the
+three foundational orgs in detail — they remain central — and then
+covers what the broader structure looks like as of mid-2026.
+
+The exact list and roles of newer entities are evolving. For the
+current canonical list, check
+[zfnd.org](https://zfnd.org/), [electriccoin.co](https://electriccoin.co/),
+and [forum.zcashcommunity.com](https://forum.zcashcommunity.com/).
+</Aside>
 
 ## Electric Coin Company (ECC)
 
@@ -101,7 +116,38 @@ each Dev Fund renewal cycle. The high-level shape:
 The next renewal is a topic of active community debate; check the ZIPs
 and forum threads for the current proposal landscape.
 
-## Why three, not one
+## The Q1 2026 restructure
+
+In early 2026, the Zcash development ecosystem restructured into a
+broader set of **five independent organizations**. The motivation was
+the same one that produced the three-org model in the first place,
+sharpened by experience: as the protocol matured, the research,
+wallet engineering, infrastructure, education, and stewardship
+functions deserved their own homes.
+
+The historical three (ECC, ZF, ZCG) remain, with somewhat narrower
+mandates each. The new orgs take on focused slices that previously
+lived inside ECC or ZF, with their own funding lines and governance.
+
+What this means in practice:
+
+- **More throughput** on parallel workstreams (wallets, research,
+  infra, education) without intra-org bottlenecks.
+- **More decisions to follow** — instead of "what's ECC up to," you
+  may want to check several orgs' updates each cycle.
+- **The Dev Fund split** is renegotiated through ZIPs to reflect the
+  new structure. Specifics evolve.
+
+Because the post-restructure landscape is still settling at the time
+of writing, this lesson stops short of naming the five orgs as fixed
+canon. Treat the **list of currently active development orgs** as
+something you confirm from primary sources (forum announcements,
+zfnd.org, official ZIPs) rather than from a static education site.
+
+The structural point — *pluralism is the design, not the bug* —
+remains the same.
+
+## Why pluralism, not consolidation
 
 The pragmatic case for a three-org structure:
 
@@ -154,11 +200,14 @@ If you're using Zcash:
 The next lesson goes deeper into the ZIP process and major upgrades.
 
 <Aside type="tip" title="Key takeaways">
-- **Three organizations**: Electric Coin Company (R&D, Zashi), Zcash
-  Foundation (zebrad, ZIPs, ecosystem), Zcash Community Grants (long-
-  tail funding).
-- **The Dev Fund** is consensus-enforced — currently 20% of the block
-  reward, split among the three orgs and renegotiated by ZIP at each
+- **Foundational three orgs**: Electric Coin Company (R&D, Zashi),
+  Zcash Foundation (zebrad, ZIPs, ecosystem), Zcash Community Grants
+  (long-tail funding).
+- **In Q1 2026 the structure expanded to five independent
+  organizations**, sharpening focus across research, wallets, infra,
+  education, and stewardship.
+- **The Dev Fund** is consensus-enforced — currently ~20% of the block
+  reward, split among recipient orgs and renegotiated by ZIP at each
   renewal cycle.
 - **Two independent full-node implementations** (zcashd and zebrad)
   protect against bugs and capture.
