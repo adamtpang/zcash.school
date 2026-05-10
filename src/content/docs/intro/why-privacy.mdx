@@ -7,7 +7,9 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-<span class="last-reviewed">Last reviewed: 2026-05-10</span>
+<span class="last-reviewed">Last reviewed: 2026-05-11</span>
+
+> *Transparent chains are just public diaries with extra steps.*
 
 For most of human history, money was private by default. You handed someone a
 coin and the transaction left no public record. Cash, in this sense, is the
@@ -66,9 +68,17 @@ None of this requires illegal behavior. None of it requires you to be
 
 ## The Cypherpunk framing
 
-The Cypherpunk movement of the early 1990s anticipated all of this. Eric
-Hughes opened the [Cypherpunk Manifesto](https://www.activism.net/cypherpunk/manifesto.html)
-in 1993 with a line that still defines the project:
+The Cypherpunk movement of the early 1990s anticipated all of this. In 1988,
+Timothy May wrote [The Crypto Anarchist Manifesto](https://www.activism.net/cypherpunk/crypto-anarchy.html):
+"A specter is haunting the modern world, the specter of crypto anarchy."
+In 1992, May, Eric Hughes, and John Gilmore started the Cypherpunk mailing
+list — a group whose explicit project was to *use cryptography to give
+ordinary people the privacy properties governments and corporations took for
+granted.*
+
+In 1993, Eric Hughes opened the
+[Cypherpunk Manifesto](https://www.activism.net/cypherpunk/manifesto.html)
+with a line that still defines the project:
 
 > "Privacy is necessary for an open society in the electronic age. […]
 > Privacy is not secrecy. A private matter is something one doesn't want the
@@ -80,6 +90,38 @@ Note the framing: privacy isn't the same as secrecy, and it isn't a thing you
 need to *justify*. It's the default condition of being an autonomous person.
 The interesting question isn't "should I get to be private?" — it's "what
 technology preserves that property when transactions move online?"
+
+## The lineage from PGP to Zcash
+
+Every digital-cash project worth knowing about descends from the same
+conversation:
+
+- **1991 — PGP.** Phil Zimmermann ships practical public-key encryption to
+  the public. Federal investigation follows. Tells you who feels threatened
+  by privacy.
+- **1983 / 1989 — David Chaum's ecash.** Cryptographic anonymous digital
+  cash, decades before Bitcoin. Blind signatures, unlinkable payments. Too
+  early commercially, technically correct.
+- **1997 — Hashcash.** Adam Back proposes a proof-of-work scheme. Will
+  later become the heart of Bitcoin mining.
+- **1998 — b-money / bit gold.** Wei Dai and Nick Szabo independently
+  sketch decentralized digital currency. Public ledgers, but not yet a
+  working system.
+- **1999 — Confinity / PayPal launches.** Peter Thiel's launch speech
+  frames PayPal as cypherpunk-coded: "We are creating a new world currency,
+  free from government control and dilution." That mission got compromised
+  on contact with the regulator, but the intent is part of the lineage.
+- **2008 — Bitcoin.** Satoshi combines proof-of-work, public ledger, and
+  digital signatures into the first working decentralized money.
+  Accidentally optimizes for *traceability*.
+- **2014 — Zerocash paper.** Ben-Sasson, Chiesa, Garman, Green, Miers,
+  Tromer, Virza show how to combine zk-SNARKs with a Bitcoin-style chain
+  to get default-private digital cash.
+- **2016 — Zcash mainnet.** The first production deployment.
+
+If you only remember one thing about this lineage: **privacy in money is
+not a 2016 invention. It's a 35-year project, and Zcash is its working
+production system.**
 
 ## Privacy ≠ illicit
 
@@ -122,9 +164,12 @@ we get to what Zcash does differently.
 - **Cash was the original privacy technology.** Public blockchains are a
   historical anomaly, not a baseline.
 - **A transparent ledger is forever.** Privacy you have today can be undone by
-  a future tool that links your wallet to your identity.
+  a future tool that links your wallet to your identity. Your bank can see
+  that. Your ex can see that. Your future employer can see that.
 - **Privacy ≠ secrecy ≠ crime.** Privacy is the power to selectively reveal
   yourself. Most uses are mundane and legitimate.
 - **The interesting question is technical**: how do you build digital money
   that preserves privacy by default?
+- **Privacy is normal.** The weird part is that we ever let it become
+  optional.
 </Aside>

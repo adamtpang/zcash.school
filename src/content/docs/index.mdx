@@ -1,9 +1,9 @@
 ---
 title: Zcash School
-description: Learn Zcash from first principles — privacy, zero-knowledge proofs, and how shielded money works.
+description: Learn Zcash from first principles — privacy, zero-knowledge proofs, and how shielded money works. The only school where attendance isn't tracked.
 template: splash
 hero:
-  tagline: Private money, explained from scratch.
+  tagline: Enrollment is open. Attendance is anonymous.
   image:
     file: ../../assets/logo.svg
   actions:
@@ -17,30 +17,32 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
 
 <CardGrid stagger>
 	<Card title="Why Privacy" icon="seti:lock">
-		Cash was always private. A public ledger flipped that default. Start with
-		why financial privacy is a baseline, not a luxury.
+		Cash was always private. A public ledger flipped that default. If your
+		money has a leaderboard, it isn't yours.
 		<br />
 		[Read the chapter →](/intro/why-privacy/)
 	</Card>
 	<Card title="How ZK Works" icon="puzzle">
 		Zero-knowledge proofs let you prove a statement is true without revealing
-		why. Build the intuition, then meet zk-SNARKs and Halo 2.
+		why. Chainalysis hates this one weird trick.
 		<br />
 		[Read the chapter →](/zk/intuition/)
 	</Card>
 	<Card title="Send Your First Shielded Transaction" icon="rocket">
-		Pick a wallet, get a unified address, and send shielded-to-shielded ZEC.
-		Concrete steps, no jargon.
+		Pick a wallet, get a unified address, and shield every last ZEC. Concrete
+		steps, no jargon.
 		<br />
 		[Read the chapter →](/using/your-first-shielded-tx/)
 	</Card>
 </CardGrid>
 
-## What you'll learn
+## Syllabus
+
+Completeness. Soundness. Zero-knowledge. Vibes.
 
 This is a free, opinionated, end-to-end course in **Zcash** — the privacy-preserving
 cryptocurrency that uses zero-knowledge proofs to keep transaction amounts and
@@ -48,18 +50,32 @@ parties private by default. We assume nothing. By the end you'll understand:
 
 - Why financial privacy matters and what Bitcoin gave up
 - How zero-knowledge proofs work, including zk-SNARKs and the trustless **Halo 2** system
-- How Zcash structures addresses, pools, notes, and nullifiers
-- How to actually use Zcash — wallets, shielded transactions, and selective disclosure
+- How Zcash structures addresses, pools, notes, and nullifiers — and where it's headed with **Project Tachyon**
+- How to actually use Zcash — wallets, shielded transactions, selective disclosure, and accepting it in your business
 - The orgs, governance process, and economics of the network
 
 ## Who this is for
 
-Curious newcomers, Bitcoin holders looking for privacy, developers who want a
-solid mental model before reading the spec, and journalists or policy folks who
-need accurate primary-source material on how shielded money works.
+Curious newcomers, Bitcoin holders who looked at their public balance and felt
+weird, developers who want a solid mental model before reading the spec,
+journalists or policy folks who need accurate primary-source material on how
+shielded money works, and anyone who has ever typed the words "encrypted Bitcoin"
+in a chat and meant it as a compliment.
+
+## Field trip to the shielded pool 🛡️
+
+Reading lessons is one thing. Sending your first shielded transaction is another.
+Once you've worked through the protocol module, jump to
+[Your First Shielded Transaction](/using/your-first-shielded-tx/) and actually
+do it. The fee is fractions of a cent. The vibe is immaculate.
+
+<Aside type="tip" title="Homework">
+Shield every last ZEC.
+</Aside>
 
 <div class="site-footer-note">
-	Independent educational project. Not affiliated with the Electric Coin Company
-	or the Zcash Foundation. All content is community-reviewed and links to primary
-	sources where possible.
+	An independent educational project, supported by a Zcash Foundation community
+	grant under the <strong>Zcash Network School</strong>. Not affiliated with the
+	Electric Coin Company or the Zcash Foundation. Content links to primary
+	sources where possible. Tuition free, knowledge zero.
 </div>
