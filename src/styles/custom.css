@@ -1,0 +1,96 @@
+/* Zcash School — Starlight theme overrides */
+
+:root {
+	--sl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Dark mode (default in Starlight) — Zcash navy + yellow */
+:root {
+	--sl-color-accent-low: #3a2e0a;
+	--sl-color-accent: #F4B728;
+	--sl-color-accent-high: #fde7a8;
+
+	--sl-color-white: #f5f7fb;
+	--sl-color-gray-1: #e2e6ee;
+	--sl-color-gray-2: #b9c0cc;
+	--sl-color-gray-3: #7e8593;
+	--sl-color-gray-4: #4f5666;
+	--sl-color-gray-5: #2e3340;
+	--sl-color-gray-6: #1f2330;
+	--sl-color-black: #1A1F2E;
+
+	--sl-color-bg: #1A1F2E;
+	--sl-color-bg-nav: #161a26;
+	--sl-color-bg-sidebar: #1A1F2E;
+	--sl-color-text-accent: #F4B728;
+}
+
+/* Light mode — warm parchment with the same yellow accent */
+:root[data-theme='light'] {
+	--sl-color-accent-low: #fff4d6;
+	--sl-color-accent: #b88212;
+	--sl-color-accent-high: #5b3f06;
+
+	--sl-color-white: #1A1F2E;
+	--sl-color-gray-1: #2a2f3d;
+	--sl-color-gray-2: #424857;
+	--sl-color-gray-3: #6a7080;
+	--sl-color-gray-4: #aab0bd;
+	--sl-color-gray-5: #d6dae3;
+	--sl-color-gray-6: #ebeef4;
+	--sl-color-gray-7: #f6f7fa;
+	--sl-color-black: #ffffff;
+
+	--sl-color-bg: #fdfbf5;
+	--sl-color-bg-nav: #ffffff;
+	--sl-color-bg-sidebar: #fdfbf5;
+	--sl-color-text-accent: #b88212;
+}
+
+/* Hero polish on the landing page */
+.hero h1 {
+	background: linear-gradient(120deg, #F4B728 0%, #fde7a8 60%, #F4B728 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+
+.hero .tagline {
+	font-size: clamp(1.05rem, 1.6vw, 1.4rem);
+	color: var(--sl-color-gray-2);
+}
+
+/* Make CardGrid cards feel a touch more like coins */
+.card {
+	border: 1px solid var(--sl-color-gray-5);
+	transition: transform 120ms ease, border-color 120ms ease;
+}
+.card:hover {
+	transform: translateY(-2px);
+	border-color: var(--sl-color-accent);
+}
+
+/* "Last reviewed" line styling */
+.last-reviewed {
+	display: inline-block;
+	margin: 0 0 1.25rem;
+	padding: 0.15rem 0.55rem;
+	border-radius: 999px;
+	background: var(--sl-color-gray-6);
+	color: var(--sl-color-gray-2);
+	font-size: 0.78rem;
+	letter-spacing: 0.02em;
+}
+
+/* Footer attribution */
+.site-footer-note {
+	margin-top: 3rem;
+	padding: 1rem 1.25rem;
+	border-top: 1px solid var(--sl-color-gray-5);
+	font-size: 0.85rem;
+	color: var(--sl-color-gray-3);
+	text-align: center;
+}

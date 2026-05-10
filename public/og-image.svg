@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Zcash School — Private money, explained from scratch.">
+  <title>Zcash School</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A1F2E"/>
+      <stop offset="100%" stop-color="#0e1118"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F4B728"/>
+      <stop offset="60%" stop-color="#fde7a8"/>
+      <stop offset="100%" stop-color="#F4B728"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Logo glyph (upper-left) -->
+  <g transform="translate(96 96)">
+    <rect width="120" height="120" rx="22" fill="#0b0e16" stroke="#F4B728" stroke-width="2"/>
+    <path d="M28 36 H92 L36 84 H92" stroke="#F4B728" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="92" cy="96" r="7" fill="#F4B728"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="96" y="380" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-size="124" font-weight="800" letter-spacing="-3" fill="url(#goldGrad)">Zcash School</text>
+
+  <!-- Tagline -->
+  <text x="96" y="450" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-size="40" font-weight="500" fill="#b9c0cc">Private money, explained from scratch.</text>
+
+  <!-- Footer line -->
+  <text x="96" y="555" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-size="26" font-weight="500" fill="#7e8593" letter-spacing="2">PRIVACY · ZERO-KNOWLEDGE PROOFS · SHIELDED MONEY</text>
+
+  <!-- Hairline at bottom -->
+  <rect x="96" y="585" width="1008" height="2" fill="#F4B728" opacity="0.6"/>
+</svg>
