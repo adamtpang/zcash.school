@@ -1,0 +1,164 @@
+---
+title: Accepting Zcash in Your Business
+description: CipherPay, ZGo, BTCPay Server, and the rest — how to accept shielded ZEC online and in person without holding custody you don't want.
+sidebar:
+  order: 4
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<span class="last-reviewed">Last reviewed: 2026-05-11</span>
+
+> *Cash without the surveillance state. Imagine that.*
+
+Zcash isn't just for holding. The point of digital cash is to *spend*
+it, which means somebody has to accept it. As of 2026, the tools for
+merchants are dramatically better than they were two years ago. This
+lesson covers the four categories of solution and the specific tools
+worth knowing.
+
+## What you actually need
+
+A merchant integration boils down to three jobs:
+
+1. **Receive payment.** A unified or shielded address you control.
+2. **Match payment to order.** Knowing *this* incoming transaction
+   pays for *that* invoice. (Memos are how Zcash does this elegantly.)
+3. **Settle.** Either hold ZEC, swap to another asset, or pay out to a
+   bank — depending on your risk and accounting setup.
+
+Different tools own different slices of that workflow. Pick by the
+slice you don't want to build yourself.
+
+## Online checkout — CipherPay
+
+[**CipherPay**](https://cipherpay.app) is the closest thing the
+ecosystem has to "Stripe for Zcash." Shipped Feb–May 2026 by
+**Atmosphere Labs**, it offers:
+
+- **Hosted checkout pages.** Drop in a payment URL; CipherPay handles
+  the customer-facing flow.
+- **Payment links.** Generate a one-shot URL for a specific amount.
+  Great for invoicing freelancers or selling one-off digital goods.
+- **Shopify and WooCommerce plugins.** First-class e-commerce integrations,
+  so existing stores can add Zcash as a checkout option without
+  custom dev work.
+- **Non-custodial.** Funds settle to *your* address; CipherPay never
+  holds your ZEC.
+
+That last point matters. Most "crypto payment processor" services
+historically held your funds and paid out periodically — fine for
+some businesses, unacceptable for many. CipherPay's non-custodial
+design means the payment flows from your customer to your wallet,
+with CipherPay providing only the matching, UI, and tooling layer.
+
+**Use CipherPay if you have an online store, sell digital goods, or
+invoice clients and want a clean URL flow.**
+
+## In-person — ZGo
+
+[**ZGo**](https://zgo.cash) turns *any phone* into a Zcash point-of-
+sale terminal. The pitch is simple:
+
+- **No special hardware.** A phone (theirs or yours) is the terminal.
+- **Pricing:** $1/day or $6/week.
+- **Designed for vendors at markets, cafés, popup retail** — the
+  people who would never approve a $300 hardware terminal and a
+  $30/month software fee for a niche payment method.
+
+**Use ZGo if you sell anything in person and want shielded payment
+acceptance with near-zero friction.**
+
+## Multi-asset gateways with Zcash plugins
+
+If you already use a generic crypto-payment system and just want to
+turn Zcash on:
+
+- **[BTCPay Server](https://btcpayserver.org/)** — open-source, self-
+  hosted, multi-coin. Has a Zcash plugin. Best for technically-
+  comfortable businesses that want zero third-party trust.
+- **[NOWPayments](https://nowpayments.io/)**, **[CoinGate](https://coingate.com/)**,
+  **[Plisio](https://plisio.net/)** — custodial gateways that
+  bundle ZEC with many other coins. Easier setup; you trust the
+  provider with the funds until payout.
+
+**Use one of these if you already accept multi-coin payments and just
+want a Zcash row on the dashboard.**
+
+## The memo trick (works with any tool)
+
+Every shielded Zcash output carries an encrypted memo field up to
+~512 bytes (covered in [Selective Disclosure](/using/selective-disclosure/)).
+Merchants use this for **invoice IDs**:
+
+1. Generate an invoice with a unique ID — e.g. `INV-7821`.
+2. Ask the customer to put `INV-7821` in the memo when they pay.
+3. Your wallet (or integration) sees the incoming shielded transaction,
+   reads the memo with your incoming viewing key, and matches the
+   payment to the invoice automatically.
+
+The customer's name, address, and amount stay private on-chain. Only
+you can read the memo. This is dramatically cleaner than a transparent
+chain's "publish a unique address per invoice and reconcile later"
+pattern.
+
+## Accounting and tax
+
+Because shielded transactions hide amounts from the chain, your
+*own books* are the source of truth for your shielded ZEC activity.
+A workable pattern:
+
+1. Generate a **viewing key** for the receiving wallet — incoming-
+   only is usually enough.
+2. Share it with your bookkeeper or accounting software.
+3. They reconcile incoming transactions from the viewing-key feed,
+   match them to invoices via memos, and produce normal books.
+
+Selective disclosure makes Zcash workable for audited businesses,
+not just informal commerce.
+[Read more on selective disclosure →](/using/selective-disclosure/)
+
+## What about chargebacks?
+
+There aren't any. Zcash transactions, like Bitcoin transactions, are
+final once confirmed. No card-network chargeback right, no merchant-
+of-record arbitration.
+
+For most digital-good and small-transaction businesses, this is a
+*feature* — chargeback fraud is a real cost on Visa/MC. For high-
+ticket physical goods or services with delivery disputes, you may
+want to layer on your own dispute process (escrow, partial refunds,
+etc.) to give customers comparable protection.
+
+## A short tool-pick decision tree
+
+- **Online store on Shopify/WooCommerce?** → CipherPay.
+- **In-person seller, phone in pocket?** → ZGo.
+- **Self-host everything, run your own infra?** → BTCPay Server with
+  Zcash plugin.
+- **Already use a multi-coin gateway and just want ZEC turned on?** →
+  NOWPayments / CoinGate / Plisio.
+- **Just one or two invoices a month?** → Generate a Unified Address
+  in your wallet, put the invoice ID in the memo, done. You don't
+  need a "system."
+
+## A note on volatility
+
+ZEC's price is volatile. If you're a business that prices in fiat,
+either swap incoming ZEC promptly via an exchange or use a gateway
+that offers automatic stablecoin conversion. Holding ZEC on the
+balance sheet is a *choice* — make it deliberately rather than by
+default.
+
+<Aside type="tip" title="Key takeaways">
+- **Online checkout, Shopify/WooCommerce:** use **CipherPay**
+  (non-custodial, hosted checkout, payment links).
+- **In-person POS, no hardware:** use **ZGo** ($1/day, any phone).
+- **Self-hosted, multi-coin:** use **BTCPay Server** with the Zcash
+  plugin.
+- **Generic multi-coin gateway:** **NOWPayments / CoinGate / Plisio**.
+- **Memos = invoice IDs.** Encrypted on-chain, matchable by you, the
+  cleanest reconciliation pattern in crypto.
+- **No chargebacks.** Final settlement is a feature for most use
+  cases; layer on your own dispute process where it matters.
+</Aside>
