@@ -26,7 +26,7 @@ export default defineConfig({
 			head: [
 				{
 					tag: 'meta',
-					attrs: { property: 'og:image', content: 'https://zcash.school/og-image.svg' },
+					attrs: { property: 'og:image', content: 'https://zcash.school/og-image.png' },
 				},
 				{
 					tag: 'meta',
@@ -42,7 +42,7 @@ export default defineConfig({
 				},
 				{
 					tag: 'meta',
-					attrs: { name: 'twitter:image', content: 'https://zcash.school/og-image.svg' },
+					attrs: { name: 'twitter:image', content: 'https://zcash.school/og-image.png' },
 				},
 				{
 					tag: 'meta',
