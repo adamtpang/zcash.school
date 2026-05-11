@@ -1,0 +1,135 @@
+---
+title: Accept Zcash at your business
+description: Take Zcash at your NS café, food stall, or online shop. ZGo for in-person POS, CipherPay for online checkout, BTCPay for self-hosters. Free 15-min setup.
+template: doc
+sidebar:
+  hidden: true
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+> *Cash without the surveillance state. Imagine that.*
+
+This page is for **the cafés, food vendors, laundries, barbers, and
+online shops at Network School** (and anyone else who wants to take
+Zcash). The Zcash Network School grant covers free onboarding — a 15-
+minute setup gets you accepting shielded ZEC.
+
+## Why bother
+
+- **Customers at NS will arrive with ZEC.** That's part of the program.
+  If you accept it, you'll have customers your competitor won't.
+- **No chargebacks.** Crypto payments are final once confirmed. The
+  ~1% you used to lose to chargeback fraud stays in your pocket.
+- **Near-zero fees.** Card networks take 1.5–3.5%. Zcash fees are
+  fractions of a cent. On thin-margin businesses that's the difference
+  between viable and not.
+- **Private by default.** Your sales aren't public. Your customers'
+  payments aren't public. Your competitors can't shadow your revenue.
+
+You can convert ZEC to fiat any time you want via an exchange. Holding
+ZEC on the balance sheet is a *choice*, not a requirement.
+
+## Pick a path
+
+### Option A — In-person POS (cafés, food, retail, service)
+
+<LinkCard
+	title="ZGo — turn any phone into a Zcash terminal"
+	description="$1/day or $6/week. No special hardware. Show a QR, customer pays, you see the payment confirm. Best for cafés, food stalls, barbers, laundry, popups."
+	href="https://zgo.cash"
+/>
+
+This is what 90% of NS businesses should use. You have a phone. ZGo
+turns it into a terminal. No card reader to buy. No 30-day account
+review. Done in 15 minutes.
+
+### Option B — Online checkout (e-commerce, digital goods, services)
+
+<LinkCard
+	title="CipherPay — Stripe-style hosted checkout for Zcash"
+	description="Hosted checkout pages, payment links, Shopify and WooCommerce plugins. Non-custodial — funds settle to your address, not theirs. Shipped Feb–May 2026 by Atmosphere Labs."
+	href="https://cipherpay.app"
+/>
+
+If you sell online and already use Shopify or WooCommerce, this is the
+shortest path. CipherPay never holds your funds; it just provides the
+checkout UI and the order/invoice matching.
+
+### Option C — Self-hosted, multi-coin
+
+<LinkCard
+	title="BTCPay Server — open-source, self-hosted, multi-coin"
+	description="Run it yourself. Free. Zcash plugin. The maximum-sovereignty option for technically-comfortable businesses."
+	href="https://btcpayserver.org/"
+/>
+
+If you already run your own infrastructure and want zero third-party
+trust, BTCPay with the Zcash plugin is the right choice.
+
+## Want the deep dive?
+
+The full curriculum lesson covers memo-as-invoice-ID patterns, viewing
+keys for accounting, finality vs. chargebacks, and the multi-coin
+gateways (NOWPayments, CoinGate, Plisio).
+
+[Read /using/merchants for the long version →](/using/merchants/)
+
+## Book your free setup
+
+The ZNS grant funds free setup for any NS business. **15 minutes,
+in-person or over a call.** You bring:
+
+- The phone you want to use as a terminal (if doing in-person)
+- Your business name and a rough sense of average ticket size
+- A way to receive ZEC — if you don't have a Zcash wallet yet, we'll
+  set that up first ([takes 60 seconds →](/start/))
+
+We'll:
+
+- Help you install and configure ZGo (or CipherPay, or BTCPay)
+- Show you the payment flow end-to-end with a small test transaction
+- Connect you with bookkeeping tools (viewing key pattern)
+- Stick around for office hours so you can ask follow-up questions
+
+<LinkCard
+	title="📅 Book a free 15-min setup with Adam"
+	description="Email to schedule. We'll come to your stall, café, or laundromat — or meet at the next office hours."
+	href="mailto:adam@zcash.school?subject=ZNS%20merchant%20setup"
+/>
+
+{/* TODO: replace mailto with Calendly / Signal / WhatsApp once Adam picks a primary scheduling channel. */}
+
+## FAQ
+
+### Do I have to hold ZEC?
+
+No. You can swap to fiat or stablecoin immediately via an exchange. We
+recommend running a daily or weekly swap rather than holding, unless
+you've decided to hold deliberately.
+
+### What about Malaysian tax?
+
+You owe what you'd owe on a sale in any other currency. Your invoices
+and memo-tagged transaction records are the basis for your books. We
+can help set up a viewing-key feed for your bookkeeper — see
+[Selective Disclosure](/using/selective-disclosure/).
+
+### What if a customer pays the wrong amount?
+
+The transaction is final, but you can refund partially or fully by
+sending ZEC back. Same as cash, with a paper trail you control.
+
+### What if I lose my phone?
+
+You restore from your seed phrase on a new phone. The Zashi wallet
+behind ZGo is self-custody — your funds aren't tied to the phone, just
+to the seed.
+
+<Aside type="tip" title="The short version">
+- **In-person business at NS:** use [ZGo](https://zgo.cash). 15 minutes
+  to set up.
+- **Online business:** use [CipherPay](https://cipherpay.app).
+- **Want help?** [Book a free setup](mailto:adam@zcash.school?subject=ZNS%20merchant%20setup)
+  or drop into the next [office hours](/ns/#schedule).
+</Aside>

@@ -17,7 +17,13 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
+
+<LinkCard
+	title="🛡️ At Network School? Start here →"
+	description="Scanned a banner QR? You're in the right place. Get a wallet in 60 seconds, claim $5 in ZEC, find the next event and office hours."
+	href="/ns/"
+/>
 
 <CardGrid stagger>
 	<Card title="Why Privacy" icon="seti:lock">

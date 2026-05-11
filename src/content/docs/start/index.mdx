@@ -1,0 +1,131 @@
+---
+title: Get a private Zcash wallet in 60 seconds
+description: Install Zashi, back up your seed, find your unified address, claim $5 in ZEC at the next ZNS event.
+template: doc
+sidebar:
+  hidden: true
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+> *Speak friend and enter.*
+
+You're 60 seconds away from a private Zcash wallet. We'll use **Zashi**
+because it's the cleanest path — shielded by default, no settings to
+fiddle with, built by the team that built Zcash.
+
+## Step 1 — Install Zashi
+
+Pick your phone:
+
+<CardGrid>
+	<LinkCard
+		title="Zashi for iPhone"
+		description="App Store · Built by Electric Coin Company"
+		href="https://apps.apple.com/app/zashi/id1671984718"
+	/>
+	<LinkCard
+		title="Zashi for Android"
+		description="Google Play · Built by Electric Coin Company"
+		href="https://play.google.com/store/apps/details?id=co.electriccoin.zcash"
+	/>
+</CardGrid>
+
+If you'd rather not use Zashi, scroll to [alternate wallets](#alternate-wallets)
+below. The rest of these steps look similar in every modern Zcash wallet.
+
+## Step 2 — Create a new wallet
+
+Open Zashi. Tap **Create new wallet**.
+
+You'll see a screen with **24 words**. This is your **seed phrase**. It
+is the only thing that can recover your wallet if you lose your phone.
+
+- **Write it on paper.** Pen, paper, no screenshot.
+- **Store it somewhere only you can reach.** Not a shared photo album.
+  Not a Notes app that syncs to iCloud.
+- **Confirm the words** when the app asks you to.
+
+<Aside type="caution" title="Whoever has the seed has the money">
+This is non-negotiable. There is no support line, no "forgot password,"
+no recovery email. The seed is the wallet. If you skip the backup step
+to save 30 seconds, you're going to lose money. Don't.
+</Aside>
+
+## Step 3 — Find your Unified Address
+
+In Zashi, tap **Receive**. You'll see a long string of letters and
+numbers that starts with **`u1...`** — that's your **Unified Address
+(UA)**.
+
+A UA is the modern Zcash address format. It bundles multiple receivers
+(Orchard, Sapling, transparent) into one string, and the sender's wallet
+picks the most private one both sides support. If you want to know more,
+read [Addresses](/protocol/addresses/) — but for now, just copy it.
+
+The first three characters are always **`u1`**. If yours doesn't start
+with `u1`, you're probably looking at a transparent address. Tap around
+until you find the unified one.
+
+## Step 4 — Claim your $5 at the next ZNS event
+
+Bring two things:
+
+1. Your phone with Zashi installed and a u1… address visible.
+2. Yourself, to an event or office hours.
+
+We'll send $5 worth of ZEC to your address on the spot. It should
+arrive shielded — no amount, sender, or recipient visible on-chain. The
+whole thing takes about a minute.
+
+<LinkCard
+	title="🪙 Claim $5 in ZEC"
+	description="The form for the airdrop. Bring your u1… address."
+	href="/claim/"
+/>
+
+[See the schedule of upcoming events →](/ns/#schedule)
+
+## Alternate wallets
+
+Zashi is the recommendation for newcomers. Two strong alternatives if
+you want different trade-offs:
+
+<CardGrid>
+	<LinkCard
+		title="Ywallet — power user"
+		description="Multi-pool, multi-account, hardware-wallet integration on some platforms. iOS / Android / Desktop."
+		href="https://ywallet.app/"
+	/>
+	<LinkCard
+		title="Nighthawk — shielded-first"
+		description="Community-built, mobile, same shielded-by-default ethos as Zashi with a different UI."
+		href="https://nighthawkwallet.com/"
+	/>
+</CardGrid>
+
+If you're on desktop and want a long-standing option, see
+[Zecwallet Lite](https://www.zecwallet.co/) — note it's Sapling-only,
+no Orchard support.
+
+Read the full wallet comparison at [/using/wallets](/using/wallets/).
+
+## What just happened
+
+You installed a Zcash wallet. The wallet generated a 24-word seed
+locally on your phone, derived a Unified Address from it, and now waits
+for incoming transactions. **Your seed never left your device.** Zashi
+doesn't have it. The App Store doesn't have it. We don't have it.
+
+That's the difference between self-custody and an exchange. If you've
+only ever used an exchange before, this is the moment to notice that
+your money is now actually yours.
+
+> *Homework: shield every last ZEC.*
+
+<Aside type="tip" title="What's next">
+- **Pick up your $5 at the next event** → [/claim](/claim/)
+- **Send your first real shielded transaction** → [/using/your-first-shielded-tx](/using/your-first-shielded-tx/)
+- **Run a business and want to accept Zcash?** → [/merchants](/merchants/)
+- **Read the course from the top** → [/intro/why-privacy](/intro/why-privacy/)
+</Aside>

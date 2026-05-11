@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "og": "node scripts/generate-og.mjs"
+    "og": "node scripts/generate-og.mjs",
+    "qr": "node scripts/generate-qr.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
@@ -16,5 +17,8 @@
     "@astrojs/vercel": "^10.0.6",
     "astro": "^6.2.2",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "qrcode": "^1.5.4"
   }
 }

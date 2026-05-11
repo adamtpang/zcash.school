@@ -59,6 +59,15 @@ export default defineConfig({
 					items: [{ label: 'Welcome', link: '/' }],
 				},
 				{
+					label: 'Network School',
+					items: [
+						{ label: 'ZNS landing', link: '/ns/' },
+						{ label: 'Get a wallet in 60s', link: '/start/' },
+						{ label: 'Claim $5 in ZEC', link: '/claim/' },
+						{ label: 'Accept Zcash (merchants)', link: '/merchants/' },
+					],
+				},
+				{
 					label: '1. Why Privacy Matters',
 					items: [{ autogenerate: { directory: 'intro' } }],
 				},

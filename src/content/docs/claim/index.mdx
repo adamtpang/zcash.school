@@ -1,0 +1,137 @@
+---
+title: Claim $5 in ZEC
+description: Free shielded ZEC airdrop for ZNS event and office-hours attendees. Submit your unified address, get ZEC within 24 hours.
+template: doc
+sidebar:
+  hidden: true
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+> *Tuition free, knowledge zero. And $5 in ZEC.*
+
+The Zcash Network School grant funds a **$5-in-ZEC airdrop** for
+attendees of our events and office hours. The point: you leave with a
+working shielded wallet *and* a small balance to actually try it with.
+
+## Eligibility
+
+- You attended a **ZNS educational event** *or* **ZNS office hours**.
+  (See the [schedule](/ns/#schedule).)
+- You have a Zcash wallet with a Unified Address. If you don't yet:
+  [follow /start, it takes 60 seconds](/start/).
+
+One claim per person per program. We aren't going to gatekeep this
+hard — but the grant is finite and we want it to reach as many
+genuine attendees as possible.
+
+## Submit your address
+
+<form
+	action="https://formspree.io/f/PLACEHOLDER"
+	method="POST"
+	style="display:flex; flex-direction:column; gap:1rem; max-width:560px; margin:1.5rem 0;"
+>
+	{/* TODO: replace formspree action URL with the real endpoint once Adam picks Formspree / Tally / Google Form / custom. */}
+	<label style="display:flex; flex-direction:column; gap:0.35rem;">
+		<span style="font-weight:600;">Your Unified Address (starts with <code>u1</code>)</span>
+		<input
+			type="text"
+			name="unified_address"
+			required
+			minLength={20}
+			pattern="u1[A-Za-z0-9]+"
+			placeholder="u1aa3kmwerpyu5p4tc3h3xqz..."
+			style="padding:0.6rem 0.8rem; border:1px solid var(--sl-color-gray-5); border-radius:6px; background:var(--sl-color-bg-nav); color:var(--sl-color-white); font-family:var(--sl-font-mono); font-size:0.9rem;"
+		/>
+		<small style="color:var(--sl-color-gray-3);">
+			In Zashi: tap <strong>Receive</strong>. The string starting with
+			<code>u1</code> is what we need.
+		</small>
+	</label>
+
+	<label style="display:flex; flex-direction:column; gap:0.35rem;">
+		<span style="font-weight:600;">Which event or office hours did you attend?</span>
+		<input
+			type="text"
+			name="event"
+			required
+			placeholder="e.g. Sat 16 May event · The Hall"
+			style="padding:0.6rem 0.8rem; border:1px solid var(--sl-color-gray-5); border-radius:6px; background:var(--sl-color-bg-nav); color:var(--sl-color-white);"
+		/>
+	</label>
+
+	<label style="display:flex; flex-direction:column; gap:0.35rem;">
+		<span style="font-weight:600;">Contact (optional, for follow-up)</span>
+		<input
+			type="text"
+			name="contact"
+			placeholder="Email, Signal, WhatsApp — whatever you check"
+			style="padding:0.6rem 0.8rem; border:1px solid var(--sl-color-gray-5); border-radius:6px; background:var(--sl-color-bg-nav); color:var(--sl-color-white);"
+		/>
+		<small style="color:var(--sl-color-gray-3);">
+			Only used if there's a problem with your claim. We don't add anyone to
+			any list.
+		</small>
+	</label>
+
+	<button
+		type="submit"
+		style="padding:0.75rem 1rem; background:var(--sl-color-accent); color:#1A1F2E; border:0; border-radius:6px; font-weight:700; cursor:pointer;"
+	>
+		Submit claim
+	</button>
+</form>
+
+<Aside type="note" title="Confirmation">
+After you submit: **ZEC sent within 24 hours.** Watch your wallet for
+the incoming shielded transaction. If 24 hours pass and you don't see
+it, email [adam@zcash.school](mailto:adam@zcash.school)
+{/* TODO: confirm contact email */} with the address you submitted.
+
+See you at the next event.
+</Aside>
+
+## FAQ
+
+### What's a shielded address?
+
+A shielded Zcash address hides the recipient and amount of a payment
+from anyone watching the chain. The Unified Address format (starting
+with `u1`) bundles multiple shielded receivers so the sender's wallet
+picks the most private one both sides support.
+
+If you want the full picture: [/protocol/addresses](/protocol/addresses/).
+
+### Where do I find my Unified Address?
+
+In **Zashi**: tap **Receive**. The string at the top, starting with
+`u1`, is your UA. Copy it.
+
+In **Ywallet** or **Nighthawk**: tap **Receive** and select the
+Unified Address option if multiple are shown.
+
+If you don't have a wallet yet: [/start](/start/) — 60 seconds.
+
+### How long does the airdrop take?
+
+We batch claims daily. **Most claims arrive within a few hours.** The
+24-hour window is the worst case (e.g. if you submit late at night
+local time). If you're at an event in person, we may send on the spot.
+
+### Is this taxable?
+
+Probably. We're not your accountant. In most jurisdictions, an airdrop
+counts as ordinary income at fair-market value on receipt. Keep a
+record. Five dollars isn't going to change your life either way, but
+the principle matters.
+
+### Can I claim more than once?
+
+One claim per person per ZNS program. Multiple submissions from the
+same address won't increase your payout — they'll just slow our review.
+
+<Aside type="tip" title="No wallet yet?">
+[Install Zashi and get a u1… address in 60 seconds.](/start/) Come back
+to this page after.
+</Aside>
