@@ -1,5 +1,5 @@
 /* ============================================================
-   zcash.school — brand system
+ zcash.school, brand system
 
    Identity:
    - Zcash official: yellow #F4B728 on black
@@ -7,9 +7,9 @@
 
    System:
    - Base is monochrome (near-black / white). Restraint first.
-   - Dark mode (default): yellow is the accent — Zcash identity,
+ - Dark mode (default): yellow is the accent, Zcash identity
      used for links + active nav. Pops on black.
-   - Light mode: red is the accent — our spin, accessible on white.
+ - Light mode: red is the accent, our spin, accessible on white.
    - Red is the *action* color in BOTH themes (primary CTAs,
      key call-to-action cards). Yellow/red never fight: yellow =
      "this is a link/Zcash", red = "do this".
@@ -19,7 +19,7 @@
 	--sl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 	--sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-	/* Brand constants — reference these, don't hardcode hexes elsewhere */
+	/* Brand constants, reference these, don't hardcode hexes elsewhere */
 	--zs-yellow: #F4B728;
 	--zs-yellow-soft: #ffe39a;
 	--zs-red: #E5322D;
@@ -151,7 +151,7 @@ h3 {
 	border-color: var(--zs-yellow);
 }
 
-/* A "do this" card — opt in by wrapping in .cta-grid */
+/* A "do this" card, opt in by wrapping in .cta-grid */
 .cta-grid .card:hover {
 	border-color: var(--zs-red);
 }
@@ -179,7 +179,7 @@ h3 {
 	text-align: center;
 }
 
-/* ---------- Site title (logo removed — wordmark only) ---------- */
+/* ---------- Site title (logo removed, wordmark only) ---------- */
 .site-title {
 	font-weight: 760;
 	letter-spacing: -0.02em;
@@ -238,4 +238,177 @@ h3 {
 	color: var(--sl-color-gray-3);
 	display: block;
 	margin-top: 0.15rem;
+}
+
+/* ============================================================
+   EDITORIAL LAYER — red/white zebra background, white content
+   panels floating on top like a print magazine spread.
+
+   To swap in the team's exact artwork: drop public/zebra-bg.jpg
+   and change the one url() in `body::before` below. Done.
+
+   Design intent: the pattern frames the page; everything you
+   read sits on a calm white card. Playful edge, editorial core.
+   ============================================================ */
+
+body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	background-color: #fbf3e4;
+	background-image: url('/zebra-bg.svg'); /* swap to /zebra-bg.jpg for real art */
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+/* Let the pattern show through Starlight's structural backgrounds */
+.page {
+	background: transparent !important;
+}
+
+/* Header: clean white bar so nav stays legible over the print */
+.page > header.header {
+	background: rgba(255, 255, 255, 0.96) !important;
+	backdrop-filter: saturate(140%) blur(6px);
+	border-bottom: 1px solid rgba(12, 13, 16, 0.1);
+}
+
+/* The reading surface: a white editorial card with air around it */
+.main-pane {
+	background: #ffffff;
+	color: #16181d;
+	margin: clamp(0.75rem, 2.5vw, 2.25rem);
+	border-radius: 16px;
+	box-shadow: 0 14px 40px rgba(12, 13, 16, 0.22), 0 2px 6px rgba(12, 13, 16, 0.12);
+	overflow: clip;
+}
+
+/* Left sidebar: its own white card, same family */
+.sidebar-pane {
+	background: rgba(255, 255, 255, 0.97);
+	margin: clamp(0.75rem, 2.5vw, 2.25rem) 0 clamp(0.75rem, 2.5vw, 2.25rem)
+		clamp(0.75rem, 2.5vw, 2.25rem);
+	border-radius: 16px;
+	box-shadow: 0 14px 40px rgba(12, 13, 16, 0.18);
+	height: max-content;
+}
+
+/* Force the editorial card to read as light regardless of theme —
+   the whole point is "text on premium white", not dark-on-zebra. */
+.main-pane,
+.sidebar-pane {
+	--sl-color-white: #0c0d10;
+	--sl-color-gray-1: #1d1f26;
+	--sl-color-gray-2: #3a3d47;
+	--sl-color-gray-3: #5f636e;
+	--sl-color-gray-4: #9aa0ac;
+	--sl-color-gray-5: #d4d7df;
+	--sl-color-gray-6: #eef0f4;
+	--sl-color-gray-7: #f7f8fa;
+	--sl-color-black: #ffffff;
+	--sl-color-bg: #ffffff;
+	--sl-color-bg-sidebar: transparent;
+	--sl-color-bg-nav: #ffffff;
+	--sl-color-bg-inline-code: #f1f2f5;
+	--sl-color-hairline: #e6e8ee;
+	color: #16181d;
+}
+
+/* Links + active nav inside the card: brand red (our spin, reads on white) */
+.main-pane a:not(.sl-link-button),
+.sidebar-pane a[aria-current='page'] {
+	color: var(--zs-red);
+}
+.sidebar-pane a[aria-current='page'] {
+	font-weight: 700;
+}
+
+/* Headings: confident near-black; first heading gets no top rule */
+.main-pane :is(h1, h2, h3) {
+	color: #0c0d10;
+}
+.sl-markdown-content > :first-child {
+	border-top: 0;
+	margin-top: 0;
+	padding-top: 0;
+}
+
+/* A thin brand keyline on the card's top edge — yellow then red */
+.main-pane {
+	border-top: 3px solid var(--zs-yellow);
+}
+.main-pane::after {
+	content: '';
+	position: absolute;
+}
+
+/* Splash / landing hero sits on the same white card; keep it punchy */
+.hero h1 {
+	color: #0c0d10;
+}
+.hero .tagline {
+	color: #3a3d47;
+}
+
+/* Search + mobile menu overlays must stay solid (they sit over zebra) */
+.sl-color-bg,
+dialog,
+.right-sidebar-panel {
+	background-color: #ffffff;
+}
+
+/* Right-hand "On this page" TOC: float it like a margin note */
+.right-sidebar {
+	background: transparent;
+}
+@media (min-width: 72rem) {
+	.right-sidebar-panel {
+		background: rgba(255, 255, 255, 0.94);
+		border-radius: 12px;
+		margin: 1rem;
+		padding: 0.5rem 0.75rem;
+		box-shadow: 0 8px 24px rgba(12, 13, 16, 0.14);
+	}
+}
+
+/* Mobile: tighten the card margins so content isn't cramped */
+@media (max-width: 50rem) {
+	.main-pane {
+		margin: 0.5rem;
+		border-radius: 12px;
+	}
+}
+
+/* The site-title identity dots already use yellow+red; on the white
+   header bar, nudge contrast so the wordmark stays crisp */
+.page > header.header .site-title {
+	color: #0c0d10;
+}
+
+/* Top navbar (custom Header override) */
+.zs-topnav {
+	display: none;
+}
+@media (min-width: 50rem) {
+	.zs-topnav {
+		display: flex;
+		gap: 1.5rem;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.9rem;
+		font-weight: 600;
+	}
+	.zs-topnav a {
+		color: #3a3d47;
+		text-decoration: none;
+		padding: 0.25rem 0;
+		border-bottom: 2px solid transparent;
+		transition: color 120ms ease, border-color 120ms ease;
+	}
+	.zs-topnav a:hover {
+		color: var(--zs-red);
+		border-bottom-color: var(--zs-red);
+	}
 }

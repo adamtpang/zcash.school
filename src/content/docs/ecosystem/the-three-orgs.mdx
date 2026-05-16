@@ -1,6 +1,6 @@
 ---
 title: The Orgs
-description: Electric Coin Company, the Zcash Foundation, Zcash Community Grants — and the Q1 2026 restructure into five independent organizations.
+description: Electric Coin Company, the Zcash Foundation, Zcash Community Grants, and the Q1 2026 restructure into five independent organizations.
 sidebar:
   order: 1
 ---
@@ -13,15 +13,15 @@ import { Aside } from '@astrojs/starlight/components';
 
 Zcash is unusual among major cryptocurrencies in having a deliberate,
 multi-party governance structure with multiple independent organizations
-sharing responsibility. This isn't accidental — it was set up to
+sharing responsibility. This isn't accidental, it was set up to
 balance research, stewardship, and ecosystem funding without any single
 party holding unilateral control.
 
-<Aside type="note" title="Q1 2026 — five independent orgs">
+<Aside type="note" title="Q1 2026: five independent orgs">
 In **Q1 2026**, Zcash's organizational structure expanded from the
 historical three (ECC + ZF + ZCG) into **five independent organizations**,
 each with a sharper focus area. The lesson below describes the
-three foundational orgs in detail — they remain central — and then
+three foundational orgs in detail, they remain central, and then
 covers what the broader structure looks like as of mid-2026.
 
 The exact list and roles of newer entities are evolving. For the
@@ -41,10 +41,13 @@ What ECC does today:
 
 - Maintains [zcashd](https://github.com/zcash/zcash) (the original full
   node), and now contributes to **zebrad** (the Rust-based full node).
-- Builds the **Zashi** wallet (mobile, shielded-by-default, the modern
-  recommendation).
-- Drives major protocol research — the Halo line, Pasta curves, Orchard
-  pool design — and most of the cryptography innovations Zcash has
+- Historically built the **Zashi** wallet. In **Q1 2026** the wallet
+  team left ECC to form **ZODL** (Zcash Open Development Lab) and the
+  app was renamed **"Zodl: Zcash Wallet"** (see the restructure note
+  above, and [Wallets](/using/wallets/)). ECC no longer ships the
+  flagship wallet.
+- Drives major protocol research, the Halo line, Pasta curves, Orchard
+  pool design, and most of the cryptography innovations Zcash has
   shipped.
 - Stewards the trademark and brand.
 
@@ -79,7 +82,7 @@ philanthropic contributions.
 
 [Zcash Community Grants](https://zcashcommunitygrants.org/) is a
 community-elected committee that allocates a portion of the Dev Fund
-to ecosystem projects — wallets, infrastructure, research, education,
+to ecosystem projects, wallets, infrastructure, research, education
 and outreach.
 
 ZCG was created to address a gap: ECC and ZF do core development, but a
@@ -94,7 +97,7 @@ broadly participatory of the three orgs.
 ## The Dev Fund
 
 The Zcash protocol mints a fixed amount of new ZEC per block as a
-mining reward. Of that, a defined percentage — currently **20%** — is
+mining reward. Of that, a defined percentage, currently **20%**: is
 allocated to development funding, split among ECC, ZF, and ZCG.
 
 This is the **Dev Fund** (originally introduced in
@@ -107,7 +110,7 @@ invalid. There's no off-chain donation step.
 The split has changed over time and is renegotiated through ZIPs at
 each Dev Fund renewal cycle. The high-level shape:
 
-- A portion to ECC (protocol R&D and Zashi).
+- A portion to ECC (protocol R&D; the wallet team spun out as ZODL in Q1 2026).
 - A portion to ZF (zebrad, ZIPs, ecosystem stewardship).
 - A portion to ZCG (community grants).
 - A portion that goes back to miners (subject to the period and the
@@ -133,7 +136,7 @@ What this means in practice:
 
 - **More throughput** on parallel workstreams (wallets, research,
   infra, education) without intra-org bottlenecks.
-- **More decisions to follow** — instead of "what's ECC up to," you
+- **More decisions to follow**: instead of "what's ECC up to," you
   may want to check several orgs' updates each cycle.
 - **The Dev Fund split** is renegotiated through ZIPs to reflect the
   new structure. Specifics evolve.
@@ -144,10 +147,10 @@ canon. Treat the **list of currently active development orgs** as
 something you confirm from primary sources (forum announcements,
 zfnd.org, official ZIPs) rather than from a static education site.
 
-The structural point — *pluralism is the design, not the bug* —
+The structural point, *pluralism is the design, not the bug*
 remains the same.
 
-## Why pluralism, not consolidation
+## Why pluralism: not consolidation
 
 The pragmatic case for a three-org structure:
 
@@ -189,24 +192,25 @@ purpose.
 
 If you're using Zcash:
 
-- **You can run your own node** — either implementation. That's a
+- **You can run your own node**: either implementation. That's a
   meaningful right, exercised by real people.
 - **You can read every protocol change** as a ZIP before it ships.
 - **You can apply for funding** from ZCG if you want to build something.
-- **No one can credibly turn the privacy property off**, because no
+- **No one can credibly turn the privacy property off**: because no
   single org has the authority. Coordinated capture across ECC, ZF, ZCG,
   miners, and the user community is the bar. That bar is high.
 
 The next lesson goes deeper into the ZIP process and major upgrades.
 
 <Aside type="tip" title="Key takeaways">
-- **Foundational three orgs**: Electric Coin Company (R&D, Zashi),
+- **Foundational three orgs**: Electric Coin Company (protocol R&D),
   Zcash Foundation (zebrad, ZIPs, ecosystem), Zcash Community Grants
-  (long-tail funding).
+  (long-tail funding). The flagship wallet team spun out of ECC as
+  **ZODL** in Q1 2026 (Zashi → "Zodl").
 - **In Q1 2026 the structure expanded to five independent
   organizations**, sharpening focus across research, wallets, infra,
   education, and stewardship.
-- **The Dev Fund** is consensus-enforced — currently ~20% of the block
+- **The Dev Fund** is consensus-enforced, currently ~20% of the block
   reward, split among recipient orgs and renegotiated by ZIP at each
   renewal cycle.
 - **Two independent full-node implementations** (zcashd and zebrad)

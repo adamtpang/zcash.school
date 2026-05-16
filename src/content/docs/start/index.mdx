@@ -11,10 +11,10 @@ import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
 > *Speak friend and enter.*
 
 You're 60 seconds away from a private Zcash wallet. We'll use **Zashi**
-because it's the cleanest path — shielded by default, no settings to
+because it's the cleanest path, shielded by default, no settings to
 fiddle with, built by the team that built Zcash.
 
-## Step 1 — Install Zashi (now called Zodl)
+## Step 1: Install Zashi (now called Zodl)
 
 <Aside type="note" title="Heads up: the app was renamed in Jan 2026">
 The wallet historically called **Zashi** is now called **Zodl: Zcash
@@ -22,7 +22,7 @@ Wallet** in the stores. The team that built it (originally at Electric
 Coin Company) left ECC and formed
 **[Zcash Open Development Lab (ZODL)](https://electriccoin.co/blog/meet-zashi-eccs-new-mobile-wallet-for-zcash/)**
 in January 2026. Same wallet, same shielded-by-default behavior, new
-brand. Most of this site still says "Zashi" — that's the same app you
+brand. Most of this site still says "Zashi", that's the same app you
 install below.
 </Aside>
 
@@ -44,7 +44,7 @@ Pick your phone:
 If you'd rather not use Zodl/Zashi, scroll to [alternate wallets](#alternate-wallets)
 below. The rest of these steps look similar in every modern Zcash wallet.
 
-## Step 2 — Create a new wallet
+## Step 2: Create a new wallet
 
 Open Zashi. Tap **Create new wallet**.
 
@@ -62,22 +62,22 @@ no recovery email. The seed is the wallet. If you skip the backup step
 to save 30 seconds, you're going to lose money. Don't.
 </Aside>
 
-## Step 3 — Find your Unified Address
+## Step 3: Find your Unified Address
 
 In Zashi, tap **Receive**. You'll see a long string of letters and
-numbers that starts with **`u1...`** — that's your **Unified Address
+numbers that starts with **`u1...`**: that's your **Unified Address
 (UA)**.
 
 A UA is the modern Zcash address format. It bundles multiple receivers
 (Orchard, Sapling, transparent) into one string, and the sender's wallet
 picks the most private one both sides support. If you want to know more,
-read [Addresses](/protocol/addresses/) — but for now, just copy it.
+read [Addresses](/protocol/addresses/), but for now, just copy it.
 
 The first three characters are always **`u1`**. If yours doesn't start
 with `u1`, you're probably looking at a transparent address. Tap around
 until you find the unified one.
 
-## Step 4 — Claim your $5 at the next ZNS event
+## Step 4: Claim your $5 at the next ZNS event
 
 Bring two things:
 
@@ -85,7 +85,7 @@ Bring two things:
 2. Yourself, to an event or office hours.
 
 We'll send $5 worth of ZEC to your address on the spot. It should
-arrive shielded — no amount, sender, or recipient visible on-chain. The
+arrive shielded, no amount, sender, or recipient visible on-chain. The
 whole thing takes about a minute.
 
 <LinkCard
@@ -103,19 +103,19 @@ you want different trade-offs:
 
 <CardGrid>
 	<LinkCard
-		title="Ywallet — power user"
+		title="Ywallet: power user"
 		description="Multi-pool, multi-account, hardware-wallet integration on some platforms. iOS / Android / Desktop."
 		href="https://ywallet.app/"
 	/>
 	<LinkCard
-		title="Nighthawk — shielded-first"
+		title="Nighthawk: shielded-first"
 		description="Community-built, mobile, same shielded-by-default ethos as Zashi with a different UI."
 		href="https://nighthawkwallet.com/"
 	/>
 </CardGrid>
 
 If you're on desktop and want a long-standing option, see
-[Zecwallet Lite](https://www.zecwallet.co/) — note it's Sapling-only,
+[Zecwallet Lite](https://www.zecwallet.co/), note it's Sapling-only
 no Orchard support.
 
 Read the full wallet comparison at [/using/wallets](/using/wallets/).

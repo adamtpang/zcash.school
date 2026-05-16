@@ -15,8 +15,8 @@ is the default, but selective disclosure is a first-class feature.** You
 can prove specific things to specific people without exposing everything
 to everyone.
 
-This lesson covers the three primary disclosure mechanisms — viewing
-keys, payment disclosure, and memos — and the situations each is for.
+This lesson covers the three primary disclosure mechanisms, viewing
+keys, payment disclosure, and memos, and the situations each is for.
 
 ## Why selective disclosure matters
 
@@ -35,8 +35,8 @@ activity:
   exchanges may want proof a deposit came from a specific source.
 - **Forensic investigations** with the cooperating party's consent.
 
-In all of these, the user wants to expose *one slice* — typically
-incoming activity, or a single transaction, to a single party — while
+In all of these, the user wants to expose *one slice*, typically
+incoming activity, or a single transaction, to a single party, while
 keeping the rest private. Zcash gives you primitives for exactly that.
 
 ## Viewing keys
@@ -44,11 +44,11 @@ keeping the rest private. Zcash gives you primitives for exactly that.
 Every shielded Zcash account has a hierarchy of keys. The relevant ones
 for disclosure:
 
-- **Spending key** — full authority. Can spend, view, and reveal
+- **Spending key**: full authority. Can spend, view, and reveal
   anything. Never share.
-- **Full viewing key (FVK)** — can decrypt every incoming and outgoing
+- **Full viewing key (FVK)**: can decrypt every incoming and outgoing
   shielded payment for the account, including memos. Cannot spend.
-- **Incoming viewing key (IVK)** — can decrypt every *incoming*
+- **Incoming viewing key (IVK)**: can decrypt every *incoming*
   payment, including memos and amounts. Cannot see outgoing payments.
   Cannot spend.
 
@@ -109,7 +109,7 @@ wallets are gaining feature parity over time.
 
 ## Memos
 
-Every shielded output in Zcash carries an **encrypted memo field** — up
+Every shielded output in Zcash carries an **encrypted memo field**: up
 to ~512 bytes per output. Memos are decrypted by the recipient using
 their incoming viewing key. The sender can also see memos they sent via
 their outgoing viewing key.
@@ -138,7 +138,7 @@ Important constraints to keep in mind:
   it. (For incoming-side audits this is fine; you control the keys to
   your own incoming-side data.)
 - **A viewing key, once shared, can't be revoked.** Treat sharing one
-  like sharing a password — the holder retains visibility forever, or
+ like sharing a password, the holder retains visibility forever, or
   until you migrate to a new account.
 - **Disclosure doesn't expose other people's data.** A viewing key for
   your wallet shows only your incoming/outgoing transactions, not
@@ -172,11 +172,11 @@ You now know:
 - How to receive, send, and verify them ([previous lesson](/using/your-first-shielded-tx/)).
 - How to *un*-privatize specific slices when you need to, on your terms.
 
-The remaining module — Ecosystem — zooms out from the protocol to the
+The remaining module, Ecosystem, zooms out from the protocol to the
 governance, economics, and orgs that keep the project shipping.
 
 <Aside type="tip" title="Key takeaways">
-- **Privacy in Zcash is selective by design**, not all-or-nothing.
+- **Privacy in Zcash is selective by design**: not all-or-nothing.
 - **Incoming viewing key (IVK)** = audit incoming activity, see memos,
   no spend power. **Full viewing key (FVK)** adds outgoing visibility.
 - **Payment disclosure** proves one specific transaction's contents

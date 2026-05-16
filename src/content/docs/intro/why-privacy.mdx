@@ -1,6 +1,6 @@
 ---
 title: Why Privacy Matters
-description: Financial privacy is the historical baseline. A fully-public ledger isn't normal — and the chilling effects of one are easy to underestimate.
+description: Financial privacy is the historical baseline. A fully-public ledger isn't normal, and the chilling effects of one are easy to underestimate.
 sidebar:
   order: 1
 ---
@@ -13,7 +13,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 For most of human history, money was private by default. You handed someone a
 coin and the transaction left no public record. Cash, in this sense, is the
-single best privacy technology we ever invented for value transfer — and
+single best privacy technology we ever invented for value transfer, and
 Bitcoin, despite its many virtues, accidentally rolled that property back.
 
 This chapter is about why getting privacy back is worth the engineering effort
@@ -29,7 +29,7 @@ the person standing behind you in line.
 
 That privacy wasn't a special feature. It was just how money worked.
 
-Digital payments — cards, transfers, apps — gave that up in exchange for
+Digital payments, cards, transfers, apps, gave that up in exchange for
 convenience, but the trade was bounded: each intermediary saw only its slice
 of your activity. Your bank knew your bank stuff. Visa knew your card stuff.
 The waiter saw the tip, not the rent.
@@ -39,7 +39,7 @@ A fully-public blockchain dissolves those boundaries.
 ## What a transparent ledger actually exposes
 
 On a transparent chain like Bitcoin's, anyone with an internet connection can
-see every transaction that ever happened — amounts, timestamps, and the
+see every transaction that ever happened, amounts, timestamps, and the
 addresses involved. "Pseudonymous" sounds reassuring, but as we'll cover in
 the [next lesson](/intro/bitcoin-transparency-problem/), in practice
 pseudonyms collapse into identities the moment you cash out, post a donation
@@ -72,7 +72,7 @@ The Cypherpunk movement of the early 1990s anticipated all of this. In 1988,
 Timothy May wrote [The Crypto Anarchist Manifesto](https://www.activism.net/cypherpunk/crypto-anarchy.html):
 "A specter is haunting the modern world, the specter of crypto anarchy."
 In 1992, May, Eric Hughes, and John Gilmore started the Cypherpunk mailing
-list — a group whose explicit project was to *use cryptography to give
+list, a group whose explicit project was to *use cryptography to give
 ordinary people the privacy properties governments and corporations took for
 granted.*
 
@@ -84,11 +84,11 @@ with a line that still defines the project:
 > Privacy is not secrecy. A private matter is something one doesn't want the
 > whole world to know, but a secret matter is something one doesn't want
 > anybody to know. Privacy is the power to selectively reveal oneself to the
-> world." — Eric Hughes, 1993
+> world.", Eric Hughes, 1993
 
 Note the framing: privacy isn't the same as secrecy, and it isn't a thing you
 need to *justify*. It's the default condition of being an autonomous person.
-The interesting question isn't "should I get to be private?" — it's "what
+The interesting question isn't "should I get to be private?", it's "what
 technology preserves that property when transactions move online?"
 
 ## The lineage from PGP to Zcash
@@ -96,28 +96,28 @@ technology preserves that property when transactions move online?"
 Every digital-cash project worth knowing about descends from the same
 conversation:
 
-- **1991 — PGP.** Phil Zimmermann ships practical public-key encryption to
+- **1991, PGP.** Phil Zimmermann ships practical public-key encryption to
   the public. Federal investigation follows. Tells you who feels threatened
   by privacy.
-- **1983 / 1989 — David Chaum's ecash.** Cryptographic anonymous digital
+- **1983 / 1989, David Chaum's ecash.** Cryptographic anonymous digital
   cash, decades before Bitcoin. Blind signatures, unlinkable payments. Too
   early commercially, technically correct.
-- **1997 — Hashcash.** Adam Back proposes a proof-of-work scheme. Will
+- **1997, Hashcash.** Adam Back proposes a proof-of-work scheme. Will
   later become the heart of Bitcoin mining.
-- **1998 — b-money / bit gold.** Wei Dai and Nick Szabo independently
+- **1998, b-money / bit gold.** Wei Dai and Nick Szabo independently
   sketch decentralized digital currency. Public ledgers, but not yet a
   working system.
-- **1999 — Confinity / PayPal launches.** Peter Thiel's launch speech
+- **1999, Confinity / PayPal launches.** Peter Thiel's launch speech
   frames PayPal as cypherpunk-coded: "We are creating a new world currency,
   free from government control and dilution." That mission got compromised
   on contact with the regulator, but the intent is part of the lineage.
-- **2008 — Bitcoin.** Satoshi combines proof-of-work, public ledger, and
+- **2008, Bitcoin.** Satoshi combines proof-of-work, public ledger, and
   digital signatures into the first working decentralized money.
   Accidentally optimizes for *traceability*.
-- **2014 — Zerocash paper.** Ben-Sasson, Chiesa, Garman, Green, Miers,
+- **2014, Zerocash paper.** Ben-Sasson, Chiesa, Garman, Green, Miers
   Tromer, Virza show how to combine zk-SNARKs with a Bitcoin-style chain
   to get default-private digital cash.
-- **2016 — Zcash mainnet.** The first production deployment.
+- **2016, Zcash mainnet.** The first production deployment.
 
 If you only remember one thing about this lineage: **privacy in money is
 not a 2016 invention. It's a 35-year project, and Zcash is its working
@@ -128,8 +128,8 @@ production system.**
 A common reflex when this topic comes up is "but what about crime?" Worth
 addressing directly:
 
-- The vast majority of financial crime — money laundering, tax evasion,
-  sanctions evasion — happens through banks, shell companies, real estate, and
+- The vast majority of financial crime, money laundering, tax evasion
+ sanctions evasion, happens through banks, shell companies, real estate, and
   cash. The
   [UN estimates](https://www.unodc.org/unodc/en/money-laundering/overview.html)
   illicit funds at 2–5% of global GDP, almost all in the traditional system.
@@ -157,7 +157,7 @@ auditability of a blockchain. That's a hard cryptographic problem. Zcash is
 one of the most thoroughly studied attempts to solve it.
 
 The [next lesson](/intro/bitcoin-transparency-problem/) walks through how
-Bitcoin's pseudonymity actually breaks in practice — useful background before
+Bitcoin's pseudonymity actually breaks in practice, useful background before
 we get to what Zcash does differently.
 
 <Aside type="tip" title="Key takeaways">

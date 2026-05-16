@@ -35,7 +35,7 @@ A zk-SNARK is a **Z**ero-**K**nowledge **S**uccinct **N**on-interactive
   holds against computationally bounded adversaries (a polynomial-time
   attacker can't forge a proof, but an attacker with infinite compute could
   in principle). "Of Knowledge" means the prover doesn't just convince the
-  verifier the statement is true — the prover demonstrates they actually
+ verifier the statement is true, the prover demonstrates they actually
   *know* a witness (e.g. the spending key, the note, the secret).
 
 Each property is non-trivial to achieve. Modern zk-SNARKs achieve all four
@@ -50,7 +50,7 @@ succinct or non-interactive:
   multi-megabyte proof per shielded transaction. The chain would grind to
   a halt.
 - **Not non-interactive?** Verifiers would need to challenge the prover
-  live. There's no "live" on a public blockchain — verification happens
+ live. There's no "live" on a public blockchain, verification happens
   weeks or years after the transaction was made.
 
 So zk-SNARK is the minimum useful shape of the primitive for shielded
@@ -59,7 +59,7 @@ Plonkish proofs) hit the same shape with different trade-offs.
 
 ## The pipeline: program → proof
 
-You start with a *statement* you want to prove — for example, "I know x
+You start with a *statement* you want to prove, for example, "I know x
 such that SHA256(x) starts with twenty zero bits." Turning that into a
 zk-SNARK proof goes through roughly four stages.
 
@@ -69,9 +69,9 @@ The prover and verifier first agree on a circuit: a directed graph of
 addition and multiplication gates over a finite field. Inputs are split
 into:
 
-- **Public inputs** — what the verifier sees (e.g. the transaction's
+- **Public inputs**: what the verifier sees (e.g. the transaction's
   nullifier).
-- **Private inputs / witness** — what only the prover knows (e.g. the
+- **Private inputs / witness**: what only the prover knows (e.g. the
   spending key).
 
 The circuit's output is `0` if and only if all the statement's constraints
@@ -85,7 +85,7 @@ A **Rank-1 Constraint System (R1CS)** is a list of equations of the form
 intermediate wire values. Each gate becomes one R1CS equation.
 
 R1CS is the "assembly language" of older SNARK constructions. It's just an
-intermediate representation — concrete, mechanical, and easy to verify
+intermediate representation, concrete, mechanical, and easy to verify
 piecewise.
 
 ### 3. Convert R1CS to QAP
@@ -103,7 +103,7 @@ polynomial check stands in for a whole circuit.
 The prover commits to the relevant polynomials in a way that hides their
 coefficients but lets the verifier evaluate them at a secret challenge
 point. In Groth16 (Zcash's Sapling proof system), this is done with
-**bilinear pairings on elliptic curves** — a deep area of cryptography
+**bilinear pairings on elliptic curves**: a deep area of cryptography
 that lets the verifier check polynomial relations from short group
 elements.
 
@@ -132,19 +132,19 @@ the proof, accepts the nullifier set update, and the transaction is final.
 
 Zcash has lived through three generations of zk-SNARK construction:
 
-- **Sprout (2016)** — used the **BCTV14** SNARK. Proofs were ~300 bytes
+- **Sprout (2016)**: used the **BCTV14** SNARK. Proofs were ~300 bytes
   but proving was slow and required a one-time **trusted setup ceremony**
   to generate parameters.
-- **Sapling (2018)** — switched to **Groth16**, a streamlined SNARK with
+- **Sapling (2018)**: switched to **Groth16**: a streamlined SNARK with
   tiny ~192-byte proofs and dramatically faster proving (seconds on a
-  laptop, not minutes). Required a second trusted setup ceremony — the
+ laptop, not minutes). Required a second trusted setup ceremony, the
   [Powers of Tau](https://zfnd.org/powers-of-tau/).
-- **Orchard (2022)** — uses **Halo 2**, a SNARK construction that
+- **Orchard (2022)**: uses **Halo 2**: a SNARK construction that
   *eliminates trusted setup entirely* via a recursive proof composition
   technique called *amortization without pairings*. Slightly larger proofs
   (~1.5 KB) than Groth16 but no toxic-waste concern.
 
-The next lesson focuses on that Halo 2 transition — it's one of the most
+The next lesson focuses on that Halo 2 transition, it's one of the most
 significant practical-cryptography milestones in the field.
 
 ## Where to go deeper

@@ -11,7 +11,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 > *Field trip to the shielded pool 🛡️*
 
-Zcash organizes value into a small number of **pools** — separate
+Zcash organizes value into a small number of **pools**: separate
 shielded sets, plus the transparent UTXO set. Understanding pools is
 mostly about understanding the *transitions* between them, because that's
 where most observable information leaks live.
@@ -23,7 +23,7 @@ a cryptographic protocol. Each shielded pool has its own:
 
 - Note format and commitment scheme
 - Note Merkle tree of all commitments ever created in that pool
-- Nullifier set (used to mark notes as spent — covered in
+- Nullifier set (used to mark notes as spent, covered in
   [the next lesson](/protocol/notes-and-nullifiers/))
 - Proof system for spends
 
@@ -34,7 +34,7 @@ Live pools as of NU5 and beyond:
 | Transparent | 2016         | Active                                                                  |
 | Sprout      | 2016         | Deprecated. Migration to Sapling/Orchard required ([ZIP-2003](https://zips.z.cash/zip-2003)). |
 | Sapling     | 2018         | Active                                                                  |
-| Orchard     | 2022         | Active. **Preferred** — no trusted setup, modern proofs.               |
+| Orchard | 2022 | Active. **Preferred**: no trusted setup, modern proofs. |
 
 ## What "shielding" and "deshielding" mean
 
@@ -66,9 +66,9 @@ on-chain.** A `t → z` shield publishes the amount being shielded.
 A `z → t` deshield publishes the amount being deshielded.
 
 If you shield 7.831 ZEC and then later deshield 7.831 ZEC to a different
-address, you've handed an observer a strong correlation hint — even though
+address, you've handed an observer a strong correlation hint, even though
 the shielded portion in between was opaque. Where strong privacy matters,
-**stay shielded the whole way**, ideally by having both you and the
+**stay shielded the whole way**: ideally by having both you and the
 counterparty use shielded receiving addresses.
 </Aside>
 
@@ -110,7 +110,7 @@ The original 2016 Sprout pool is being deprecated under
 [ZIP-2003](https://zips.z.cash/zip-2003). If you have legacy Sprout
 funds (from very early Zcash usage), you'll need to migrate them to
 Sapling or Orchard before deprecation completes. Most users don't have
-any — Sprout volume has been small for years.
+any, Sprout volume has been small for years.
 
 ## Practical guidance
 
@@ -121,10 +121,10 @@ A short rule of thumb:
 - **Treat any t-leg in a transaction as fully public** for that leg's
   amount and the side carrying the t-address.
 - **If you must shield from t,** shield in *standardized round amounts*
-  if anonymity matters — moving precisely 7.831 ZEC across the
+ if anonymity matters, moving precisely 7.831 ZEC across the
   shield/deshield boundary is a glaring hint. Most users don't have to
   worry about this; if you do, you probably already know.
-- **Don't deshield-then-reshield** for "extra" privacy — you've added a
+- **Don't deshield-then-reshield** for "extra" privacy, you've added a
   visible round trip and learned nothing. Stay in the shielded pool.
 
 ## What a Zcash node actually stores
@@ -157,7 +157,7 @@ The next lesson goes deeper into the note/nullifier model.
   expose the amount in the transparent leg.
 - **Fully shielded (z → z) is the gold standard.** No amount, sender,
   recipient, or memo visible.
-- **Sapling → Orchard migration** is normal and shielded — strengthens
+- **Sapling → Orchard migration** is normal and shielded, strengthens
   trust model and anonymity set.
 - **Sprout is being deprecated** under ZIP-2003. Migrate any legacy
   Sprout funds.

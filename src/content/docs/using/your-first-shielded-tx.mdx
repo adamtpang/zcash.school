@@ -28,7 +28,7 @@ A first shielded send breaks naturally into four stages:
 3. **Send shielded → shielded.** Make the actual private payment.
 4. **Verify.** Confirm both sides reflect the transfer correctly.
 
-## Stage 1 — getting ZEC
+## Stage 1: getting ZEC
 
 You have three realistic paths:
 
@@ -38,7 +38,7 @@ You have three realistic paths:
   after receipt.
 - **Receive from a friend or counterparty** who already has ZEC.
   Generate a Unified Address and have them send to it. They pick the
-  most private compatible pool — if they're on a modern wallet, you'll
+ most private compatible pool, if they're on a modern wallet, you'll
   receive directly into Orchard, no manual shielding required.
 - **Earn it.** Mining, freelance payments in ZEC, or grant payments from
   an org that pays in ZEC.
@@ -47,7 +47,7 @@ For a first-timer, "receive from a friend" is by far the smoothest.
 "Buy and shield" is the most common. The instructions below focus on the
 buy-and-shield case because it's the one that involves the most steps.
 
-## Stage 2 — moving into a shielded pool
+## Stage 2: moving into a shielded pool
 
 If your wallet supports auto-shielding (Zashi, Ywallet, Nighthawk all
 do), there's effectively no manual stage 2. You receive into a UA, and
@@ -59,7 +59,7 @@ incoming transparent funds. Confirm the prompt. The wallet builds a
 `t → Orchard` shielding transaction.
 
 <Aside type="caution" title="Shielding leaks the amount">
-The shielding transaction has a *transparent leg* — the input. The
+The shielding transaction has a *transparent leg*, the input. The
 amount being shielded is visible on-chain. If anonymity around the
 *size* of your holdings matters, prefer to receive shielded directly
 (from a friend, from a service that supports shielded sends, or from
@@ -70,7 +70,7 @@ After confirmation, give it a couple of blocks for finality. Zcash
 blocks are ~75 seconds, so a 6-block confidence wait is roughly 7-8
 minutes.
 
-## Stage 3 — sending shielded → shielded
+## Stage 3: sending shielded → shielded
 
 In the wallet:
 
@@ -80,9 +80,9 @@ In the wallet:
 3. Enter the amount.
 4. (Optional) write a memo. Memos in shielded sends are encrypted on-
    chain and visible only to the recipient. Up to ~512 bytes per output.
-   This is one of Zcash's underrated features — encrypted invoice
+ This is one of Zcash's underrated features, encrypted invoice
    metadata, donation messages, or simple notes between humans.
-5. Confirm the fee. Fees are tiny — typically a few thousand zatoshis
+5. Confirm the fee. Fees are tiny, typically a few thousand zatoshis
    (1 ZEC = 100,000,000 zatoshis), well under a cent at typical ZEC
    prices. ([ZIP-317](https://zips.z.cash/zip-0317) introduced the
    modern fee model.)
@@ -92,20 +92,20 @@ Behind the scenes, your wallet:
 
 - Picks one or more notes whose total value covers the send + fee.
 - Constructs a SNARK proof for the spend (this can take a few seconds
-  on a modern phone — that's the proving step).
+ on a modern phone, that's the proving step).
 - Constructs new commitments for the recipient and your change.
 - Broadcasts the transaction.
 
 You'll see "Pending" in the UI, and within a block or two it'll move to
 "Confirmed."
 
-## Stage 4 — verifying
+## Stage 4: verifying
 
 What to check on each side:
 
 - **Sender's wallet:** balance went down by `amount + fee`. Outgoing
   transaction shows up in history. If the sender wrote a memo, it shows
-  the memo (memos are visible to the sender too — derived from the
+ the memo (memos are visible to the sender too, derived from the
   outgoing viewing key).
 - **Recipient's wallet:** balance went up by `amount`. Incoming
   transaction shows up. If a memo was sent, it's readable.
@@ -149,7 +149,7 @@ For typical 2026-era usage:
 
 | Aspect           | Typical value                                            |
 | ---------------- | -------------------------------------------------------- |
-| Fee              | ~5,000 zatoshis (0.00005 ZEC) — well under a cent        |
+| Fee | ~5,000 zatoshis (0.00005 ZEC), well under a cent |
 | Block time       | ~75 seconds                                              |
 | Proving time     | A few seconds on a modern phone                          |
 | Finality wait    | 6 blocks (~7–8 minutes) is conservative; 1–2 is common   |
@@ -164,7 +164,7 @@ where they can.
 Once you've made a shielded send, you've used most of what Zcash offers.
 Where to go next:
 
-- **Memos for messaging.** Send small messages with payments — receipts,
+- **Memos for messaging.** Send small messages with payments, receipts
   notes, donation acknowledgements.
 - **Selective disclosure.** Share a viewing key with an accountant or
   auditor. Covered in the [next lesson](/using/selective-disclosure/).
@@ -181,7 +181,7 @@ Where to go next:
   this if anonymity-set size matters.
 - **Memos** are encrypted, ~512 bytes per shielded output, and one of
   the best practical features of Zcash.
-- **Fees are sub-cent**, block time is ~75s, finality is minutes.
+- **Fees are sub-cent**: block time is ~75s, finality is minutes.
 - After the first send, expand into memos, selective disclosure, and a
-  recovery test — your wallet workflow is now real.
+ recovery test, your wallet workflow is now real.
 </Aside>

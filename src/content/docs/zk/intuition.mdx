@@ -1,6 +1,6 @@
 ---
 title: Intuition for Zero-Knowledge Proofs
-description: Build the mental model first. Two classic analogies — Ali Baba's cave and the colorblind friend — turn an exotic-sounding cryptographic primitive into something you can reason about on a whiteboard.
+description: Build the mental model first. Two classic analogies, Ali Baba's cave and the colorblind friend, turn an exotic-sounding cryptographic primitive into something you can reason about on a whiteboard.
 sidebar:
   order: 1
 ---
@@ -34,7 +34,7 @@ three properties baked in:
 
 Hold on to those three. They will come back when we look at zk-SNARKs.
 
-## Analogy 1 — Ali Baba's cave
+## Analogy 1: Ali Baba's cave
 
 The classical introduction, due to
 [Quisquater et al. (1989)](https://link.springer.com/chapter/10.1007/0-387-34805-0_60).
@@ -44,7 +44,7 @@ two passages, **A** and **B**, that meet again at a back wall. The wall
 between them has a magic door that only opens with a secret password.
 
 Peggy (the prover) claims she knows the password. Victor (the verifier)
-wants to be convinced — without learning the password and without trusting
+wants to be convinced, without learning the password and without trusting
 Peggy on her word.
 
 The protocol:
@@ -53,27 +53,27 @@ The protocol:
 2. Peggy enters and walks down passage A or passage B (her choice). Victor
    doesn't see which.
 3. Victor walks to the fork and shouts a request: "Come out side A!" or
-   "Come out side B!" — chosen by a coin flip he just made.
+ "Come out side B!", chosen by a coin flip he just made.
 4. Peggy emerges from the requested side.
 
 If Peggy doesn't actually know the password, she can only obey if she
-happened to enter the side Victor asked for — a 50% chance. If she does
+happened to enter the side Victor asked for, a 50% chance. If she does
 know the password, she always wins, because she can open the door and walk
 through to whichever side Victor names.
 
-One round proves nothing — Peggy could be lucky. Twenty rounds reduce the
+One round proves nothing, Peggy could be lucky. Twenty rounds reduce the
 probability of a successful bluff to 1 in 2²⁰ ≈ one in a million. Forty
 rounds gets you to one in a trillion. **Soundness through repetition.**
 
 What did Victor learn? That Peggy reliably emerges from whichever side he
 requests. Nothing about the password itself. **Zero-knowledge.**
 
-## Analogy 2 — Two balls and a colorblind friend
+## Analogy 2: Two balls and a colorblind friend
 
 Due to Konstantinos Chalkias, popularized in cryptography talks. This one
 is good for showing zero-knowledge in a setting that isn't about secrets.
 
-You have two billiard balls — one red, one green — that are identical in
+You have two billiard balls, one red, one green, that are identical in
 every way except color. Your friend is fully colorblind and can't tell them
 apart. You claim the balls are different colors. How do you convince your
 friend without revealing *which* is which?
@@ -86,7 +86,7 @@ The protocol:
 3. They bring their hands forward. You announce "you swapped" or "you
    didn't swap."
 
-If the balls really are different colors, you'll always be right — you can
+If the balls really are different colors, you'll always be right, you can
 just look. If they're identical (your claim is false), you'll be right
 exactly 50% of the time. After 30 successful rounds, your friend is more
 confident the balls differ than that the sun will rise tomorrow.
@@ -128,14 +128,14 @@ this efficiently and at scale.
 
 The next two lessons turn this intuition into specifics:
 
-- **[zk-SNARKs](/zk/zk-snarks/)** — what the acronym means and how the
+- **[zk-SNARKs](/zk/zk-snarks/)**: what the acronym means and how the
   modern construction is shaped.
-- **[Trusted setups and Halo](/zk/trusted-setups-and-halo/)** — the most
+- **[Trusted setups and Halo](/zk/trusted-setups-and-halo/)**: the most
   important practical-cryptography milestone of Zcash's history.
 
 <Aside type="tip" title="Key takeaways">
 - A zero-knowledge proof has three properties: **completeness**,
-  **soundness**, and **zero-knowledge**.
+  **soundness**: and **zero-knowledge**.
 - **Ali Baba's cave** shows how repeated unpredictable challenges drive a
   cheating prover's success probability to negligible.
 - **The two-balls analogy** shows what zero-knowledge means in a non-secret

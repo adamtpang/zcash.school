@@ -1,6 +1,6 @@
 ---
 title: Supply and Halvings
-description: Zcash's monetary policy mirrors Bitcoin's — 21 million ZEC, halvings every four years — but the block-time and fund-allocation details are worth understanding directly.
+description: Zcash's monetary policy mirrors Bitcoin's to 21 million ZEC, halvings every four years, but the block-time and fund-allocation details are worth understanding directly.
 sidebar:
   order: 3
 ---
@@ -44,21 +44,21 @@ the ZEC/BTC parity narrative easy to communicate.
 The block-time choice was originally 2.5 minutes (150s), faster than
 Bitcoin's 10 minutes but slow enough to keep orphan rates low on a
 privacy chain with somewhat heavier validation. **Blossom** (December
-2019) halved the block time to 75 seconds — keeping issuance per unit
+2019) halved the block time to 75 seconds, keeping issuance per unit
 of wall-clock time identical (rewards per block also halved at
 Blossom) but giving users faster confirmation feedback.
 
-## Halvings, in practice
+## Halvings: in practice
 
 A halving is a doubling-down on scarcity: every 4 years the per-block
 reward halves, so issuance asymptotically approaches the 21M cap.
 Zcash halvings have happened on schedule:
 
-- **Nov 18, 2020** — first halving. Pre-halving block reward 12.5 ZEC
+- **Nov 18, 2020**: first halving. Pre-halving block reward 12.5 ZEC
   → post-halving 6.25 ZEC. Coincided with the Canopy upgrade and the
   introduction of the Dev Fund (ZIP-1014).
-- **Nov 2024** — second halving. Block reward 6.25 → 3.125 ZEC.
-- **~Nov 2028** — third halving (scheduled). Block reward 3.125 →
+- **Nov 2024**: second halving. Block reward 6.25 → 3.125 ZEC.
+- **~Nov 2028**: third halving (scheduled). Block reward 3.125 →
   1.5625 ZEC.
 
 Future halvings continue every ~4 years until the issuance-per-block
@@ -71,10 +71,10 @@ This is where Zcash diverges meaningfully from Bitcoin. The Bitcoin
 block reward goes 100% to the miner. The Zcash block reward is split:
 
 - A **majority share** to the miner.
-- A **Dev Fund share** — currently 20% of the block reward, split among
+- A **Dev Fund share**: currently 20% of the block reward, split among
   ECC, ZF, and ZCG.
 
-The Dev Fund is consensus-enforced — covered in detail in
+The Dev Fund is consensus-enforced, covered in detail in
 [The Three Orgs](/ecosystem/the-three-orgs/). The exact split between
 the three recipient orgs and the renewal cadence is itself governed by
 ZIPs (ZIP-1014 covered 2020–2024; subsequent ZIPs cover the current
@@ -118,7 +118,7 @@ The most consequential of these as of 2026:
   disclosures directly for sizing rather than trusting any one
   third-party summary.
 
-Treasury entities holding ZEC don't change the protocol's properties —
+Treasury entities holding ZEC don't change the protocol's properties
 shielded ZEC behaves the same whether held by an individual or a
 balance sheet. They do change the market structure: known long-term
 holders shape liquidity and signal conviction.
@@ -132,7 +132,7 @@ dollars.
 
 If you spend any time in Zcash community channels you will encounter
 the slogan **"1 ZEC = 7 BTC."** Treat it as canon meme content, not
-a price target — it's a rallying cry about *what privacy should be
+a price target, it's a rallying cry about *what privacy should be
 worth in a world where money is fully digital*, framed in
 Bitcoin-relative terms because Zcash and Bitcoin share monetary
 policy.
@@ -162,12 +162,12 @@ But scarcity affects two things downstream:
 Useful resources:
 
 - [zcashblockexplorer.com](https://zcashblockexplorer.com/) and
-  [zcashexplorer.app](https://zcashexplorer.app/) — current supply,
+ [zcashexplorer.app](https://zcashexplorer.app/), current supply
   block height, recent activity.
-- [Z2M](https://z2m.org/) and similar dashboards — shielded pool
+- [Z2M](https://z2m.org/) and similar dashboards, shielded pool
   composition over time.
 - [Zcash Block Reward Schedule](https://z.cash/support/faq/) (FAQ on
-  z.cash) — links to current parameters.
+ z.cash), links to current parameters.
 
 These are the canonical places to verify any specific number rather
 than trusting a static document. Block reward and the Dev Fund split
@@ -175,12 +175,12 @@ in particular get updated by NUs; verify against the live chain when
 something matters.
 
 <Aside type="tip" title="Key takeaways">
-- **21 million ZEC max supply**, halvings every 4 years — same shape
+- **21 million ZEC max supply**: halvings every 4 years, same shape
   as Bitcoin.
 - **Block time is ~75 seconds** since Blossom (Dec 2019).
 - **First halving Nov 2020, second Nov 2024, third scheduled
   ~Nov 2028.**
-- **~20% of the block reward goes to the Dev Fund**, enforced by
+- **~20% of the block reward goes to the Dev Fund**: enforced by
   consensus, set by ZIP, renegotiated periodically.
 - **Cypherpunk Technologies (CYPH)** has publicly accumulated **$90M+
   in ZEC** as a treasury asset, the most prominent known long-term

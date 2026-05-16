@@ -16,8 +16,12 @@ export default defineConfig({
 				'Learn Zcash from first principles — privacy, zero-knowledge proofs, and how shielded money works.',
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/zcash' },
-				{ icon: 'x.com', label: 'X / Twitter', href: 'https://twitter.com/electriccoinco' },
+				{ icon: 'discord', label: 'Discord', href: 'https://discord.gg/zcash' },
+				{ icon: 'x.com', label: 'X', href: 'https://x.com/zcash' },
 			],
+			components: {
+				Header: './src/components/Header.astro',
+			},
 			customCss: ['./src/styles/custom.css'],
 			head: [
 				{
@@ -85,8 +89,13 @@ export default defineConfig({
 					items: [{ autogenerate: { directory: 'ecosystem' } }],
 				},
 				{
-					label: 'Resources',
-					link: '/resources/',
+					label: 'Project',
+					items: [
+						{ label: 'About', link: '/about/' },
+						{ label: 'Roadmap', link: '/roadmap/' },
+						{ label: 'Changelog', link: '/changelog/' },
+						{ label: 'Resources', link: '/resources/' },
+					],
 				},
 			],
 			lastUpdated: true,

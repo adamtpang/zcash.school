@@ -12,7 +12,7 @@ import { Aside } from '@astrojs/starlight/components';
 The biggest practical-cryptography milestone in Zcash's history is one
 many users miss: with the **Orchard** pool activated in NU5 in May 2022,
 Zcash's shielded transactions stopped requiring a trusted setup. The
-proof system underneath is **Halo 2**, and it matters far beyond Zcash.
+proof system underneath is **Halo 2**: and it matters far beyond Zcash.
 
 This lesson explains what trusted setup is, why people worried about it,
 and what Halo 2 changed.
@@ -31,7 +31,7 @@ is poetically called **toxic waste**.
 For pairing-based SNARKs like Groth16, this toxic-waste problem is
 fundamental: the math requires a fresh secret to be sampled, used, and
 then erased. There's no way to prove cryptographically that the secret
-was actually erased — you have to design the ceremony so that *at least
+was actually erased, you have to design the ceremony so that *at least
 one honest participant* erased their share, and the rest can't reconstruct
 it without that share.
 
@@ -40,7 +40,7 @@ it without that share.
 For the original Sprout pool, a small group of cryptographers and
 engineers met in person and across separate continents to run a multi-party
 computation that produced the parameters. Each participant contributed
-randomness, then physically destroyed the hardware that held their share —
+randomness, then physically destroyed the hardware that held their share
 DVDs were shredded, drives were drilled, paranoia was high.
 
 The mathematical guarantee: as long as **at least one participant** truly
@@ -51,7 +51,7 @@ collude, keep their secrets, and reconstruct.
 Zooko Wilcox wrote it up
 [here](https://electriccoin.co/blog/the-design-of-the-ceremony/), and Radiolab
 recorded an [audio piece on it](https://www.radiolab.org/podcast/ceremony)
-that's worth a listen — it captures the strangeness of trying to make a
+that's worth a listen, it captures the strangeness of trying to make a
 publicly auditable cryptographic ritual out of a *secret-destruction* event.
 
 A bug was later found in the Sprout circuit (the
@@ -65,10 +65,10 @@ not a flaw of the trusted-setup model.
 For the Sapling upgrade, the team designed an even bigger ceremony with
 **hundreds of participants** anyone could join. It came in two phases:
 
-1. **[Powers of Tau](https://zfnd.org/powers-of-tau/)** — a generic
+1. **[Powers of Tau](https://zfnd.org/powers-of-tau/)**, a generic
    ceremony reusable for any Groth16-style circuit. Open public
    participation; about 90 contributions in the first phase.
-2. **Sapling MPC** — the circuit-specific phase, run by the Zcash team and
+2. **Sapling MPC**: the circuit-specific phase, run by the Zcash team and
    ZF community.
 
 Many independent participants, exotic hardware destruction (
@@ -76,7 +76,7 @@ Many independent participants, exotic hardware destruction (
 and the same one-honest-participant security model. The bar for total
 collusion was now astronomically high.
 
-But — and this is the point of the lesson — the assumption was still
+But, and this is the point of the lesson, the assumption was still
 *there*. Every shielded Sapling transaction's validity rests on the
 ceremony having had at least one honest participant who really destroyed
 their toxic waste. That's a small assumption, but a non-zero one. Cryptographers
@@ -128,7 +128,7 @@ If you're a Zcash user:
 - **Use the Orchard pool when you can.** Modern wallets do this by default
   through Unified Addresses. There's no extra step to take advantage of
   the trustless property.
-- **Sapling is still a strong pool**, used by hundreds of thousands of
+- **Sapling is still a strong pool**: used by hundreds of thousands of
   shielded transactions and never broken. The Powers of Tau ceremony was
   rigorous. The trustless property in Orchard is an *upgrade*, not a fix.
 - **Sprout is being deprecated** via [ZIP-2003](https://zips.z.cash/zip-2003).
@@ -137,7 +137,7 @@ If you're a Zcash user:
 If you're a developer or researcher, Halo 2 has spawned a whole sub-field.
 It's used directly by [Penumbra](https://penumbra.zone/), and its ideas
 influence ongoing work in Aztec, Mina, and several Ethereum L2s. The
-Zcash team's research keeps pushing this forward — including ongoing work
+Zcash team's research keeps pushing this forward, including ongoing work
 on [Halo 2 successors](https://electriccoin.co/blog/halo2-zk-recursive-trustless-proof-system/)
 and lookup-argument efficiency.
 
@@ -149,20 +149,20 @@ Putting the three Zcash shielded pools side by side:
 | -------- | ---- | ------------ | ---------------------- |
 | Sprout   | 2016 | BCTV14       | Yes (Sprout Ceremony)  |
 | Sapling  | 2018 | Groth16      | Yes (Powers of Tau)    |
-| Orchard  | 2022 | Halo 2       | **No — trustless**     |
+| Orchard | 2022 | Halo 2 | **No, trustless** |
 
-This single column — "Trusted setup?" — is the historical arc of zk
+This single column, "Trusted setup?", is the historical arc of zk
 applied cryptography in miniature.
 
 <Aside type="tip" title="Key takeaways">
 - **Trusted setup** is a one-time ceremony that produces SNARK parameters.
-  The discarded randomness is "toxic waste" — security holds as long as at
+ The discarded randomness is "toxic waste", security holds as long as at
   least one participant destroyed their share.
 - **Sprout (2016)** ran a small in-person ceremony; **Sapling (2018)** ran
   a much larger public one (Powers of Tau).
-- **Halo 2**, deployed in **Orchard (NU5, May 2022)**, is the first
+- **Halo 2**: deployed in **Orchard (NU5, May 2022)**: is the first
   production-grade SNARK that needs **no trusted setup at all**.
 - That makes Zcash the first major cryptocurrency with **trustless
-  shielded transactions** by construction — a meaningful upgrade, not just
+ shielded transactions** by construction, a meaningful upgrade, not just
   a feature checkbox.
 </Aside>

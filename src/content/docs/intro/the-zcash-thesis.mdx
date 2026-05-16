@@ -15,10 +15,10 @@ The Zcash thesis is short: **a blockchain's consensus rules can be public
 while every transaction's amount and parties are encrypted, and cryptography
 can prove the rules were followed without revealing what happened.**
 
-Everything else in Zcash — the addresses, the pools, the upgrade history,
-the trade-offs — is engineering downstream of that single bet.
+Everything else in Zcash, the addresses, the pools, the upgrade history
+the trade-offs, is engineering downstream of that single bet.
 
-## What you keep, what you hide
+## What you keep: what you hide
 
 Zcash keeps the parts of a blockchain that make it a blockchain:
 
@@ -35,7 +35,7 @@ It hides the parts of a blockchain that leak everything about you:
 - (Optionally) a small encrypted memo passed between sender and recipient
 
 The trick is that nodes can still verify those hidden transactions are
-**valid** — money is conserved, the sender owns the funds, no double-spend —
+**valid**: money is conserved, the sender owns the funds, no double-spend
 without ever decrypting them. That's the job of zero-knowledge proofs, which
 the next module covers in depth.
 
@@ -43,33 +43,33 @@ the next module covers in depth.
 
 Zcash didn't come from nowhere. The path looked roughly like this:
 
-- **2013** — Cryptographers Matthew Green, Ian Miers, and others publish
+- **2013**: Cryptographers Matthew Green, Ian Miers, and others publish
   [Zerocoin](https://zerocoin.org/), a Bitcoin extension adding optional
   anonymity through cryptographic accumulators. Proofs were too large to ship.
-- **2014** — The follow-up paper
+- **2014**: The follow-up paper
   [Zerocash: Decentralized Anonymous Payments from Bitcoin](http://zerocash-project.org/paper)
   introduced compact zk-SNARKs and a workable design. Authors include Eli
   Ben-Sasson, Alessandro Chiesa, Christina Garman, Matthew Green, Ian Miers,
   Eran Tromer, and Madars Virza.
-- **2015** — The Zerocash team forms a company (later **Electric Coin
+- **2015**: The Zerocash team forms a company (later **Electric Coin
   Company**) led by Zooko Wilcox to ship the design as its own chain.
-- **October 28, 2016** — Zcash genesis block. The first network is the
+- **October 28, 2016**: Zcash genesis block. The first network is the
   "Sprout" pool, using a trusted setup with the famous "Ceremony" to
   generate parameters.
-- **October 2018 — Sapling.** A second-generation shielded protocol with
+- **October 2018, Sapling.** A second-generation shielded protocol with
   100× faster proofs, smaller memory footprint, and mobile-viable wallets.
-- **November 2020 — Heartwood / Canopy.** Treasury and consensus changes;
+- **November 2020, Heartwood / Canopy.** Treasury and consensus changes;
   the first halving.
-- **May 2022 — NU5 (Network Upgrade 5).** Introduces the **Orchard** pool
-  and **Halo 2**, eliminating the need for trusted setups. Unified Addresses
+- **May 2022, NU5 (Network Upgrade 5).** Introduces the **Orchard** pool
+  and **Halo 2**: eliminating the need for trusted setups. Unified Addresses
   arrive in this period.
-- **November 2024 — NU6.** Deprecation work for Sprout (ZIP-2003), Dev
+- **November 2024, NU6.** Deprecation work for Sprout (ZIP-2003), Dev
   Fund continuation, refinements heading into the next research cycle.
-- **2025 / 2026 — Project Tachyon emerges.** Sean Bowe-led scalability
+- **2025 / 2026, Project Tachyon emerges.** Sean Bowe-led scalability
   roadmap, recursive proofs (PCD), oblivious sync. Post-quantum privacy
   falls out as a side effect of the new architecture. See
   [Project Tachyon](/protocol/project-tachyon/).
-- **Q1 2026 — Five-org restructure.** Zcash development restructures from
+- **Q1 2026, Five-org restructure.** Zcash development restructures from
   the historical ECC + ZF + ZCG model into a wider set of independent
   organizations. See [The Orgs](/ecosystem/the-three-orgs/).
 
@@ -117,11 +117,11 @@ delivered.
 
 You now have the *why*. The rest of the course gives you the *how*:
 
-- **Module 2 — Zero-knowledge proofs.** What the cryptography actually does.
-- **Module 3 — Protocol.** Addresses, pools, notes, nullifiers, Halo 2.
-- **Module 4 — Using Zcash.** Wallets, sending shielded transactions,
+- **Module 2, Zero-knowledge proofs.** What the cryptography actually does.
+- **Module 3, Protocol.** Addresses, pools, notes, nullifiers, Halo 2.
+- **Module 4, Using Zcash.** Wallets, sending shielded transactions
   selective disclosure for compliance and accounting.
-- **Module 5 — Ecosystem.** The orgs, governance, supply, and roadmap.
+- **Module 5, Ecosystem.** The orgs, governance, supply, and roadmap.
 
 <Aside type="tip" title="Key takeaways">
 - **The thesis is one sentence:** public consensus, encrypted transactions,
@@ -130,6 +130,6 @@ You now have the *why*. The rest of the course gives you the *how*:
   network upgrades since.
 - **Zcash hides sender, recipient, and amount** in shielded transactions,
   while keeping the chain itself fully verifiable.
-- **Modern wallets make shielded mode the default**, removing the friction
+- **Modern wallets make shielded mode the default**: removing the friction
   that kept earlier shielded usage low.
 </Aside>

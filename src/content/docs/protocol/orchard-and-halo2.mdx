@@ -1,6 +1,6 @@
 ---
 title: Orchard and Halo 2
-description: What's actually new in Orchard — Pallas/Vesta curves, Halo 2 proofs, no trusted setup, and a recursive future.
+description: What's actually new in Orchard, Pallas/Vesta curves, Halo 2 proofs, no trusted setup, and a recursive future.
 sidebar:
   order: 4
 ---
@@ -11,7 +11,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 The Orchard pool is the modern shielded pool of Zcash, activated in
 **Network Upgrade 5 (NU5) on May 31, 2022**. It builds on everything
-Sapling did right — note model, nullifiers, encrypted memos — and replaces
+Sapling did right, note model, nullifiers, encrypted memos, and replaces
 the underlying cryptography with a system that doesn't need trusted
 setup. This lesson is about what changed and why it's worth caring about.
 
@@ -35,7 +35,7 @@ The differences are under the hood, where the cryptography lives.
 
 ### 1. New elliptic curves: Pasta (Pallas + Vesta)
 
-Sapling uses BLS12-381 — a pairing-friendly curve well-suited to Groth16.
+Sapling uses BLS12-381, a pairing-friendly curve well-suited to Groth16.
 
 Orchard uses the **Pasta curves**: a *2-cycle* of elliptic curves named
 **Pallas** and **Vesta**. The two curves have the property that the base
@@ -114,15 +114,15 @@ faster wallet sync. The infrastructure to support recursion in the
 network exists in the proving stack now; the protocol-level deployment
 is ongoing work.
 
-## NU5 — the upgrade that shipped Orchard
+## NU5: the upgrade that shipped Orchard
 
 [Network Upgrade 5](https://electriccoin.co/blog/nu5-launches-on-zcash-mainnet/)
 activated on **mainnet block 1,687,104** on May 31, 2022. It included:
 
 - The Orchard pool and its Halo 2 proof system.
-- **Unified Addresses** ([ZIP-316](https://zips.z.cash/zip-0316)) — see
+- **Unified Addresses** ([ZIP-316](https://zips.z.cash/zip-0316)), see
   [the addresses lesson](/protocol/addresses/).
-- **Unified full viewing keys** — for selective disclosure across pools.
+- **Unified full viewing keys**: for selective disclosure across pools.
 - A v5 transaction format ([ZIP-225](https://zips.z.cash/zip-0225))
   carrying the new bundle types.
 
@@ -146,7 +146,7 @@ wallet:
 This is the design intent. Pools are an implementation detail; what users
 should care about is "is this private?"
 
-## Why this is a milestone, not a feature
+## Why this is a milestone: not a feature
 
 Many cryptocurrencies launch with version 1 of their cryptography and
 ride it for life. Zcash has shipped three SNARK generations to
