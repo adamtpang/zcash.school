@@ -11,13 +11,9 @@ export default defineConfig({
 	adapter: vercel(),
 	integrations: [
 		starlight({
-			title: 'Zcash School',
+			title: 'zcash.school',
 			description:
 				'Learn Zcash from first principles — privacy, zero-knowledge proofs, and how shielded money works.',
-			logo: {
-				src: './src/assets/logo.svg',
-				replacesTitle: false,
-			},
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/zcash' },
 				{ icon: 'x.com', label: 'X / Twitter', href: 'https://twitter.com/electriccoinco' },
@@ -46,7 +42,7 @@ export default defineConfig({
 				},
 				{
 					tag: 'meta',
-					attrs: { name: 'theme-color', content: '#1A1F2E' },
+					attrs: { name: 'theme-color', content: '#0C0D10' },
 				},
 				{
 					tag: 'link',
@@ -65,6 +61,7 @@ export default defineConfig({
 						{ label: 'Get a wallet in 60s', link: '/start/' },
 						{ label: 'Claim $5 in ZEC', link: '/claim/' },
 						{ label: 'Accept Zcash (merchants)', link: '/merchants/' },
+						{ label: 'Team & sister projects', link: '/team/' },
 					],
 				},
 				{

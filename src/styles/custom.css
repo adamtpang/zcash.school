@@ -1,96 +1,241 @@
-/* Zcash School — Starlight theme overrides */
+/* ============================================================
+   zcash.school — brand system
+
+   Identity:
+   - Zcash official: yellow #F4B728 on black
+   - Our own spin:   signature red #E5322D + white
+
+   System:
+   - Base is monochrome (near-black / white). Restraint first.
+   - Dark mode (default): yellow is the accent — Zcash identity,
+     used for links + active nav. Pops on black.
+   - Light mode: red is the accent — our spin, accessible on white.
+   - Red is the *action* color in BOTH themes (primary CTAs,
+     key call-to-action cards). Yellow/red never fight: yellow =
+     "this is a link/Zcash", red = "do this".
+   ============================================================ */
 
 :root {
 	--sl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 	--sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+	/* Brand constants — reference these, don't hardcode hexes elsewhere */
+	--zs-yellow: #F4B728;
+	--zs-yellow-soft: #ffe39a;
+	--zs-red: #E5322D;
+	--zs-red-hover: #C2241F;
+	--zs-black: #0C0D10;
+	--zs-white: #FAFAFB;
 }
 
-/* Dark mode (default in Starlight) — Zcash navy + yellow */
+/* ---------- Dark mode (default): yellow accent on black ---------- */
 :root {
-	--sl-color-accent-low: #3a2e0a;
+	--sl-color-accent-low: #3a2c08;
 	--sl-color-accent: #F4B728;
-	--sl-color-accent-high: #fde7a8;
+	--sl-color-accent-high: #ffe39a;
 
-	--sl-color-white: #f5f7fb;
-	--sl-color-gray-1: #e2e6ee;
-	--sl-color-gray-2: #b9c0cc;
-	--sl-color-gray-3: #7e8593;
-	--sl-color-gray-4: #4f5666;
-	--sl-color-gray-5: #2e3340;
-	--sl-color-gray-6: #1f2330;
-	--sl-color-black: #1A1F2E;
+	--sl-color-white: #FAFAFB;
+	--sl-color-gray-1: #e7e8ec;
+	--sl-color-gray-2: #b6b8c0;
+	--sl-color-gray-3: #828690;
+	--sl-color-gray-4: #51545e;
+	--sl-color-gray-5: #2a2c34;
+	--sl-color-gray-6: #17181d;
+	--sl-color-black: #0C0D10;
 
-	--sl-color-bg: #1A1F2E;
-	--sl-color-bg-nav: #161a26;
-	--sl-color-bg-sidebar: #1A1F2E;
+	--sl-color-bg: #0C0D10;
+	--sl-color-bg-nav: #08090b;
+	--sl-color-bg-sidebar: #0C0D10;
+	--sl-color-bg-inline-code: #17181d;
+	--sl-color-hairline: #21232b;
 	--sl-color-text-accent: #F4B728;
 }
 
-/* Light mode — warm parchment with the same yellow accent */
+/* ---------- Light mode: red accent on white ---------- */
 :root[data-theme='light'] {
-	--sl-color-accent-low: #fff4d6;
-	--sl-color-accent: #b88212;
-	--sl-color-accent-high: #5b3f06;
+	--sl-color-accent-low: #ffe3e1;
+	--sl-color-accent: #D7263D;
+	--sl-color-accent-high: #5c0f17;
 
-	--sl-color-white: #1A1F2E;
-	--sl-color-gray-1: #2a2f3d;
-	--sl-color-gray-2: #424857;
-	--sl-color-gray-3: #6a7080;
-	--sl-color-gray-4: #aab0bd;
-	--sl-color-gray-5: #d6dae3;
-	--sl-color-gray-6: #ebeef4;
+	--sl-color-white: #0C0D10;
+	--sl-color-gray-1: #1d1f26;
+	--sl-color-gray-2: #3a3d47;
+	--sl-color-gray-3: #5f636e;
+	--sl-color-gray-4: #9aa0ac;
+	--sl-color-gray-5: #d4d7df;
+	--sl-color-gray-6: #eceef3;
 	--sl-color-gray-7: #f6f7fa;
 	--sl-color-black: #ffffff;
 
-	--sl-color-bg: #fdfbf5;
+	--sl-color-bg: #ffffff;
 	--sl-color-bg-nav: #ffffff;
-	--sl-color-bg-sidebar: #fdfbf5;
-	--sl-color-text-accent: #b88212;
+	--sl-color-bg-sidebar: #fbfbfc;
+	--sl-color-bg-inline-code: #f1f2f5;
+	--sl-color-hairline: #e6e8ee;
+	--sl-color-text-accent: #D7263D;
 }
 
-/* Hero polish on the landing page */
+/* ---------- Typography: chase founders.school restraint ---------- */
+.sl-markdown-content {
+	--sl-content-width: 47rem; /* tighter measure = more readable */
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.018em;
+	font-weight: 750;
+}
+
+.sl-markdown-content h2 {
+	margin-top: 3rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--sl-color-hairline);
+}
+
+.sl-markdown-content p,
+.sl-markdown-content li {
+	line-height: 1.72;
+}
+
+/* ---------- Hero ---------- */
 .hero h1 {
-	background: linear-gradient(120deg, #F4B728 0%, #fde7a8 60%, #F4B728 100%);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-	font-weight: 800;
-	letter-spacing: -0.02em;
+	font-size: clamp(2.6rem, 6vw, 4.25rem);
+	font-weight: 820;
+	letter-spacing: -0.035em;
+	line-height: 1.04;
+	color: var(--sl-color-white);
+	background: none;
+}
+
+/* Single confident accent: one word in Zcash yellow, not a gradient wash */
+.hero h1 .accent,
+.hero h1 em {
+	color: var(--zs-yellow);
+	font-style: normal;
 }
 
 .hero .tagline {
-	font-size: clamp(1.05rem, 1.6vw, 1.4rem);
+	font-size: clamp(1.1rem, 1.7vw, 1.45rem);
 	color: var(--sl-color-gray-2);
+	line-height: 1.5;
+	max-width: 38ch;
 }
 
-/* Make CardGrid cards feel a touch more like coins */
+/* ---------- Buttons: RED is the action color ---------- */
+.sl-link-button.primary {
+	background: var(--zs-red);
+	border-color: var(--zs-red);
+	color: #ffffff;
+	font-weight: 650;
+	transition: background 120ms ease, transform 120ms ease;
+}
+.sl-link-button.primary:hover {
+	background: var(--zs-red-hover);
+	border-color: var(--zs-red-hover);
+	transform: translateY(-1px);
+}
+
+.sl-link-button.secondary {
+	border-color: var(--sl-color-gray-4);
+}
+
+/* ---------- Cards ---------- */
 .card {
-	border: 1px solid var(--sl-color-gray-5);
-	transition: transform 120ms ease, border-color 120ms ease;
+	border: 1px solid var(--sl-color-hairline);
+	background: var(--sl-color-bg-nav);
+	transition: transform 140ms ease, border-color 140ms ease;
 }
 .card:hover {
 	transform: translateY(-2px);
-	border-color: var(--sl-color-accent);
+	border-color: var(--zs-yellow);
 }
 
-/* "Last reviewed" line styling */
+/* A "do this" card — opt in by wrapping in .cta-grid */
+.cta-grid .card:hover {
+	border-color: var(--zs-red);
+}
+
+/* ---------- "Last reviewed" pill ---------- */
 .last-reviewed {
 	display: inline-block;
 	margin: 0 0 1.25rem;
-	padding: 0.15rem 0.55rem;
+	padding: 0.18rem 0.6rem;
 	border-radius: 999px;
 	background: var(--sl-color-gray-6);
-	color: var(--sl-color-gray-2);
-	font-size: 0.78rem;
-	letter-spacing: 0.02em;
+	color: var(--sl-color-gray-3);
+	font-size: 0.75rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
 }
 
-/* Footer attribution */
+/* ---------- Footer attribution ---------- */
 .site-footer-note {
-	margin-top: 3rem;
-	padding: 1rem 1.25rem;
-	border-top: 1px solid var(--sl-color-gray-5);
+	margin-top: 3.5rem;
+	padding: 1.25rem 1.25rem 0;
+	border-top: 1px solid var(--sl-color-hairline);
 	font-size: 0.85rem;
 	color: var(--sl-color-gray-3);
 	text-align: center;
+}
+
+/* ---------- Site title (logo removed — wordmark only) ---------- */
+.site-title {
+	font-weight: 760;
+	letter-spacing: -0.02em;
+	font-size: 1.05rem;
+}
+.site-title::before {
+	content: '';
+	display: inline-block;
+	width: 0.62rem;
+	height: 0.62rem;
+	margin-right: 0.5rem;
+	border-radius: 2px;
+	background: var(--zs-yellow);
+	box-shadow: 0.34rem 0 0 var(--zs-red); /* yellow + red identity dots */
+	vertical-align: middle;
+}
+
+/* ---------- Team grid ---------- */
+.team-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+	gap: 1.25rem;
+	margin: 1.75rem 0;
+	padding: 0;
+	list-style: none;
+}
+.team-grid li {
+	margin: 0;
+	padding: 1rem;
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 10px;
+	background: var(--sl-color-bg-nav);
+	text-align: center;
+}
+.team-grid img,
+.team-grid .avatar-fallback {
+	width: 88px;
+	height: 88px;
+	border-radius: 999px;
+	object-fit: cover;
+	margin: 0 auto 0.75rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, var(--zs-yellow), var(--zs-red));
+	color: var(--zs-black);
+	font-weight: 800;
+	font-size: 1.6rem;
+}
+.team-grid .name {
+	font-weight: 700;
+	display: block;
+}
+.team-grid .role {
+	font-size: 0.82rem;
+	color: var(--sl-color-gray-3);
+	display: block;
+	margin-top: 0.15rem;
 }

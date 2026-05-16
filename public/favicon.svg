@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Zcash School">
-  <title>Zcash School</title>
-  <rect width="64" height="64" rx="12" fill="#1A1F2E"/>
-  <path d="M16 18 H48 L20 44 H48" stroke="#F4B728" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <circle cx="48" cy="50" r="4" fill="#F4B728"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="zcash.school">
+  <title>zcash.school</title>
+  <rect width="64" height="64" rx="14" fill="#0C0D10"/>
+  <rect x="17" y="25" width="14" height="14" rx="3" fill="#F4B728"/>
+  <rect x="35" y="25" width="14" height="14" rx="3" fill="#E5322D"/>
 </svg>

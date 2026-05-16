@@ -1,0 +1,103 @@
+---
+title: Team & Sister Projects
+description: Who runs the Zcash Network School program — and the directly-related zcash.me and zcashnames.com projects in the same family.
+template: doc
+sidebar:
+  hidden: true
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+> *Not anonymous. Accountability matters for a grant-funded program.*
+
+This site is one piece of the **Zcash Network School (ZNS)** — a 90-day
+Zcash Foundation–funded program at [Network School](https://ns.com) in
+Malaysia. Privacy is for your money, not for who's spending the grant.
+Here's the team and the sibling projects we build alongside.
+
+## The team
+
+{/*
+  PHOTO SLOTS — replace each <div class="avatar-fallback">XX</div> with:
+    <img src="/team/<slug>.jpg" alt="<Full Name>" />
+  Drop photos at public/team/<slug>.jpg. Spec:
+    square crop, head+shoulders, 600x600+ px, JPG/WebP < 200 KB,
+    slugs: andre, james, keiara, souvik, adam.
+  Until then the gradient initials avatars render fine.
+*/}
+
+<ul class="team-grid">
+	<li>
+		<div class="avatar-fallback">AF</div>
+		<span class="name">Andre Froes</span>
+		<span class="role">Program lead — ZNS structure & foundation reporting</span>
+	</li>
+	<li>
+		<div class="avatar-fallback">JJ</div>
+		<span class="name">James Joseph</span>
+		<span class="role">Direction — builder of zcash.me & zcashnames.com</span>
+	</li>
+	<li>
+		<div class="avatar-fallback">KD</div>
+		<span class="name">Keiara Desouza</span>
+		<span class="role">Execution — zcash.me build</span>
+	</li>
+	<li>
+		<div class="avatar-fallback">SM</div>
+		<span class="name">Souvik Mishra</span>
+		<span class="role">Execution — zcash.me build</span>
+	</li>
+	<li>
+		<div class="avatar-fallback">A</div>
+		<span class="name">Adam</span>
+		<span class="role">Events, vendor onboarding & this site (zcash.school)</span>
+	</li>
+</ul>
+
+We post monthly to the Zcash community forum so anyone can see what the
+grant is being spent on.
+
+- **Grant thread:** [forum.zcashcommunity.com/t/zcash-network-school/55269](https://forum.zcashcommunity.com/t/zcash-network-school/55269)
+- **Intern docs:** [hackmd.io/@zec/znsintern](https://hackmd.io/@zec/znsintern)
+
+## Sister projects
+
+zcash.school is not a standalone site. It's part of a small family of
+ZNS-aligned projects, built by overlapping people, pointing at each
+other on purpose. If you're learning Zcash through one, the others are
+the next step.
+
+<CardGrid>
+	<LinkCard
+		title="zcash.me →"
+		description="James, Keiara & Souvik's onboarding site — the fastest path from 'never used crypto' to a working shielded wallet. We send beginners here."
+		href="https://zcash.me"
+	/>
+	<LinkCard
+		title="zcashnames.com →"
+		description="James's naming service for Zcash — human-readable names instead of raw u1… addresses. Directly related; same family."
+		href="https://zcashnames.com"
+	/>
+</CardGrid>
+
+How the three fit together:
+
+- **zcash.me** — get a wallet, get moving. The shallow end.
+- **zcash.school** (here) — understand *why* it works: privacy, ZK
+  proofs, the protocol, the economics. The curriculum.
+- **zcashnames.com** — make Zcash usable day-to-day with names instead
+  of address strings. The usability layer.
+
+<Aside type="tip" title="Where to go next">
+- New to Zcash entirely? Start at **[/start](/start/)** here, or
+  jump to **[zcash.me](https://zcash.me)**.
+- Want the full picture? Work through **[Module 1 →](/intro/why-privacy/)**.
+- At Network School in person? **[/ns](/ns/)** has the schedule and the
+  $5 ZEC claim.
+</Aside>
+
+<div class="site-footer-note">
+	Independent educational project under the Zcash Network School program,
+	supported by a Zcash Foundation community grant. Not affiliated with the
+	Electric Coin Company or the Zcash Foundation.
+</div>
