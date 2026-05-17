@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "og": "node scripts/generate-og.mjs",
-    "qr": "node scripts/generate-qr.mjs"
+    "qr": "node scripts/generate-qr.mjs",
+    "favicon": "node scripts/generate-favicon.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
@@ -19,6 +20,7 @@
     "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "png-to-ico": "^3.0.1",
     "qrcode": "^1.5.4"
   }
 }
