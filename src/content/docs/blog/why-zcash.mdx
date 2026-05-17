@@ -1,0 +1,75 @@
+---
+title: Why Zcash
+description: Cash was private by default. Bitcoin removed that by accident. Why the fix has to be cryptographic, not a promise.
+template: doc
+---
+
+<span class="last-reviewed">Posted: 2026-05-16</span>
+
+> *Privacy is normal.*
+
+Start with a boring observation: for almost all of human history,
+spending money told no one anything. You handed over a coin. The
+baker did not learn your salary. The state did not get a copy of the
+receipt. Your neighbor could not pull up your balance.
+
+That was not a feature anyone designed. It was just the default
+property of cash. We are the first generation to seriously consider
+giving it up, and most people have not noticed they are doing it.
+
+## Bitcoin's accident
+
+Bitcoin did something genuinely new and got one thing badly wrong at
+the same time. The new thing: money with no issuer, no central ledger
+keeper, censorship-resistant. The wrong thing: it put every
+transaction, forever, on a public ledger anyone can read.
+
+This was not malice. In 2009 a transparent chain was the only known
+way to make the consensus work without trusting a third party. But the
+side effect is severe. Chain analysis firms now sell the de-
+anonymization of that "pseudonymous" ledger as a product. Your
+employer paying you in BTC, an exchange KYC linking a wallet to your
+passport, one reused address: any of these can unravel the whole
+graph backward and forward in time.
+
+A public-by-default money is not neutral. It is surveillance
+infrastructure that happens to also move value.
+
+## Why a promise is not enough
+
+The usual answer to "this is too public" is a policy: a privacy
+policy, a regulation, a company that promises to delete logs. Promises
+are revocable. They change with management, jurisdiction, subpoena,
+and breach. A privacy property you have to trust someone to keep is
+not a property. It is a liability with good PR.
+
+The only durable fix is to make the private case the one the math
+enforces, so that no operator, miner, or government is in a position
+to flip it off. That is the entire bet of Zcash: a public blockchain
+where the consensus rules are public but the transactions are
+encrypted, and zero-knowledge proofs let the network verify validity
+without learning who paid whom or how much.
+
+If you want the actual mechanism, the course covers it end to end:
+[zero-knowledge proofs](/zk/intuition/),
+[notes and nullifiers](/protocol/notes-and-nullifiers/),
+[Orchard and Halo 2](/protocol/orchard-and-halo2/). This post is just
+the argument for why it is worth understanding.
+
+## What we are not saying
+
+We are not saying transparency is always bad. Public goods funding,
+audited treasuries, and open protocol rules benefit from it. We are
+saying the *default unit of everyday payment* should be private, with
+[selective disclosure](/using/selective-disclosure/) available when
+you choose it, not extracted from you because the rails leak by
+construction.
+
+Privacy is not the thing you justify. Surveillance is. Zcash is one of
+the few serious, audited, production attempts to put that principle
+into running code.
+
+That is why Zcash. The next post is why we are teaching it from a
+peninsula in Malaysia.
+
+[Read: Why Network School →](/blog/why-network-school/)

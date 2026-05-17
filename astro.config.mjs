@@ -13,9 +13,9 @@ export default defineConfig({
 		starlight({
 			title: 'zcash.school',
 			description:
-				'Learn Zcash from first principles — privacy, zero-knowledge proofs, and how shielded money works.',
+				'Learn Zcash from first principles: privacy, zero-knowledge proofs, and how shielded money works.',
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/zcash' },
+				{ icon: 'github', label: 'GitHub (source)', href: 'https://github.com/adamtpang/zcash.school' },
 				{ icon: 'discord', label: 'Discord', href: 'https://discord.gg/zcash' },
 				{ icon: 'x.com', label: 'X', href: 'https://x.com/zcash' },
 			],
@@ -51,6 +51,14 @@ export default defineConfig({
 				{
 					tag: 'link',
 					attrs: { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+				},
+				{
+					tag: 'link',
+					attrs: { rel: 'icon', type: 'image/x-icon', sizes: 'any', href: '/favicon.ico' },
+				},
+				{
+					tag: 'link',
+					attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
 				},
 			],
 			sidebar: [
@@ -92,6 +100,7 @@ export default defineConfig({
 					label: 'Project',
 					items: [
 						{ label: 'About', link: '/about/' },
+						{ label: 'Blog', link: '/blog/' },
 						{ label: 'Roadmap', link: '/roadmap/' },
 						{ label: 'Changelog', link: '/changelog/' },
 						{ label: 'Resources', link: '/resources/' },

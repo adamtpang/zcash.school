@@ -1,0 +1,35 @@
+---
+title: Blog
+description: Notes from the Zcash Network School. Why Zcash, why Network School, and what we're learning running a privacy-money program on the ground.
+template: doc
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+> *The curriculum is the course. The blog is the argument.*
+
+Short, opinionated essays from the people running the Zcash Network
+School. Less "what is a nullifier" (that's the [course](/intro/why-privacy/)),
+more "why does any of this matter, and why here, why now."
+
+{/* New posts: add a <LinkCard> below (newest first) and create the
+    matching src/content/docs/blog/<slug>.mdx. Keep it em-dash-free. */}
+
+<CardGrid>
+	<LinkCard
+		title="Why Zcash"
+		description="Cash was private by default. Bitcoin took that away by accident. Why the fix has to be cryptographic, not procedural."
+		href="/blog/why-zcash/"
+	/>
+	<LinkCard
+		title="Why Network School"
+		description="Why teach private money at a network state experiment in Malaysia instead of online. Density, trust, and merchants who actually take ZEC."
+		href="/blog/why-network-school/"
+	/>
+</CardGrid>
+
+<div class="site-footer-note">
+	Independent educational project under the Zcash Network School program,
+	supported by a Zcash Foundation community grant. Not affiliated with the
+	Electric Coin Company or the Zcash Foundation.
+</div>
