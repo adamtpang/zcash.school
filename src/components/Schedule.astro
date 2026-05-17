@@ -19,15 +19,22 @@ type Session = {
 	location: string;
 };
 
-// Build-date midnight, UTC, so "today" still counts as upcoming.
-const today = new Date();
-const cutoff = new Date(
-	Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())
-);
+// "Today" in the VENUE timezone, not UTC. Network School is in
+// Malaysia (UTC+8); attendees look at this page on the day of an
+// event. Comparing YYYY-MM-DD strings against the venue's current
+// date keeps a session listed through its entire local day and is
+// immune to build-time UTC skew (a same-day event must never vanish).
+const VENUE_TZ = 'Asia/Kuala_Lumpur';
+const todayStr = new Intl.DateTimeFormat('en-CA', {
+	timeZone: VENUE_TZ,
+	year: 'numeric',
+	month: '2-digit',
+	day: '2-digit',
+}).format(new Date()); // en-CA => "YYYY-MM-DD"
 
 const upcoming = (list: Session[]) =>
 	[...list]
-		.filter((s) => new Date(`${s.date}T00:00:00Z`) >= cutoff)
+		.filter((s) => s.date >= todayStr)
 		.sort((a, b) => a.date.localeCompare(b.date));
 
 const fmt = (iso: string) =>
