@@ -20,6 +20,7 @@ hero:
 ---
 
 import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
+import Schedule from '../../../components/Schedule.astro';
 
 > *Enrollment is open. Attendance is anonymous.*
 
@@ -71,17 +72,10 @@ to get here, you're in the right place.**
 
 ## Schedule
 
-{/* TODO: replace with live dates from the ZNS calendar. Update weekly. */}
+{/* Schedule is data-driven: edit src/data/schedule.json only. Past
+    sessions auto-hide on the next deploy. Confirm venues in the JSON. */}
 
-### Next educational events
-
-- **Sat, 16 May 2026 · 19:00**: *Zcash from zero: what private money is and why it matters.* The Hall, Network School. {/* TODO: confirm venue */}
-- **Sat, 23 May 2026 · 19:00**: *Zero-knowledge proofs without the math.* The Hall, Network School. {/* TODO: confirm venue */}
-
-### Next office hours
-
-- **Wed, 14 May 2026 · 17:00–18:30**: Wallet setup, shielded sends, recovery. Drop in anytime. {/* TODO: confirm venue */}
-- **Wed, 21 May 2026 · 17:00–18:30**: Merchant onboarding focus. Bring your phone and your business. {/* TODO: confirm venue */}
+<Schedule />
 
 <Aside type="tip" title="Can't make an event?">
 Office hours are drop-in. If neither works, email

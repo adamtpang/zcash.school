@@ -1,0 +1,100 @@
+---
+/**
+ * Renders the /ns schedule from src/data/schedule.json.
+ *
+ * Filters to sessions on or after the BUILD date and sorts ascending,
+ * so past sessions disappear on the next deploy (Vercel rebuilds on
+ * push; the owner can also trigger a redeploy to re-prune). This keeps
+ * the QR landing page from ever showing a stale "Next" session.
+ *
+ * To update the schedule: edit src/data/schedule.json only.
+ */
+import schedule from '../data/schedule.json';
+
+type Session = {
+	date: string;
+	start: string;
+	end?: string;
+	title: string;
+	location: string;
+};
+
+// Build-date midnight, UTC, so "today" still counts as upcoming.
+const today = new Date();
+const cutoff = new Date(
+	Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())
+);
+
+const upcoming = (list: Session[]) =>
+	[...list]
+		.filter((s) => new Date(`${s.date}T00:00:00Z`) >= cutoff)
+		.sort((a, b) => a.date.localeCompare(b.date));
+
+const fmt = (iso: string) =>
+	new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-GB', {
+		weekday: 'short',
+		day: 'numeric',
+		month: 'short',
+		year: 'numeric',
+		timeZone: 'UTC',
+	});
+
+const events = upcoming(schedule.events as Session[]);
+const officeHours = upcoming(schedule.officeHours as Session[]);
+
+const fallback =
+	'Next sessions announced soon. Check the <a href="https://forum.zcashcommunity.com/t/zcash-network-school/55269">forum thread</a> or drop into office hours.';
+---
+
+<section class="zs-schedule">
+	<h3>Next educational events</h3>
+	{
+		events.length ? (
+			<ul>
+				{events.map((e) => (
+					<li>
+						<strong>{fmt(e.date)} · {e.start}</strong> — {e.title}.{' '}
+						<span class="zs-loc">{e.location}</span>
+					</li>
+				))}
+			</ul>
+		) : (
+			<p set:html={fallback} />
+		)
+	}
+
+	<h3>Next office hours</h3>
+	{
+		officeHours.length ? (
+			<ul>
+				{officeHours.map((o) => (
+					<li>
+						<strong>
+							{fmt(o.date)} · {o.start}
+							{o.end ? `–${o.end}` : ''}
+						</strong>{' '}
+						— {o.title} <span class="zs-loc">{o.location}</span>
+					</li>
+				))}
+			</ul>
+		) : (
+			<p set:html={fallback} />
+		)
+	}
+</section>
+
+<style>
+	.zs-schedule h3 {
+		margin-top: 1.75rem;
+	}
+	.zs-schedule ul {
+		margin: 0.5rem 0 0;
+		padding-left: 1.1rem;
+	}
+	.zs-schedule li {
+		margin: 0.4rem 0;
+	}
+	.zs-loc {
+		color: var(--sl-color-gray-3);
+	}
+</style>

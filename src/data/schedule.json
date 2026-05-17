@@ -1,0 +1,33 @@
+{
+  "_comment": "Single source of truth for the /ns schedule. Edit ONLY this file to add or change sessions. Past entries (date < build date) auto-hide via src/components/Schedule.astro, so a Vercel rebuild prunes them. Date is ISO YYYY-MM-DD (matches the owner's file-naming convention). TODO: keep this current; confirm venues.",
+  "events": [
+    {
+      "date": "2026-05-16",
+      "start": "19:00",
+      "title": "Zcash from zero: what private money is and why it matters",
+      "location": "The Hall, Network School"
+    },
+    {
+      "date": "2026-05-23",
+      "start": "19:00",
+      "title": "Zero-knowledge proofs without the math",
+      "location": "The Hall, Network School"
+    }
+  ],
+  "officeHours": [
+    {
+      "date": "2026-05-14",
+      "start": "17:00",
+      "end": "18:30",
+      "title": "Wallet setup, shielded sends, recovery. Drop in anytime.",
+      "location": "Network School"
+    },
+    {
+      "date": "2026-05-21",
+      "start": "17:00",
+      "end": "18:30",
+      "title": "Merchant onboarding focus. Bring your phone and your business.",
+      "location": "Network School"
+    }
+  ]
+}
