@@ -25,16 +25,24 @@ type Session = {
 // date keeps a session listed through its entire local day and is
 // immune to build-time UTC skew (a same-day event must never vanish).
 const VENUE_TZ = 'Asia/Kuala_Lumpur';
-const todayStr = new Intl.DateTimeFormat('en-CA', {
-	timeZone: VENUE_TZ,
-	year: 'numeric',
-	month: '2-digit',
-	day: '2-digit',
-}).format(new Date()); // en-CA => "YYYY-MM-DD"
+const venueDate = (d: Date) =>
+	new Intl.DateTimeFormat('en-CA', {
+		timeZone: VENUE_TZ,
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+	}).format(d); // en-CA => "YYYY-MM-DD"
+
+// One-day grace: keep a session listed until the day AFTER its date.
+// Events run in the evening and people scan the QR *at* the event, so
+// a strict ">= today" cut would drop tonight's session if the build
+// happened just after venue midnight. Pruning one day late is
+// harmless; dropping a same-day event is not.
+const cutoffStr = venueDate(new Date(Date.now() - 24 * 60 * 60 * 1000));
 
 const upcoming = (list: Session[]) =>
 	[...list]
-		.filter((s) => s.date >= todayStr)
+		.filter((s) => s.date >= cutoffStr)
 		.sort((a, b) => a.date.localeCompare(b.date));
 
 const fmt = (iso: string) =>
