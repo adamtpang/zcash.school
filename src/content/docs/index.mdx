@@ -18,11 +18,18 @@ hero:
 
 import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
 
-<LinkCard
-	title="🛡️ At Network School? Start here →"
-	description="Scanned a banner QR? You're in the right place. Get a wallet in 60 seconds, claim $5 in ZEC, find the next event and office hours."
-	href="/ns/"
-/>
+<CardGrid>
+	<LinkCard
+		title="🛡️ At Network School? Start here →"
+		description="Scanned a banner QR? Get a wallet in 60s, find the next event, meet the team."
+		href="/ns/"
+	/>
+	<LinkCard
+		title="🪙 Claim $5 in ZEC + the newsletter →"
+		description="One short form: your u1 address and your email. ZEC within 24h. We email when the shielded newsletter ships."
+		href="/airdrops/"
+	/>
+</CardGrid>
 
 <CardGrid stagger>
 	<Card title="Why Privacy" icon="seti:lock">

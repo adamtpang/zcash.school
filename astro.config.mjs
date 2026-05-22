@@ -71,7 +71,8 @@ export default defineConfig({
 					items: [
 						{ label: 'ZNS landing', link: '/ns/' },
 						{ label: 'Get a wallet in 60s', link: '/start/' },
-						{ label: 'Claim $5 in ZEC', link: '/claim/' },
+						{ label: 'Claim airdrop ($5 ZEC + newsletter)', link: '/airdrops/' },
+						{ label: '/claim (same form, kept as alias)', link: '/claim/' },
 						{ label: 'Accept Zcash (merchants)', link: '/merchants/' },
 						{ label: 'Team & sister projects', link: '/team/' },
 					],
