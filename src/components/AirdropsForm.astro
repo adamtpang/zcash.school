@@ -1,0 +1,164 @@
+---
+/**
+ * Airdrops form. Same progressive-enhancement pattern as ClaimForm,
+ * with an email field for the shielded-newsletter deliverable, and
+ * the optional event field carried over from /claim so the team can
+ * tie submissions back to attendance.
+ *
+ * Posts JSON to /api/airdrops which proxies to the Google Apps Script
+ * Web App bound to the Airdrops Team spreadsheet.
+ */
+const eventHint = 'e.g. Sat 23 May event · The Hall';
+---
+
+<form id="airdrops-form" class="airdrops-form" data-source="/airdrops">
+	<label>
+		<span class="lbl">Your Unified Address (starts with <code>u1</code>)</span>
+		<input
+			type="text"
+			name="unifiedAddress"
+			required
+			minlength="20"
+			autocomplete="off"
+			autocapitalize="off"
+			spellcheck="false"
+			placeholder="u1aa3kmwerpyu5p4tc3h3xqz..."
+			class="mono"
+		/>
+		<small>In Zodl (formerly Zashi): tap <strong>Receive</strong> and copy the string starting with <code>u1</code>. We send the ZEC here.</small>
+	</label>
+
+	<label>
+		<span class="lbl">Email</span>
+		<input
+			type="email"
+			name="email"
+			required
+			autocomplete="email"
+			placeholder="you@somewhere.com"
+		/>
+		<small>For the shielded newsletter when it ships, plus a one-time confirmation if we need to follow up on your claim. No spam.</small>
+	</label>
+
+	<label>
+		<span class="lbl">Which event or office hours did you attend? <em class="muted">(optional)</em></span>
+		<input type="text" name="event" placeholder={eventHint} />
+	</label>
+
+	{/* Honeypot: hidden from people, irresistible to bots. */}
+	<input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp" />
+
+	<button type="submit">Submit and claim</button>
+	<p id="airdrops-status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+	const form = document.getElementById('airdrops-form') as HTMLFormElement | null;
+	if (form) {
+		const status = document.getElementById('airdrops-status') as HTMLParagraphElement;
+		const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			status.style.color = 'inherit';
+			status.textContent = 'Sending...';
+			btn.disabled = true;
+			const payload: Record<string, string> = Object.fromEntries(
+				new FormData(form).entries()
+			) as Record<string, string>;
+			payload.source = form.dataset.source || '/airdrops';
+			try {
+				const r = await fetch('/api/airdrops', {
+					method: 'POST',
+					headers: { 'content-type': 'application/json' },
+					body: JSON.stringify(payload),
+				});
+				const data = await r.json().catch(() => ({}));
+				if (r.ok && data.ok) {
+					form.reset();
+					status.style.color = 'var(--zs-red, #E5322D)';
+					status.textContent =
+						data.message ||
+						"You're in. ZEC arrives within 24 hours.";
+					const w = window as any;
+					if (typeof w.va === 'function') w.va('event', { name: 'airdrop_submitted' });
+				} else {
+					status.style.color = '#b91c1c';
+					status.textContent =
+						(data && data.error) ||
+						'Something went wrong. Try again, or grab us at the next event.';
+					btn.disabled = false;
+				}
+			} catch {
+				status.style.color = '#b91c1c';
+				status.textContent =
+					"Network error. Try again, or grab us at the next event.";
+				btn.disabled = false;
+			}
+		});
+	}
+</script>
+
+<style>
+	.airdrops-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		max-width: 560px;
+		margin: 1.5rem 0;
+	}
+	.airdrops-form label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+	}
+	.airdrops-form .lbl {
+		font-weight: 600;
+	}
+	.airdrops-form .lbl .muted {
+		color: var(--sl-color-gray-3);
+		font-style: normal;
+		font-weight: 400;
+	}
+	.airdrops-form input {
+		padding: 0.7rem 0.9rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 8px;
+		background: var(--sl-color-bg-nav);
+		color: var(--sl-color-white);
+		font-size: 1rem;
+	}
+	.airdrops-form input.mono {
+		font-family: var(--sl-font-mono);
+		font-size: 0.9rem;
+	}
+	.airdrops-form small {
+		color: var(--sl-color-gray-3);
+		line-height: 1.4;
+	}
+	.airdrops-form .hp {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		opacity: 0;
+	}
+	.airdrops-form button {
+		padding: 0.85rem 1rem;
+		background: var(--zs-red, #e5322d);
+		color: #fff;
+		border: 0;
+		border-radius: 8px;
+		font-weight: 700;
+		cursor: pointer;
+		font-size: 1.05rem;
+	}
+	.airdrops-form button:disabled {
+		opacity: 0.6;
+		cursor: progress;
+	}
+	#airdrops-status {
+		margin: 0;
+		min-height: 1.2rem;
+		font-weight: 600;
+	}
+</style>
