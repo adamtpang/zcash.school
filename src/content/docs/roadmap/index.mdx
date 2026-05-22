@@ -8,44 +8,66 @@ import { Aside } from '@astrojs/starlight/components';
 
 > *Shipped beats planned. This page is the plan.*
 
-ZNS is a 90-day grant (May to July 2026). The deliverables are fixed;
-progress is tracked here and reported monthly on the forum.
+ZNS is a 90-day Zcash Foundation community-grant program (May to July
+2026). Deliverables are fixed at grant approval; progress is tracked
+here and reported monthly on the
+[grant forum thread](https://forum.zcashcommunity.com/t/zcash-network-school/55269).
 
 {/* TODO: update counts weekly from the real ZNS tracker. */}
 
 ## Grant deliverables
 
-| Deliverable                | Target | Status                        |
-| -------------------------- | ------ | ----------------------------- |
-| Educational events         | 6      | 0 / 6 {/* TODO: live count */} |
-| Office hours               | 12     | 0 / 12 {/* TODO */}            |
-| Wallet activations         | 100    | 0 / 100 {/* TODO */}           |
-| Merchant POS installs      | 4      | 0 / 4 {/* TODO */}             |
-| Monthly forum reports      | 3      | 0 / 3 {/* TODO */}             |
+Lifted verbatim from the grant thread.
+
+| # | Deliverable                                  | Target / Scope                                          | Status                                                            |
+| - | -------------------------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------- |
+| 1 | Zcash Office (physical workspace on campus)  | Operational for the full program duration               | On-campus *(team-led, off-site of zcash.school)*                  |
+| 2 | Educational events                            | **6** total (2/month), Privacy is Normal + ZK 101       | 0 / 6 {/* TODO: live count */}                                    |
+| 3 | Weekly office hours                           | **12** total (4/month), 5-25 attendees each             | 0 / 12 {/* TODO */}                                               |
+| 4 | User incentives (ZEC airdrops)                | **~$5/participant**, KPI **100 wallet activations**     | 0 / 100. Captured via [/airdrops](/airdrops/) → team Sheet.       |
+| 5 | Onboarding materials                          | Printed guides, QR cards, t-shirts, banners, signage    | "60s start" guide at [/start](/start/); banner QR at `/ns-qr.png` |
+| 6 | User interviews (PII-excluded transcripts)    | Residents and businesses                                | *(team-led)*                                                      |
+| 7 | Community announcements                       | Forum, ZecHub, coinholder votes, contributions          | *(team-led)*                                                      |
+| 8 | Monthly forum reports                         | **3** total, summarising events, metrics, spending      | 0 / 3 {/* TODO */}                                                |
+| - | Merchant POS installs (KPI)                  | **4** new POS systems                                   | 0 / 4. Funnel page at [/merchants](/merchants/).                   |
+| - | Shielded newsletter                          | Mechanism TBD; email collection is live                 | Email opt-in shipping via [/airdrops](/airdrops/). Delivery method open. |
 
 ## Site roadmap
 
-### Now
+### Now (shipped)
 
 - Core curriculum (Modules 1 to 5) live.
-- ZNS pages: landing, 60-second start, claim, merchants, team.
-- Brand system: yellow/black + red/white, editorial layout.
+- ZNS funnel pages: [/ns](/ns/), [/start](/start/), [/airdrops](/airdrops/) (the canonical claim CTA), [/claim](/claim/) (alias), [/merchants](/merchants/), [/team](/team/).
+- Brand system (yellow/black + red/white), editorial layout with zebra background, top navbar.
+- /airdrops submissions write directly into the **Airdrops Team Google Sheet** via Apps Script. No Resend, no separate inbox, no third-party CRM.
+- Self-pruning schedule on /ns reading from `src/data/schedule.json`.
+- Banner-printable QR at `public/ns-qr.png` (regen with `pnpm qr`).
+- Blog with two seed posts: [Why Zcash](/blog/why-zcash/) and [Why Network School](/blog/why-network-school/).
 
 ### Next
 
-- Real team photos on the [Team page](/team/).
-- Live event dates and venues wired into [/ns](/ns/).
-- Hosted claim form endpoint (replacing the email fallback).
-- `adam@zcash.school` inbox / scheduling channel for merchant setup.
+- Real event dates and venues in `src/data/schedule.json`.
+- Real team photos in `public/team/*.jpg` (page scaffold already there).
+- **Decide the shielded-newsletter delivery mechanism** (mailing list backed by Buttondown / Listmonk / self-hosted; or shielded-memo-based, ZNS-native, TBD).
+- Vercel Web Analytics for the [/ns → /start → /airdrops] funnel (cookieless, no consent banner).
+- Lighthouse / a11y pass on the editorial card at mobile widths.
 
 ### Later
 
 - Per-lesson "test yourself" checks.
-- Printable one-pagers for events (banner-matched).
-- Localised content for the NS cohort's primary languages.
+- Printable one-pagers for events, banner-matched.
+- Localised content for the cohort's primary languages.
+- Push-to-deploy via Vercel GitHub App (one-time install in the Vercel dashboard).
+
+## How to update this page
+
+Two files do the work:
+
+1. `src/data/schedule.json` — every event and office-hours session.
+2. `src/content/docs/roadmap/index.mdx` (this file) — deliverable counts and status. Update after each event.
 
 <Aside type="tip" title="This page changes often">
-The roadmap is intentionally living. If something here is stale, it is
-a bug; open an issue on
+The roadmap is intentionally living. If something here is stale it is
+a bug. Open an issue on
 [the repo](https://github.com/adamtpang/zcash.school).
 </Aside>
