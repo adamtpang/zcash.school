@@ -1,0 +1,43 @@
+/* preview/_card.css — shared styles for Design System cards */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root {
+  --zs-yellow:#F4B728; --zs-yellow-soft:#FFE39A;
+  --zs-red:#E5322D; --zs-red-hover:#C2241F; --zs-red-light:#D7263D;
+  --zs-black:#0C0D10; --zs-ink:#16181D; --zs-white:#FAFAFB;
+  --zs-paper:#FFFFFF; --zs-cream:#FBF3E4;
+  --zs-gray-1:#1D1F26; --zs-gray-2:#3A3D47; --zs-gray-3:#5F636E;
+  --zs-gray-4:#9AA0AC; --zs-gray-5:#D4D7DF; --zs-gray-6:#ECEEF3;
+  --zs-gray-7:#F6F7FA; --zs-hairline:#E6E8EE;
+  --zs-gray-1-dark:#E7E8EC; --zs-gray-2-dark:#B6B8C0;
+  --zs-gray-3-dark:#828690; --zs-gray-4-dark:#51545E;
+  --zs-gray-5-dark:#2A2C34; --zs-gray-6-dark:#17181D;
+  --font-sans:"Inter",system-ui,-apple-system,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+
+html, body {
+  margin: 0; padding: 0;
+  font-family: var(--font-sans);
+  color: var(--zs-ink);
+  background: var(--zs-paper);
+  -webkit-font-smoothing: antialiased;
+}
+.card {
+  box-sizing: border-box;
+  width: 700px;
+  padding: 22px 26px;
+  background: var(--zs-paper);
+  color: var(--zs-ink);
+}
+.card.dark { background: var(--zs-black); color: var(--zs-white); }
+.row { display: flex; align-items: stretch; gap: 12px; }
+.col { display: flex; flex-direction: column; gap: 12px; }
+.eyebrow {
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--zs-gray-3); font-weight: 600;
+}
+.dark .eyebrow { color: var(--zs-gray-3-dark); }
+.mono { font-family: var(--font-mono); }
+.hint { font-size: 11px; color: var(--zs-gray-3); }
+.dark .hint { color: var(--zs-gray-3-dark); }

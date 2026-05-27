@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMid slice" role="presentation">
+  
+  <defs>
+    <filter id="zebra" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.009 0.022" numOctaves="3" seed="7" result="noise"></feTurbulence>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0&#xA;                0 0 0 0 0&#xA;                0 0 0 0 0&#xA;                0 0 0 14 -6.2" result="mask"></feColorMatrix>
+      <feComponentTransfer in="mask" result="hard">
+        <feFuncA type="discrete" tableValues="0 0 0 1 1 1"></feFuncA>
+      </feComponentTransfer>
+      <feFlood flood-color="#D62828" result="red"></feFlood>
+      <feComposite in="red" in2="hard" operator="in" result="redshapes"></feComposite>
+      <feMerge>
+        <feMergeNode></feMergeNode>
+        <feMergeNode in="redshapes"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1400" height="1000" fill="#FBF3E4"></rect>
+  <rect width="1400" height="1000" filter="url(#zebra)"></rect>
+</svg>

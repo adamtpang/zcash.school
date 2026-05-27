@@ -10,7 +10,8 @@
     "astro": "astro",
     "og": "node scripts/generate-og.mjs",
     "qr": "node scripts/generate-qr.mjs",
-    "favicon": "node scripts/generate-favicon.mjs"
+    "favicon": "node scripts/generate-favicon.mjs",
+    "design:sync": "node scripts/design-sync.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",

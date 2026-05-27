@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>zcash.school — Slide Deck</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+  <style>
+    :root {
+      --zs-yellow:#F4B728; --zs-yellow-soft:#FFE39A;
+      --zs-red:#E5322D; --zs-red-hover:#C2241F;
+      --zs-black:#0C0D10; --zs-ink:#16181D;
+      --zs-white:#FAFAFB; --zs-paper:#FFFFFF; --zs-cream:#FBF3E4;
+      --zs-gray-1:#1D1F26; --zs-gray-2:#3A3D47; --zs-gray-3:#5F636E;
+      --zs-gray-4:#9AA0AC; --zs-gray-5:#D4D7DF; --zs-gray-6:#ECEEF3;
+      --zs-gray-7:#F6F7FA; --zs-hairline:#E6E8EE;
+      --zs-gray-3-dark:#828690; --zs-gray-5-dark:#2A2C34;
+
+      --font-display:"Space Grotesk", "Inter", system-ui, sans-serif;
+      --font-sans:"Inter", system-ui, sans-serif;
+      --font-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+
+      /* Slide is 1920x1080 — deck-stage scales it to fit */
+      --pad: 110px;
+    }
+
+    body { margin: 0; background: #08090b; font-family: var(--font-sans); }
+
+    /* Identity dots used in slide chrome */
+    .id-dots { display: inline-flex; gap: 6px; vertical-align: middle; }
+    .id-dots span { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+    .id-dots .y { background: var(--zs-yellow); }
+    .id-dots .r { background: var(--zs-red); }
+
+    /* ============== SLIDE BASE ============== */
+    deck-stage section {
+      width: 1920px; height: 1080px;
+      position: relative;
+      overflow: hidden;
+      font-family: var(--font-sans);
+      color: var(--zs-ink);
+      background: var(--zs-paper);
+    }
+
+    /* Slide chrome — wordmark top-left, slide footer */
+    .chrome {
+      position: absolute; left: var(--pad); right: var(--pad);
+      top: 56px; bottom: 56px;
+      pointer-events: none;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+    }
+    .chrome-top, .chrome-bot {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 18px; font-family: var(--font-display); font-weight: 600;
+      color: var(--zs-gray-3); letter-spacing: -0.005em;
+    }
+    .chrome-bot { font-family: var(--font-mono); font-size: 16px; letter-spacing: .04em; text-transform: uppercase; color: var(--zs-gray-4); }
+    .chrome-wordmark { display: inline-flex; align-items: center; gap: 14px; color: var(--zs-ink); }
+
+    .dark .chrome-top, .dark .chrome-bot { color: var(--zs-gray-3-dark); }
+    .dark .chrome-wordmark { color: var(--zs-white); }
+
+    /* ============== SLIDE BODY ============== */
+    .slide-body {
+      position: absolute;
+      left: var(--pad); right: var(--pad);
+      top: 140px; bottom: 140px;
+      display: flex; flex-direction: column; justify-content: flex-start;
+    }
+    /* Slides that genuinely want vertical centering opt in. */
+    .splash .slide-body,
+    .quote .slide-body,
+    .closing .slide-body,
+    .qr-slide .slide-body,
+    .section-break .slide-body { justify-content: center; }
+
+    /* Tokens */
+    .eyebrow {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--zs-red); margin-bottom: 28px;
+    }
+    .dark .eyebrow { color: var(--zs-yellow); }
+
+    h1.title {
+      font-family: var(--font-display);
+      font-size: 156px; font-weight: 700;
+      letter-spacing: -0.03em; line-height: 0.95;
+      margin: 0; color: var(--zs-ink);
+      text-wrap: balance;
+    }
+    h2.section-title {
+      font-family: var(--font-display);
+      font-size: 132px; font-weight: 700;
+      letter-spacing: -0.03em; line-height: 0.95;
+      margin: 0; color: var(--zs-ink);
+      text-wrap: balance;
+    }
+    h2.slide-h {
+      font-family: var(--font-display);
+      font-size: 76px; font-weight: 700;
+      letter-spacing: -0.025em; line-height: 1.05;
+      margin: 0 0 28px; color: var(--zs-ink);
+      text-wrap: balance; max-width: 1500px;
+    }
+    .dark h1.title, .dark h2.section-title, .dark h2.slide-h { color: var(--zs-white); }
+
+    .lede {
+      font-family: var(--font-sans);
+      font-size: 38px; font-weight: 400; line-height: 1.4;
+      color: var(--zs-gray-2); max-width: 1300px;
+      text-wrap: pretty;
+    }
+    .dark .lede { color: var(--zs-gray-1-dark, #E7E8EC); }
+
+    .accent-yellow { color: var(--zs-yellow); font-style: normal; }
+    .accent-red    { color: var(--zs-red);    font-style: normal; }
+
+    /* ============== SPECIFIC LAYOUTS ============== */
+
+    /* Splash / title slide — dark, identity-forward */
+    .dark { background: var(--zs-black); color: var(--zs-white); }
+    .splash .slide-body { justify-content: center; gap: 36px; }
+    .splash .wordmark-huge {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 240px; letter-spacing: -0.04em; line-height: 0.92;
+      color: var(--zs-white);
+    }
+    .splash .wordmark-huge .dot { color: var(--zs-yellow); }
+    .splash .tagline {
+      font-family: var(--font-sans);
+      font-size: 44px; font-weight: 400; line-height: 1.35;
+      color: var(--zs-gray-2-dark, #B6B8C0);
+      max-width: 1200px; margin-top: 24px;
+    }
+    .splash .brand-bar {
+      position: absolute; left: var(--pad); bottom: 110px;
+      display: flex; gap: 12px;
+    }
+    .splash .brand-bar .y, .splash .brand-bar .r { height: 8px; border-radius: 2px; }
+    .splash .brand-bar .y { width: 240px; background: var(--zs-yellow); }
+    .splash .brand-bar .r { width: 140px; background: var(--zs-red); }
+
+    /* Section break — heavy display on cream/zebra */
+    .section-break {
+      background-color: var(--zs-cream);
+      background-image: url("../assets/zebra-bg.svg");
+      background-size: cover; background-position: center;
+    }
+    /* The zebra is too busy for outer chrome text to be readable. On a
+       section break we hide the outer chrome entirely — the slide-number
+       and wordmark belong inside the white card. */
+    .section-break > .chrome { display: none; }
+    .section-break .slide-body {
+      background: var(--zs-paper);
+      border-radius: 18px;
+      border-top: 6px solid var(--zs-yellow);
+      box-shadow: 0 28px 80px rgba(12,13,16,0.22), 0 4px 12px rgba(12,13,16,0.12);
+      padding: 84px 96px;
+      left: 200px; right: 200px;
+      top: 180px; bottom: 180px;
+    }
+    .section-break .inner-chrome {
+      position: absolute; left: 96px; right: 96px;
+      top: 36px; bottom: 36px;
+      pointer-events: none;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .section-break .inner-chrome > div {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .section-break .inner-chrome .top {
+      font-family: var(--font-display); font-weight: 600; font-size: 18px;
+      color: var(--zs-gray-3);
+    }
+    .section-break .inner-chrome .bot {
+      font-family: var(--font-mono); font-size: 16px; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--zs-gray-4);
+    }
+    .section-break .inner-chrome .chrome-wordmark { color: var(--zs-ink); display: inline-flex; align-items: center; gap: 14px; }
+
+    /* Big quote */
+    .quote .slide-body { justify-content: center; }
+    .quote blockquote {
+      margin: 0; padding-left: 36px;
+      border-left: 6px solid var(--zs-red);
+      font-family: var(--font-display);
+      font-size: 96px; font-weight: 500;
+      font-style: italic;
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--zs-ink); max-width: 1500px;
+      text-wrap: balance;
+    }
+    .quote .attribution {
+      font-family: var(--font-mono); font-size: 22px; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--zs-gray-3);
+      margin-top: 48px; padding-left: 42px;
+    }
+
+    /* 3-up grid */
+    .three-up {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 32px; margin-top: 44px;
+    }
+    .three-up .col {
+      background: var(--zs-paper);
+      border: 1px solid var(--zs-hairline);
+      border-radius: 18px;
+      padding: 44px 40px;
+      display: flex; flex-direction: column;
+    }
+    .three-up .col .num {
+      font-family: var(--font-mono);
+      font-size: 20px; color: var(--zs-gray-3);
+      letter-spacing: .1em;
+      margin-bottom: 22px;
+    }
+    .three-up .col h3 {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 42px; letter-spacing: -0.02em; line-height: 1.05;
+      color: var(--zs-ink); margin: 0 0 16px;
+    }
+    .three-up .col p {
+      font-size: 24px; line-height: 1.45; color: var(--zs-gray-2);
+      margin: 0;
+    }
+    .three-up .col.accent { background: var(--zs-black); color: var(--zs-white); border-color: var(--zs-black); }
+    .three-up .col.accent h3 { color: var(--zs-white); }
+    .three-up .col.accent p  { color: var(--zs-gray-2-dark, #B6B8C0); }
+    .three-up .col.accent .num { color: var(--zs-yellow); }
+
+    /* Bullet list (modules / takeaways) */
+    .bullets {
+      list-style: none; padding: 0; margin: 44px 0 0;
+      display: grid; grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .bullets li {
+      display: grid; grid-template-columns: 64px 1fr;
+      align-items: baseline;
+      gap: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--zs-hairline);
+      font-family: var(--font-sans);
+    }
+    .bullets li:last-child { border-bottom: 0; }
+    .bullets .num {
+      font-family: var(--font-mono);
+      font-weight: 700; font-size: 26px;
+      color: var(--zs-red);
+    }
+    .bullets .name {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: 34px; letter-spacing: -0.012em;
+      color: var(--zs-ink);
+    }
+    .bullets .desc { display: block; font-family: var(--font-sans); font-weight: 400; font-size: 22px; color: var(--zs-gray-2); margin-top: 6px; line-height: 1.4; }
+
+    /* Big number / claim slide */
+    .big-num { display: flex; gap: 80px; align-items: center; }
+    .big-num .number {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 380px;
+      letter-spacing: -0.04em; line-height: 0.85;
+      color: var(--zs-red);
+    }
+    .big-num .unit {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 140px; letter-spacing: -0.03em;
+      color: var(--zs-ink); line-height: 1;
+    }
+    .big-num .label {
+      font-family: var(--font-sans); font-size: 34px; line-height: 1.4;
+      color: var(--zs-gray-2); margin-top: 32px; max-width: 700px;
+    }
+
+    /* QR slide */
+    .qr-slide .slide-body { flex-direction: row; align-items: center; gap: 100px; }
+    .qr-slide .qr-img {
+      background: var(--zs-paper); border-radius: 24px;
+      padding: 36px;
+      box-shadow: 0 28px 80px rgba(12,13,16,0.22), 0 4px 12px rgba(12,13,16,0.12);
+    }
+    .qr-slide .qr-img img { display: block; width: 520px; height: 520px; image-rendering: pixelated; }
+    .qr-slide .qr-text { flex: 1; }
+    .qr-slide .qr-text .url {
+      font-family: var(--font-mono); font-size: 36px;
+      color: var(--zs-gray-2); margin-top: 24px;
+      padding: 14px 22px; background: var(--zs-gray-7);
+      border-radius: 10px; display: inline-block;
+    }
+
+    /* Schedule */
+    .schedule { margin-top: 56px; display: flex; flex-direction: column; gap: 16px; }
+    .schedule-row {
+      display: grid; grid-template-columns: 180px 1fr auto;
+      align-items: center; gap: 32px;
+      padding: 24px 32px;
+      background: var(--zs-paper);
+      border: 1px solid var(--zs-hairline);
+      border-radius: 14px;
+    }
+    .schedule-row .date {
+      font-family: var(--font-mono); font-size: 28px; font-weight: 700;
+      color: var(--zs-red); letter-spacing: -0.01em;
+    }
+    .schedule-row .title-row {
+      font-family: var(--font-display); font-size: 32px; font-weight: 600;
+      color: var(--zs-ink);
+    }
+    .schedule-row .loc {
+      font-family: var(--font-sans); font-size: 22px;
+      color: var(--zs-gray-3); margin-top: 6px;
+    }
+    .schedule-row .tag {
+      font-family: var(--font-mono); font-size: 18px; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--zs-gray-3);
+      padding: 8px 16px; border: 1px solid var(--zs-hairline); border-radius: 999px;
+    }
+
+    /* Team */
+    .team-grid-slide {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 28px; margin-top: 56px;
+    }
+    .team-grid-slide .tile {
+      background: var(--zs-paper); border: 1px solid var(--zs-hairline);
+      border-radius: 16px; padding: 36px 24px;
+      text-align: center;
+    }
+    .team-grid-slide .avatar {
+      width: 140px; height: 140px; border-radius: 999px;
+      background: linear-gradient(135deg, var(--zs-yellow), var(--zs-red));
+      color: var(--zs-black);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 56px; margin: 0 auto 24px;
+    }
+    .team-grid-slide .name {
+      font-family: var(--font-display); font-weight: 600; font-size: 28px;
+      letter-spacing: -0.012em; color: var(--zs-ink);
+    }
+    .team-grid-slide .role {
+      font-family: var(--font-sans); font-size: 18px; color: var(--zs-gray-3);
+      margin-top: 8px; line-height: 1.35;
+    }
+
+    /* Closing */
+    .closing .slide-body { justify-content: center; gap: 56px; align-items: center; text-align: center; }
+    .closing .pull {
+      font-family: var(--font-display); font-style: italic; font-weight: 500;
+      font-size: 124px; letter-spacing: -0.025em; line-height: 0.98;
+      color: var(--zs-white); max-width: 1500px; text-wrap: balance;
+    }
+    .closing .pull .accent-yellow { color: var(--zs-yellow); }
+    .closing .footnote {
+      font-family: var(--font-mono); font-size: 22px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--zs-gray-3-dark);
+    }
+
+    /* deck-stage progress bar over the cream zebra needs more contrast — let the host handle it */
+  </style>
+</head>
+<body>
+
+<deck-stage>
+
+  <!-- 01 — TITLE / SPLASH (dark, identity-forward) -->
+  <section class="dark splash" data-screen-label="01 Title">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>An Independent Zcash Course</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>01 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="eyebrow">zcash network school</div>
+      <div class="wordmark-huge">zcash<span class="dot">.</span>school</div>
+      <div class="tagline">Private money, explained from scratch.<br>Enrollment is open. Attendance is anonymous.</div>
+    </div>
+    <div class="brand-bar"><span class="y"></span><span class="r"></span></div>
+  </section>
+
+  <!-- 02 — AGENDA / WHAT THIS IS -->
+  <section data-screen-label="02 What this is">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>What this is</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>02 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="eyebrow">Overview</div>
+      <h2 class="slide-h">A 90-day program. A free course. A path to your first <span class="accent-red">shielded transaction.</span></h2>
+      <div class="three-up">
+        <div class="col">
+          <div class="num">01</div>
+          <h3>The course</h3>
+          <p>Five modules covering privacy, zero-knowledge proofs, Zcash protocol, wallets, and ecosystem economics. Free, end-to-end, primary-source.</p>
+        </div>
+        <div class="col">
+          <div class="num">02</div>
+          <h3>The program</h3>
+          <p>Zcash Network School (ZNS) — Foundation-funded, on campus at NS Forest City. Events, office hours, merchant onboarding.</p>
+        </div>
+        <div class="col accent">
+          <div class="num">03</div>
+          <h3>The airdrop</h3>
+          <p>Show up with a shielded address, walk out with $5 in ZEC. Onboarding for a hundred wallets, four merchants.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — SECTION BREAK: WHY PRIVACY -->
+  <section class="section-break" data-screen-label="03 Section — Why privacy">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>Section 1</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>03 / 11</span></div>
+    </div>
+    <div class="slide-body" style="position: relative;">
+      <div class="inner-chrome">
+        <div class="top">
+          <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+          <span>Section 1</span>
+        </div>
+        <div class="bot"><span>2026 · NETWORK SCHOOL</span><span>03 / 11</span></div>
+      </div>
+      <div class="eyebrow">Module 01</div>
+      <h2 class="section-title">Why privacy<br>matters<span class="accent-red">.</span></h2>
+      <div class="lede" style="margin-top:48px;">Cash was always private. A public ledger flipped that default. If your money has a leaderboard, it isn't yours.</div>
+    </div>
+  </section>
+
+  <!-- 04 — BIG QUOTE -->
+  <section class="quote" data-screen-label="04 Quote">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>Why privacy</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>04 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <blockquote>
+        "Transparent chains are just public diaries with extra steps."
+      </blockquote>
+      <div class="attribution">— zcash.school · Module 1</div>
+    </div>
+  </section>
+
+  <!-- 05 — 3-UP: HOW WE GOT HERE -->
+  <section data-screen-label="05 Cash → Bitcoin → Zcash">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>The thesis in 3 steps</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>05 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="eyebrow">The thesis</div>
+      <h2 class="slide-h">Cash was private. Bitcoin gave that up.<br>Zcash gets it back.</h2>
+      <div class="three-up">
+        <div class="col">
+          <div class="num">CASH · 1971–2008</div>
+          <h3>Private by default</h3>
+          <p>You handed someone a coin and the transaction left no public record. The original privacy technology for value transfer.</p>
+        </div>
+        <div class="col">
+          <div class="num">BITCOIN · 2009</div>
+          <h3>Pseudonymous</h3>
+          <p>Anyone with an internet connection can see every transaction. Pseudonyms collapse the moment you cash out or post a donation address.</p>
+        </div>
+        <div class="col accent">
+          <div class="num">ZCASH · 2016</div>
+          <h3>Shielded by default</h3>
+          <p>Zero-knowledge proofs prove a transaction is valid without revealing the amount, sender, or recipient. Privacy of cash + auditability of a chain.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — SYLLABUS / MODULES -->
+  <section data-screen-label="06 Syllabus">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>The five modules</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>06 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="eyebrow">Syllabus</div>
+      <h2 class="slide-h">Five modules. One afternoon. Zero jargon.</h2>
+      <ol class="bullets">
+        <li><span class="num">01</span><div><span class="name">Why Privacy Matters</span><span class="desc">Cash as the historical default, the Bitcoin transparency problem, the cypherpunk lineage, and the Zcash thesis.</span></div></li>
+        <li><span class="num">02</span><div><span class="name">Zero-Knowledge Proofs</span><span class="desc">Intuition, zk-SNARKs, and the trustless Halo 2 setup behind Zcash's Orchard pool.</span></div></li>
+        <li><span class="num">03</span><div><span class="name">How Zcash Works</span><span class="desc">Addresses, pools, notes, nullifiers, Orchard, and Project Tachyon.</span></div></li>
+        <li><span class="num">04</span><div><span class="name">Using Zcash</span><span class="desc">Wallets, your first shielded transaction, selective disclosure, and accepting Zcash as a merchant.</span></div></li>
+        <li><span class="num">05</span><div><span class="name">Ecosystem &amp; Economics</span><span class="desc">The orgs, ZIPs and upgrades, the supply schedule.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 07 — BIG NUMBER -->
+  <section data-screen-label="07 $5 in ZEC">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>The airdrop</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>07 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="eyebrow">Show up with a wallet</div>
+      <div class="big-num">
+        <div>
+          <span class="number">$5</span>
+        </div>
+        <div>
+          <div class="unit">in ZEC</div>
+          <div class="label">Install Zashi/Zodl, generate a shielded address, show up to an event or office hours, claim it on the spot. Funded by the Zcash Foundation grant.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 — SCHEDULE -->
+  <section data-screen-label="08 Schedule">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>What's on this term</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>08 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="eyebrow">Schedule</div>
+      <h2 class="slide-h">Six events. Twelve office hours. One quarter.</h2>
+      <div class="schedule">
+        <div class="schedule-row">
+          <div class="date">MAY 14</div>
+          <div><div class="title-row">Kickoff — Why privacy matters</div><div class="loc">Black Box · NS Forest City · 7:00 PM</div></div>
+          <div class="tag">Event</div>
+        </div>
+        <div class="schedule-row">
+          <div class="date">MAY 21</div>
+          <div><div class="title-row">ZK proofs from scratch</div><div class="loc">Black Box · NS Forest City · 7:00 PM</div></div>
+          <div class="tag">Event</div>
+        </div>
+        <div class="schedule-row">
+          <div class="date">MAY 28</div>
+          <div><div class="title-row">Office hours — wallet debugging</div><div class="loc">Library · NS Forest City · 3:00 PM</div></div>
+          <div class="tag">Drop-in</div>
+        </div>
+        <div class="schedule-row">
+          <div class="date">JUN 04</div>
+          <div><div class="title-row">Your first shielded transaction (lab)</div><div class="loc">Black Box · NS Forest City · 7:00 PM</div></div>
+          <div class="tag">Lab</div>
+        </div>
+        <div class="schedule-row">
+          <div class="date">JUN 18</div>
+          <div><div class="title-row">Merchant onboarding workshop</div><div class="loc">F&amp;B corridor · NS Forest City · 4:00 PM</div></div>
+          <div class="tag">Workshop</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 — QR CODE -->
+  <section class="qr-slide" data-screen-label="09 Scan to start">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>Scan to start</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>09 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="qr-img"><img src="../assets/start-qr.png" alt="QR code to zcash.school/start"></div>
+      <div class="qr-text">
+        <div class="eyebrow">Get a wallet in 60 seconds</div>
+        <h2 class="slide-h" style="font-size:96px;">Scan it.<br>Install Zashi.<br>Bring your u1 to the next event.</h2>
+        <div class="url">zcash.school/start</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 — TEAM -->
+  <section data-screen-label="10 Team">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>The team</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>10 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="eyebrow">Accountability matters for a grant-funded program</div>
+      <h2 class="slide-h">Not anonymous. We post monthly to the foundation forum.</h2>
+      <div class="team-grid-slide">
+        <div class="tile"><div class="avatar">AF</div><div class="name">Andre Froes</div><div class="role">Program lead</div></div>
+        <div class="tile"><div class="avatar">JJ</div><div class="name">James Joseph</div><div class="role">Direction</div></div>
+        <div class="tile"><div class="avatar">KD</div><div class="name">Keiara Desouza</div><div class="role">Execution</div></div>
+        <div class="tile"><div class="avatar">SM</div><div class="name">Souvik Mishra</div><div class="role">Execution</div></div>
+        <div class="tile"><div class="avatar">A</div><div class="name">Adam</div><div class="role">Events · vendor onboarding · this site</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 — CLOSING -->
+  <section class="dark closing" data-screen-label="11 Closing">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="chrome-wordmark"><span class="id-dots"><span class="y"></span><span class="r"></span></span> zcash.school</span>
+        <span>Thank you</span>
+      </div>
+      <div class="chrome-bot"><span>2026 · NETWORK SCHOOL</span><span>11 / 11</span></div>
+    </div>
+    <div class="slide-body">
+      <div class="pull">"Tuition free,<br><span class="accent-yellow">knowledge zero.</span>"</div>
+      <div class="footnote">zcash.school · the only school where attendance isn't tracked</div>
+    </div>
+    <div class="brand-bar" style="position:absolute; left:110px; bottom:110px; display:flex; gap:12px;">
+      <span style="width:240px; height:8px; border-radius:2px; background:var(--zs-yellow);"></span>
+      <span style="width:140px; height:8px; border-radius:2px; background:var(--zs-red);"></span>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+</body>
+</html>

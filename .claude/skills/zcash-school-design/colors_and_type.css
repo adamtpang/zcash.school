@@ -1,0 +1,262 @@
+/* ============================================================
+   zcash.school — colors_and_type.css
+   Tokens + semantic styles for the brand system.
+
+   Reference these vars; do not hardcode hex values in components.
+   Lifted (and re-organized) from src/styles/custom.css in
+   adamtpang/zcash.school.
+   ============================================================ */
+
+/* ---- Webfonts (Google Fonts) --------------------------------
+   Hybrid type system: Space Grotesk (display) + Inter (body) +
+   JetBrains Mono (code). Space Grotesk gives the bold, slightly
+   geometric Network School flavor; Inter keeps the readable
+   curriculum / z.cash feel; JetBrains Mono handles addresses.
+   --------------------------------------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root {
+  /* ============== BRAND COLOR PRIMITIVES ============== */
+  /* Zcash official identity */
+  --zs-yellow:        #F4B728;
+  --zs-yellow-soft:   #FFE39A;
+  --zs-yellow-bg:     #3A2C08; /* deep yellow shadow for dark surfaces */
+
+  /* Our own spin */
+  --zs-red:           #E5322D;
+  --zs-red-hover:     #C2241F;
+  --zs-red-light:     #D7263D; /* used as accent in light mode */
+  --zs-red-bg:        #FFE3E1;
+
+  /* Surfaces / ink */
+  --zs-black:         #0C0D10; /* near-black; theme-color meta */
+  --zs-ink:           #16181D; /* body text on white card */
+  --zs-white:         #FAFAFB;
+  --zs-paper:         #FFFFFF; /* editorial white card */
+  --zs-cream:         #FBF3E4; /* zebra-bg base, warm cream */
+
+  /* Neutral ramps (light) */
+  --zs-gray-1:        #1D1F26;
+  --zs-gray-2:        #3A3D47;
+  --zs-gray-3:        #5F636E;
+  --zs-gray-4:        #9AA0AC;
+  --zs-gray-5:        #D4D7DF;
+  --zs-gray-6:        #ECEEF3;
+  --zs-gray-7:        #F6F7FA;
+
+  /* Neutral ramps (dark) */
+  --zs-gray-1-dark:   #E7E8EC;
+  --zs-gray-2-dark:   #B6B8C0;
+  --zs-gray-3-dark:   #828690;
+  --zs-gray-4-dark:   #51545E;
+  --zs-gray-5-dark:   #2A2C34;
+  --zs-gray-6-dark:   #17181D;
+  --zs-gray-bg-nav:   #08090B;
+
+  /* Hairlines */
+  --zs-hairline:        #E6E8EE;
+  --zs-hairline-dark:   #21232B;
+
+  /* ============== SEMANTIC TOKENS (light / editorial card) ====== */
+  --fg-1:           var(--zs-ink);    /* primary text */
+  --fg-2:           var(--zs-gray-2); /* secondary text / lede */
+  --fg-3:           var(--zs-gray-3); /* tertiary / metadata */
+  --fg-4:           var(--zs-gray-4); /* placeholder */
+  --bg-1:           var(--zs-paper);  /* main reading card */
+  --bg-2:           var(--zs-gray-7); /* subtle inline panel */
+  --bg-inline-code: #F1F2F5;
+  --hairline:       var(--zs-hairline);
+
+  /* Page background (the zebra layer sits behind everything) */
+  --page-bg:        var(--zs-cream);
+  --page-pattern:   url("assets/zebra-bg.svg");
+
+  /* ============== ACCENT ROLES ============== */
+  /* Yellow = "this is Zcash / this is a link" (signature pop on dark) */
+  --accent-link:        var(--zs-yellow);
+  --accent-link-hover:  var(--zs-yellow-soft);
+  /* Red = "do this" — always the action color in both themes */
+  --accent-action:        var(--zs-red);
+  --accent-action-hover:  var(--zs-red-hover);
+  --accent-action-light:  var(--zs-red-light);
+
+  /* ============== TYPE FAMILIES ============== */
+  /* Display = Space Grotesk (Network School flavor — geometric, bold)
+     Body / UI = Inter (z.cash + curriculum readability)
+     Mono = JetBrains Mono (addresses, code, shell)                  */
+  --font-display: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans:    "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+                  "Segoe UI", Roboto, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+                  Monaco, Consolas, monospace;
+
+  /* ============== TYPE SCALE ============== */
+  /* Space Grotesk's heavy weight is 700 — we use it for display.
+     Inter goes up to 820/900 for occasional body emphasis. */
+  --fw-regular:   400;
+  --fw-medium:    500;
+  --fw-semibold:  600;
+  --fw-button:    600;
+  --fw-bold:      700;
+  --fw-heading:   600; /* Space Grotesk h2/h3 — semibold reads heavier than Inter 750 */
+  --fw-display:   700; /* Space Grotesk hero h1 — max weight */
+
+  /* Tracking — Space Grotesk is geometric; needs less tracking than Inter at display */
+  --tracking-heading:  -0.01em;
+  --tracking-display:  -0.025em;
+  --tracking-eyebrow:   0.04em;
+
+  /* Line-heights */
+  --lh-display:   1.04;
+  --lh-heading:   1.15;
+  --lh-body:      1.72; /* the source CSS is generous on prose */
+  --lh-ui:        1.4;
+
+  /* Sizes (fluid where it matters) */
+  --t-display:   clamp(2.6rem, 6vw, 4.25rem);       /* hero h1 */
+  --t-h1:        clamp(2.1rem, 4vw, 3rem);
+  --t-h2:        1.75rem;
+  --t-h3:        1.3rem;
+  --t-lede:      clamp(1.1rem, 1.7vw, 1.45rem);
+  --t-body:      1rem;
+  --t-small:     0.875rem;
+  --t-meta:      0.82rem;
+  --t-pill:      0.75rem;
+  --t-eyebrow:   0.75rem;
+
+  /* ============== RADII / SHADOWS / SPACING ============== */
+  --r-pill:   999px;
+  --r-card:   16px;       /* editorial card */
+  --r-panel:  12px;       /* TOC, right-rail */
+  --r-tile:   10px;       /* team grid */
+  --r-chip:   8px;
+  --r-input:  6px;
+  --r-mark:   3px;        /* identity dot rounding */
+  --r-button: 6px;
+
+  --sh-card:    0 14px 40px rgba(12,13,16,0.22), 0 2px 6px rgba(12,13,16,0.12);
+  --sh-card-sm: 0 14px 40px rgba(12,13,16,0.18);
+  --sh-toc:     0 8px 24px rgba(12,13,16,0.14);
+
+  --content-width: 47rem; /* tight measure — "more readable" */
+  --gutter:        clamp(0.75rem, 2.5vw, 2.25rem);
+}
+
+/* ============== DARK MODE ==============
+   In dark mode the editorial card disappears and the page reverts to
+   Zcash-official identity: yellow link/accent on near-black.
+   ====================================================================== */
+:root[data-theme="dark"] {
+  --fg-1:           var(--zs-white);
+  --fg-2:           var(--zs-gray-2-dark);
+  --fg-3:           var(--zs-gray-3-dark);
+  --fg-4:           var(--zs-gray-4-dark);
+  --bg-1:           var(--zs-black);
+  --bg-2:           var(--zs-gray-6-dark);
+  --bg-inline-code: var(--zs-gray-6-dark);
+  --hairline:       var(--zs-hairline-dark);
+  --accent-link:        var(--zs-yellow);
+  --accent-link-hover:  var(--zs-yellow-soft);
+  --accent-action:        var(--zs-red);
+  --accent-action-hover:  var(--zs-red-hover);
+}
+
+/* ============================================================
+   SEMANTIC ELEMENT STYLES
+   Drop this stylesheet on a page and these defaults Just Work.
+   ============================================================ */
+
+html { color: var(--fg-1); background: var(--bg-1); }
+body { font-family: var(--font-sans); font-size: var(--t-body); line-height: var(--lh-body); margin: 0; color: var(--fg-1); }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: var(--tracking-heading);
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-heading);
+  color: var(--fg-1);
+  text-wrap: balance;
+}
+h1 { font-size: var(--t-h1); }
+h2 {
+  font-size: var(--t-h2);
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--hairline);
+}
+h3 { font-size: var(--t-h3); }
+
+/* Hero / splash display — Space Grotesk at its heaviest weight */
+.t-display, .hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--t-display);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--lh-display);
+  color: var(--fg-1);
+}
+.t-display .accent, .hero h1 .accent,
+.t-display em, .hero h1 em {
+  color: var(--accent-link);
+  font-style: normal;
+}
+
+/* Lede / tagline */
+.t-lede, .hero .tagline {
+  font-size: var(--t-lede);
+  color: var(--fg-2);
+  line-height: 1.5;
+  max-width: 38ch;
+}
+
+p, li { line-height: var(--lh-body); }
+p { text-wrap: pretty; }
+
+a {
+  color: var(--accent-action); /* light: red is the link on the editorial card */
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+:root[data-theme="dark"] a { color: var(--accent-link); } /* dark: yellow */
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+code {
+  background: var(--bg-inline-code);
+  padding: 0.12em 0.36em;
+  border-radius: var(--r-mark);
+}
+
+hr { border: 0; border-top: 1px solid var(--hairline); margin: 2rem 0; }
+
+/* ---- "Last reviewed" pill — used at the top of every lesson ---- */
+.last-reviewed {
+  display: inline-block;
+  padding: 0.18rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--bg-2);
+  color: var(--fg-3);
+  font-size: var(--t-pill);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+/* ---- Eyebrow ---- */
+.t-eyebrow {
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+  font-weight: var(--fw-semibold);
+}
+
+/* ---- Pull quotes (used liberally in lesson copy: "> *…*") ---- */
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--accent-action);
+  color: var(--fg-2);
+  font-style: italic;
+}
