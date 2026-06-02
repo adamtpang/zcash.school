@@ -13,19 +13,46 @@
    - Red is the *action* color in BOTH themes (primary CTAs,
      key call-to-action cards). Yellow/red never fight: yellow =
      "this is a link/Zcash", red = "do this".
+   - Type: Space Grotesk for display (h1/h2/h3, the wordmark) +
+     Inter for body / UI + JetBrains Mono for u1 addresses & code.
+     This is the NS x Zcash crossover called out in the design system.
    ============================================================ */
+
+/* Hybrid type system — pulled from the zcash-school-design system. */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
 	--sl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 	--sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+	/* Display family used by h1/h2/h3 and the hero. Inter is the body
+	   fallback if Space Grotesk fails to load. */
+	--zs-font-display: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
 
 	/* Brand constants, reference these, don't hardcode hexes elsewhere */
 	--zs-yellow: #F4B728;
 	--zs-yellow-soft: #ffe39a;
 	--zs-red: #E5322D;
 	--zs-red-hover: #C2241F;
+	--zs-red-light: #D7263D;
 	--zs-black: #0C0D10;
 	--zs-white: #FAFAFB;
+}
+
+/* ---------- Display type: Space Grotesk on headings + hero ---------- */
+/* Applied wherever the editorial card or splash hero renders prose, so
+   the Network School geometric flavor lands on every page heading
+   without overriding Starlight's body type. */
+.sl-markdown-content :is(h1, h2, h3),
+.hero h1,
+.site-title {
+	font-family: var(--zs-font-display);
+	letter-spacing: -0.015em;
+	font-weight: 700;
+}
+.hero h1 {
+	letter-spacing: -0.025em;
+	font-weight: 700;
 }
 
 /* ---------- Dark mode (default): yellow accent on black ---------- */
