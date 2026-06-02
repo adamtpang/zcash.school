@@ -1,64 +1,78 @@
 /**
- * zcash.school — Airdrops sheet receiver
+ * zcash.school — Shared sheet receiver (Airdrops + Feedback)
  *
- * One-time setup (~5 minutes):
+ * One Apps Script Web App, one webhook URL, two destination tabs in
+ * the same spreadsheet. The script branches on the incoming `type`
+ * field:
+ *
+ *   type: 'airdrop'  (or absent)  -> tab named "Airdrops"
+ *                                    (falls back to SHEET_GID, then
+ *                                     to the active sheet)
+ *   type: 'feedback'              -> tab named "Feedback"
+ *                                    (falls back to active sheet)
+ *
+ * One-time setup (~5 minutes, do once):
  *   1. Open the Airdrops Team spreadsheet:
  *      https://docs.google.com/spreadsheets/d/11d378g5feA7PNuEVP6k6dEP4bX2YQBQfTTPnQ1n-8DU
- *   2. Extensions → Apps Script. Replace the placeholder code with this whole file.
- *   3. (Optional) Adjust SHEET_GID below to point at a different tab.
- *   4. In the sheet tab, set row 1 headers (left to right):
- *      Timestamp | Unified Address | Email | Event | Contact | Source | UserAgent
- *   5. Deploy → New deployment → Type: Web app
- *        Description:   zcash.school airdrops receiver
- *        Execute as:    Me (your Google account)
+ *   2. Make sure two tabs exist: "Airdrops" and "Feedback".
+ *      Header rows (row 1):
+ *        Airdrops:  Timestamp | Unified Address | Email | Event | Contact | Source | UserAgent
+ *        Feedback:  Timestamp | Name | Email | Rating | Context | Feedback | Source | UserAgent
+ *      (You can rename the tabs later; the script will pick them up by
+ *       name. If the tab does not exist, rows fall back to the active
+ *       sheet so nothing is lost.)
+ *   3. Extensions -> Apps Script. Replace the script with this file.
+ *   4. Deploy -> New deployment (or Manage deployments -> New version):
+ *        Type:           Web app
+ *        Execute as:     Me (your Google account)
  *        Who has access: Anyone
- *      Authorize when Google prompts. Copy the resulting Web app URL.
- *   6. In Vercel → Settings → Environment Variables, add:
- *        AIRDROPS_WEBHOOK_URL = <the URL from step 5>
+ *      Authorize when prompted. Copy the Web app URL.
+ *   5. In Vercel -> Settings -> Environment Variables, set:
+ *        AIRDROPS_WEBHOOK_URL = <Web app URL from step 4>
  *      Redeploy zcash.school once.
  *
- * That is the entire integration. No Resend, no zcash.school inbox, no
- * secrets in the repo. Every /airdrops submission appends a row to the
- * sheet within ~1s.
- *
- * Re-deploying the script: bump deployment version when you change this
- * file (Deploy → Manage deployments → edit → New version).
+ * Updating later: edit this file -> Manage deployments -> New version
+ * (keep the same Web app URL; no env-var change needed).
  */
 
 var SHEET_ID  = '11d378g5feA7PNuEVP6k6dEP4bX2YQBQfTTPnQ1n-8DU';
-var SHEET_GID = 1866878924; // the airdrops tab from the original URL
+var SHEET_GID = 1866878924; // original airdrops tab gid from the URL
+var TAB_AIRDROPS = 'Airdrops';
+var TAB_FEEDBACK = 'Feedback';
 
 function doPost(e) {
   try {
-    var data = {};
-    var ct = (e.postData && e.postData.type) || '';
-    if (ct.indexOf('application/json') !== -1) {
-      data = JSON.parse(e.postData.contents || '{}');
-    } else {
-      data = e.parameter || {};
-    }
-
+    var data = parseBody(e);
     var ss = SpreadsheetApp.openById(SHEET_ID);
-    var sheets = ss.getSheets();
-    var sheet = null;
-    for (var i = 0; i < sheets.length; i++) {
-      if (sheets[i].getSheetId() === SHEET_GID) { sheet = sheets[i]; break; }
+    var type = String(data.type || 'airdrop').toLowerCase();
+    var ts = new Date().toISOString();
+
+    if (type === 'feedback') {
+      var fb = pickSheet(ss, TAB_FEEDBACK);
+      fb.appendRow([
+        ts,
+        str(data.name),
+        str(data.email),
+        str(data.rating),
+        str(data.context),
+        str(data.feedback),
+        str(data.source) || 'zcash.school /feedback',
+        str(data.userAgent)
+      ]);
+    } else {
+      var ad = pickSheet(ss, TAB_AIRDROPS, SHEET_GID);
+      ad.appendRow([
+        ts,
+        str(data.unifiedAddress),
+        str(data.email),
+        str(data.event),
+        str(data.contact),
+        str(data.source) || 'zcash.school',
+        str(data.userAgent)
+      ]);
     }
-    if (!sheet) sheet = ss.getActiveSheet();
 
-    sheet.appendRow([
-      new Date().toISOString(),
-      String(data.unifiedAddress || '').trim(),
-      String(data.email || '').trim(),
-      String(data.event || '').trim(),
-      String(data.contact || '').trim(),
-      String(data.source || 'zcash.school').trim(),
-      String(data.userAgent || '').trim()
-    ]);
-
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: true }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return ok();
   } catch (err) {
     return ContentService
       .createTextOutput(JSON.stringify({ ok: false, error: String(err) }))
@@ -68,6 +82,38 @@ function doPost(e) {
 
 function doGet() {
   return ContentService
-    .createTextOutput('zcash.school airdrops receiver. POST JSON only.')
+    .createTextOutput('zcash.school sheet receiver. POST JSON only.')
     .setMimeType(ContentService.MimeType.TEXT);
+}
+
+// ---- helpers ----
+
+function parseBody(e) {
+  var ct = (e && e.postData && e.postData.type) || '';
+  if (ct.indexOf('application/json') !== -1) {
+    return JSON.parse((e.postData && e.postData.contents) || '{}');
+  }
+  return (e && e.parameter) || {};
+}
+
+function pickSheet(ss, name, gidFallback) {
+  var byName = ss.getSheetByName(name);
+  if (byName) return byName;
+  if (typeof gidFallback === 'number') {
+    var sheets = ss.getSheets();
+    for (var i = 0; i < sheets.length; i++) {
+      if (sheets[i].getSheetId() === gidFallback) return sheets[i];
+    }
+  }
+  return ss.getActiveSheet();
+}
+
+function str(v) {
+  return (v === null || v === undefined) ? '' : String(v).trim();
+}
+
+function ok() {
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON);
 }

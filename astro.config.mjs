@@ -104,6 +104,7 @@ export default defineConfig({
 						{ label: 'Blog', link: '/blog/' },
 						{ label: 'Roadmap', link: '/roadmap/' },
 						{ label: 'Changelog', link: '/changelog/' },
+						{ label: 'Feedback', link: '/feedback/' },
 						{ label: 'Resources', link: '/resources/' },
 					],
 				},

@@ -1,0 +1,208 @@
+---
+/**
+ * Feedback form. Same progressive-enhancement pattern as AirdropsForm.
+ * Posts JSON to /api/feedback, which proxies to the Apps Script Web
+ * App. Email and identity fields are all optional — the only required
+ * field is the feedback itself.
+ */
+---
+
+<form id="feedback-form" class="feedback-form" data-source="/feedback">
+	<label>
+		<span class="lbl">Your feedback <em class="req">*</em></span>
+		<textarea
+			name="feedback"
+			required
+			minlength="3"
+			maxlength="5000"
+			rows="6"
+			placeholder="What worked? What was confusing? What's missing? Be specific or be blunt; either helps."></textarea>
+		<small>Required. The only field that is.</small>
+	</label>
+
+	<fieldset class="rating">
+		<legend class="lbl">How is the site / program so far? <em class="muted">(optional)</em></legend>
+		<div class="rating-row">
+			{[1, 2, 3, 4, 5].map((n) => (
+				<label class="rating-pip">
+					<input type="radio" name="rating" value={String(n)} />
+					<span>{n}</span>
+				</label>
+			))}
+		</div>
+		<small>1 = nope. 5 = ship it.</small>
+	</fieldset>
+
+	<label>
+		<span class="lbl">Which page or topic? <em class="muted">(optional)</em></span>
+		<input type="text" name="context" placeholder="e.g. /start, /airdrops, the ZK lesson, an event" />
+	</label>
+
+	<label>
+		<span class="lbl">Your name <em class="muted">(optional)</em></span>
+		<input type="text" name="name" autocomplete="given-name" placeholder="What we should call you" />
+	</label>
+
+	<label>
+		<span class="lbl">Email <em class="muted">(optional, only if you want a reply)</em></span>
+		<input type="email" name="email" autocomplete="email" placeholder="you@somewhere.com" />
+		<small>We will not add you to any list. No newsletter signup hidden here.</small>
+	</label>
+
+	{/* Honeypot */}
+	<input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp" />
+
+	<button type="submit">Send feedback</button>
+	<p id="feedback-status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+	const form = document.getElementById('feedback-form') as HTMLFormElement | null;
+	if (form) {
+		const status = document.getElementById('feedback-status') as HTMLParagraphElement;
+		const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			status.style.color = 'inherit';
+			status.textContent = 'Sending...';
+			btn.disabled = true;
+			const payload: Record<string, string> = Object.fromEntries(
+				new FormData(form).entries()
+			) as Record<string, string>;
+			payload.source = form.dataset.source || '/feedback';
+			try {
+				const r = await fetch('/api/feedback', {
+					method: 'POST',
+					headers: { 'content-type': 'application/json' },
+					body: JSON.stringify(payload),
+				});
+				const data = await r.json().catch(() => ({}));
+				if (r.ok && data.ok) {
+					form.reset();
+					status.style.color = 'var(--zs-red, #E5322D)';
+					status.textContent = data.message || 'Thank you. Sent.';
+					const w = window as any;
+					if (typeof w.va === 'function') w.va('event', { name: 'feedback_submitted' });
+				} else {
+					status.style.color = '#b91c1c';
+					status.textContent =
+						(data && data.error) ||
+						'Something went wrong. Try again, or message us on the forum thread.';
+					btn.disabled = false;
+				}
+			} catch {
+				status.style.color = '#b91c1c';
+				status.textContent =
+					'Network error. Try again, or message us on the forum thread.';
+				btn.disabled = false;
+			}
+		});
+	}
+</script>
+
+<style>
+	.feedback-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		max-width: 560px;
+		margin: 1.5rem 0;
+	}
+	.feedback-form label,
+	.feedback-form fieldset.rating {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		border: 0;
+		padding: 0;
+		margin: 0;
+	}
+	.feedback-form .lbl {
+		font-weight: 600;
+	}
+	.feedback-form .lbl .muted {
+		color: var(--sl-color-gray-3);
+		font-style: normal;
+		font-weight: 400;
+	}
+	.feedback-form .lbl .req {
+		color: var(--zs-red, #e5322d);
+		font-style: normal;
+	}
+	.feedback-form input,
+	.feedback-form textarea {
+		padding: 0.7rem 0.9rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 8px;
+		background: var(--sl-color-bg-nav);
+		color: var(--sl-color-white);
+		font-size: 1rem;
+		font-family: var(--sl-font);
+	}
+	.feedback-form textarea {
+		resize: vertical;
+		line-height: 1.55;
+	}
+	.feedback-form small {
+		color: var(--sl-color-gray-3);
+		line-height: 1.4;
+	}
+	.feedback-form .hp {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		opacity: 0;
+	}
+	.feedback-form button {
+		padding: 0.85rem 1rem;
+		background: var(--zs-red, #e5322d);
+		color: #fff;
+		border: 0;
+		border-radius: 8px;
+		font-weight: 700;
+		cursor: pointer;
+		font-size: 1.05rem;
+	}
+	.feedback-form button:disabled {
+		opacity: 0.6;
+		cursor: progress;
+	}
+	#feedback-status {
+		margin: 0;
+		min-height: 1.2rem;
+		font-weight: 600;
+	}
+
+	/* Rating row — 1..5 radios styled as chips */
+	.feedback-form .rating-row {
+		display: flex;
+		gap: 0.4rem;
+	}
+	.feedback-form .rating-pip {
+		flex: 1 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2.4rem;
+		padding: 0.55rem 0.4rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 8px;
+		cursor: pointer;
+		font-weight: 600;
+		background: var(--sl-color-bg-nav);
+	}
+	.feedback-form .rating-pip input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.feedback-form .rating-pip:hover {
+		border-color: var(--zs-red, #e5322d);
+	}
+	.feedback-form .rating-pip:has(input:checked) {
+		background: var(--zs-red, #e5322d);
+		color: #fff;
+		border-color: var(--zs-red, #e5322d);
+	}
+</style>
