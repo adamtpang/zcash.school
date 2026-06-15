@@ -103,6 +103,7 @@ export default defineConfig({
 						{ label: 'About', link: '/about/' },
 						{ label: 'Blog', link: '/blog/' },
 						{ label: 'Roadmap', link: '/roadmap/' },
+						{ label: 'Grant dashboard', link: '/grant/' },
 						{ label: 'Changelog', link: '/changelog/' },
 						{ label: 'Feedback', link: '/feedback/' },
 						{ label: 'Resources', link: '/resources/' },

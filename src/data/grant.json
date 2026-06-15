@@ -1,0 +1,57 @@
+{
+  "_comment": "Single source of truth for the /grant dashboard. Edit the `current` numbers after each event/office-hours/install and redeploy. Dates are ISO. The dashboard computes pace (on track / at risk / behind) from program.start..program.end vs today at build time.",
+  "program": {
+    "name": "Zcash Network School",
+    "start": "2026-05-01",
+    "end": "2026-07-31",
+    "grantThread": "https://forum.zcashcommunity.com/t/zcash-network-school/55269"
+  },
+  "lastUpdated": "2026-06-15",
+  "kpis": [
+    {
+      "key": "wallets",
+      "label": "Wallet activations",
+      "current": 50,
+      "target": 100,
+      "note": "Headline KPI. Captured via /airdrops."
+    },
+    {
+      "key": "pos",
+      "label": "Merchant POS installs",
+      "current": 2,
+      "target": 4,
+      "note": "ZGo / CipherPay / BTCPay. Adam owns vendor onboarding."
+    }
+  ],
+  "cadence": [
+    {
+      "key": "events",
+      "label": "Educational events",
+      "current": 3,
+      "target": 6,
+      "cadence": "2 per month"
+    },
+    {
+      "key": "officeHours",
+      "label": "Office hours sessions",
+      "current": 6,
+      "target": 12,
+      "cadence": "~weekly, 4 per month"
+    },
+    {
+      "key": "reports",
+      "label": "Monthly forum reports",
+      "current": 1,
+      "target": 3,
+      "cadence": "1 per month",
+      "discrete": true,
+      "schedule": ["2026-05-31", "2026-06-30", "2026-07-31"]
+    }
+  ],
+  "ongoing": [
+    { "key": "office", "label": "Zcash Office on campus", "status": "operational", "detail": "Physical workspace, full grant duration." },
+    { "key": "materials", "label": "Onboarding materials", "status": "shipped", "detail": "60s guide, QR posters, banners. Print run ongoing." },
+    { "key": "interviews", "label": "User interviews", "status": "in progress", "detail": "Residents + businesses, PII-excluded transcripts." },
+    { "key": "announcements", "label": "Community announcements", "status": "ongoing", "detail": "Forum, ZecHub, coinholder votes." }
+  ]
+}

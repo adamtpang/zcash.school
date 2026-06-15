@@ -1,0 +1,39 @@
+---
+title: Grant dashboard
+description: Live progress against the Zcash Network School grant deliverables and KPIs. Updated as events run, wallets activate, and merchants go live.
+template: doc
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import GrantDashboard from '../../../components/GrantDashboard.astro';
+
+> *We post in the open so anyone can see what the grant funds.*
+
+This is the at-a-glance tracker for the **[Zcash Network School](/ns/)**
+grant: a 90-day Zcash Foundation community-grant program, May to July
+2026. The detailed deliverable table and the site roadmap live on
+**[/roadmap](/roadmap/)**; the narrative monthly reports live on
+**[the forum](https://forum.zcashcommunity.com/t/zcash-network-school/55269)**
+and mirror to **[/blog](/blog/)**.
+
+<GrantDashboard />
+
+<Aside type="tip" title="How to read this">
+Each bar fills to the current count. The vertical tick marks where we
+should be **today** given how much of the program window has elapsed.
+Bar past the tick: ahead. Bar at the tick: on track. Bar well short of
+the tick: behind, and it shows up yellow or red.
+</Aside>
+
+## How this updates
+
+The numbers come from one file, `src/data/grant.json`. After each event,
+office-hours session, wallet-activation batch, or merchant install, edit
+the `current` count and redeploy. Pace recomputes automatically from
+today's date against the program window.
+
+<div class="site-footer-note">
+	Independent educational project under the Zcash Network School program,
+	supported by a Zcash Foundation community grant. Not affiliated with the
+	Electric Coin Company or the Zcash Foundation.
+</div>

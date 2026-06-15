@@ -1,0 +1,213 @@
+---
+/**
+ * Live grant dashboard for /grant. Reads src/data/grant.json and computes
+ * pace at BUILD time: where each metric should be given how much of the
+ * program window has elapsed, vs where it actually is.
+ *
+ * Status logic per count metric:
+ *   ratio = (current / target) / (elapsed-fraction-of-program)
+ *   ratio >= 1.15  -> Ahead       (green)
+ *   ratio >= 1.0   -> On track    (green)
+ *   ratio >= 0.8   -> At risk     (yellow)
+ *   else           -> Behind      (red)
+ *   current>=target -> Complete   (green)
+ *
+ * Discrete deliverables (monthly reports) are judged against their own
+ * schedule, not linear pace. Rebuilds on every deploy; a build-date
+ * stamp is shown, and days-remaining also refreshes client-side so the
+ * countdown is never stale between deploys.
+ */
+import grant from '../data/grant.json';
+
+const GREEN = '#15803D';
+const YELLOW = '#B8860B'; // darker gold, AA on white
+const RED = '#C2241F';
+
+const start = new Date(`${grant.program.start}T00:00:00Z`).getTime();
+const end = new Date(`${grant.program.end}T23:59:59Z`).getTime();
+const now = Date.now();
+
+const totalMs = end - start;
+const elapsedMs = Math.min(Math.max(now - start, 0), totalMs);
+const timeFrac = totalMs > 0 ? elapsedMs / totalMs : 0;
+const daysRemaining = Math.max(0, Math.ceil((end - now) / 86_400_000));
+const dayOf = Math.round(totalMs / 86_400_000);
+const dayNow = Math.round(elapsedMs / 86_400_000);
+
+function pace(current, target) {
+	const pct = target ? current / target : 0;
+	const ratio = timeFrac > 0 ? pct / timeFrac : 1;
+	let status = 'Behind';
+	let color = RED;
+	if (current >= target) {
+		status = 'Complete';
+		color = GREEN;
+	} else if (ratio >= 1.15) {
+		status = 'Ahead';
+		color = GREEN;
+	} else if (ratio >= 1.0) {
+		status = 'On track';
+		color = GREEN;
+	} else if (ratio >= 0.8) {
+		status = 'At risk';
+		color = YELLOW;
+	}
+	return { pct: Math.min(pct, 1), status, color };
+}
+
+function discrete(item) {
+	// Reports: how many scheduled dates are at or before today.
+	const due = (item.schedule || []).filter((d) => new Date(`${d}T23:59:59Z`).getTime() <= now).length;
+	const pct = item.target ? item.current / item.target : 0;
+	let status = 'On track';
+	let color = GREEN;
+	if (item.current >= item.target) {
+		status = 'Complete';
+	} else if (item.current < due) {
+		status = 'Overdue';
+		color = RED;
+	} else if (item.current === due) {
+		status = 'On track';
+	}
+	return { pct: Math.min(pct, 1), status, color };
+}
+
+const fmtPct = (p) => `${Math.round(p * 100)}%`;
+const timePctLabel = fmtPct(timeFrac);
+
+const kpis = grant.kpis.map((k) => ({ ...k, ...pace(k.current, k.target) }));
+const cadence = grant.cadence.map((c) => ({
+	...c,
+	...(c.discrete ? discrete(c) : pace(c.current, c.target)),
+}));
+---
+
+<section class="grant">
+	<div class="grant-summary">
+		<div class="big">
+			<span class="num" id="days-left">{daysRemaining}</span>
+			<span class="lbl">days left</span>
+		</div>
+		<p class="elapsed">
+			Day <strong>{dayNow}</strong> of <strong>{dayOf}</strong> · <strong>{timePctLabel}</strong> of the
+			program elapsed. The vertical tick on each bar marks where you should be today.
+		</p>
+	</div>
+
+	<h2>Headline KPIs</h2>
+	<div class="kpi-row">
+		{kpis.map((k) => (
+			<div class="kpi">
+				<div class="kpi-top">
+					<span class="kpi-label">{k.label}</span>
+					<span class="chip" style={`--c:${k.color}`}>{k.status}</span>
+				</div>
+				<div class="kpi-num">
+					<span class="cur">{k.current}</span>
+					<span class="tgt">/ {k.target}</span>
+				</div>
+				<div class="bar">
+					<div class="fill" style={`width:${k.pct * 100}%; background:${k.color}`}></div>
+					<div class="tick" style={`left:${timeFrac * 100}%`}></div>
+				</div>
+				{k.note && <p class="note">{k.note}</p>}
+			</div>
+		))}
+	</div>
+
+	<h2>Cadence deliverables</h2>
+	<ul class="rows">
+		{cadence.map((c) => (
+			<li>
+				<div class="row-head">
+					<span class="row-label">{c.label}</span>
+					<span class="row-meta">
+						<span class="count">{c.current} / {c.target}</span>
+						<span class="chip" style={`--c:${c.color}`}>{c.status}</span>
+					</span>
+				</div>
+				<div class="bar">
+					<div class="fill" style={`width:${c.pct * 100}%; background:${c.color}`}></div>
+					{!c.discrete && <div class="tick" style={`left:${timeFrac * 100}%`}></div>}
+				</div>
+				{c.cadence && <p class="note">{c.cadence}</p>}
+			</li>
+		))}
+	</ul>
+
+	<h2>Ongoing deliverables</h2>
+	<ul class="status-list">
+		{grant.ongoing.map((o) => (
+			<li>
+				<span class="dot"></span>
+				<span class="ol-label">{o.label}</span>
+				<span class="ol-status">{o.status}</span>
+				<span class="ol-detail">{o.detail}</span>
+			</li>
+		))}
+	</ul>
+
+	<p class="stamp">
+		Counts as of <strong>{grant.lastUpdated}</strong> (last data edit). Pace recomputes on every
+		deploy. Source of truth: <a href={grant.program.grantThread}>the grant forum thread</a>.
+	</p>
+</section>
+
+<script define:vars={{ end: grant.program.end }}>
+	// Keep "days left" fresh between deploys.
+	const el = document.getElementById('days-left');
+	if (el) {
+		const endMs = new Date(`${end}T23:59:59Z`).getTime();
+		const d = Math.max(0, Math.ceil((endMs - Date.now()) / 86400000));
+		el.textContent = String(d);
+	}
+</script>
+
+<style>
+	.grant { margin: 1.5rem 0; }
+	.grant h2 { margin-top: 2rem; }
+
+	.grant-summary {
+		display: flex; align-items: center; gap: 1.25rem;
+		padding: 1.1rem 1.25rem; border: 1px solid var(--sl-color-gray-5);
+		border-radius: 12px; background: var(--sl-color-bg-nav);
+	}
+	.grant-summary .big { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+	.grant-summary .num { font-family: var(--zs-font-display, inherit); font-size: 2.8rem; font-weight: 700; color: var(--zs-red, #E5322D); }
+	.grant-summary .lbl { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--sl-color-gray-3); }
+	.grant-summary .elapsed { margin: 0; font-size: 0.95rem; color: var(--sl-color-gray-2); }
+
+	.kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+	@media (max-width: 36rem) { .kpi-row { grid-template-columns: 1fr; } }
+	.kpi { padding: 1rem 1.1rem; border: 1px solid var(--sl-color-gray-5); border-radius: 12px; background: var(--sl-color-bg-nav); }
+	.kpi-top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+	.kpi-label { font-weight: 600; }
+	.kpi-num { margin: 0.4rem 0 0.7rem; }
+	.kpi-num .cur { font-family: var(--zs-font-display, inherit); font-size: 2.1rem; font-weight: 700; }
+	.kpi-num .tgt { color: var(--sl-color-gray-3); font-size: 1rem; margin-left: 0.25rem; }
+
+	.rows { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+	.rows li { margin: 0 0 1.1rem; }
+	.row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; margin-bottom: 0.4rem; }
+	.row-label { font-weight: 600; }
+	.row-meta { display: inline-flex; align-items: center; gap: 0.6rem; }
+	.row-meta .count { color: var(--sl-color-gray-2); font-variant-numeric: tabular-nums; }
+
+	.bar { position: relative; height: 9px; border-radius: 999px; background: var(--sl-color-gray-6, #ECEEF3); overflow: hidden; }
+	.bar .fill { position: absolute; inset: 0 auto 0 0; border-radius: 999px; }
+	.bar .tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--sl-color-gray-2); opacity: 0.7; }
+
+	.chip { font-size: 0.72rem; font-weight: 700; padding: 0.12rem 0.5rem; border-radius: 999px; color: var(--c); border: 1px solid var(--c); white-space: nowrap; }
+
+	.note { margin: 0.35rem 0 0; font-size: 0.8rem; color: var(--sl-color-gray-3); }
+
+	.status-list { list-style: none; padding: 0; margin: 0.5rem 0 0; display: grid; gap: 0.6rem; }
+	.status-list li { display: grid; grid-template-columns: auto auto 1fr; align-items: center; gap: 0.5rem 0.7rem; padding: 0.6rem 0.8rem; border: 1px solid var(--sl-color-gray-5); border-radius: 10px; }
+	.status-list .dot { width: 9px; height: 9px; border-radius: 999px; background: var(--zs-yellow, #F4B728); }
+	.status-list .ol-label { font-weight: 600; }
+	.status-list .ol-status { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sl-color-gray-3); }
+	.status-list .ol-detail { grid-column: 1 / -1; font-size: 0.85rem; color: var(--sl-color-gray-2); }
+	@media (min-width: 40rem) { .status-list .ol-detail { grid-column: 3; } }
+
+	.stamp { margin-top: 1.5rem; font-size: 0.8rem; color: var(--sl-color-gray-3); }
+</style>
