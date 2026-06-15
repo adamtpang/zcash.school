@@ -1,26 +1,33 @@
 {
-  "_comment": "Single source of truth for the /grant dashboard. Edit the `current` numbers after each event/office-hours/install and redeploy. Dates are ISO. The dashboard computes pace (on track / at risk / behind) from program.start..program.end vs today at build time.",
+  "_comment": "Single source of truth for the /grant dashboard. Edit the `current` numbers after each event/office-hours/install/interview and redeploy. Pace (on track / at risk / behind) is computed from program.start..program.end vs today at build time. Numbers reconciled to the June 15 2026 context export (ZCG grant #266). Do NOT put compensation/milestone-dollar figures here: this page is public.",
   "program": {
     "name": "Zcash Network School",
+    "grant": "Zcash Community Grant #266",
     "start": "2026-05-01",
     "end": "2026-07-31",
-    "grantThread": "https://forum.zcashcommunity.com/t/zcash-network-school/55269"
+    "grantThread": "https://forum.zcashcommunity.com/t/zcash-network-school/55269",
+    "grantIssue": "https://github.com/ZcashCommunityGrants/zcashcommunitygrants/issues/266"
   },
   "lastUpdated": "2026-06-15",
+  "milestones": [
+    { "label": "M1", "date": "2026-05-31", "status": "complete" },
+    { "label": "M2", "date": "2026-06-30", "status": "active" },
+    { "label": "Final", "date": "2026-07-31", "status": "upcoming" }
+  ],
   "kpis": [
     {
       "key": "wallets",
       "label": "Wallet activations",
-      "current": 50,
+      "current": 36,
       "target": 100,
-      "note": "Headline KPI. Captured via /airdrops."
+      "note": "Activation = first shielded tx, then $5 ZEC. Captured via /airdrops. THE headline KPI and currently the one behind pace."
     },
     {
       "key": "pos",
       "label": "Merchant POS installs",
-      "current": 2,
+      "current": 3,
       "target": 4,
-      "note": "ZGo / CipherPay / BTCPay. Adam owns vendor onboarding."
+      "note": "Counts at LIVE only (real payment clears), not LOI/demo. 7 LOIs signed, 6 in pipeline. Convert one more to hit target."
     }
   ],
   "cadence": [
@@ -39,6 +46,13 @@
       "cadence": "~weekly, 4 per month"
     },
     {
+      "key": "interviews",
+      "label": "User interviews",
+      "current": 4,
+      "target": 10,
+      "cadence": "PII-excluded transcripts. 6 more to go."
+    },
+    {
       "key": "reports",
       "label": "Monthly forum reports",
       "current": 1,
@@ -50,8 +64,7 @@
   ],
   "ongoing": [
     { "key": "office", "label": "Zcash Office on campus", "status": "operational", "detail": "Physical workspace, full grant duration." },
-    { "key": "materials", "label": "Onboarding materials", "status": "shipped", "detail": "60s guide, QR posters, banners. Print run ongoing." },
-    { "key": "interviews", "label": "User interviews", "status": "in progress", "detail": "Residents + businesses, PII-excluded transcripts." },
+    { "key": "materials", "label": "Onboarding materials", "status": "shipped", "detail": "60s guide, QR posters, banners, shirts. Print run ongoing." },
     { "key": "announcements", "label": "Community announcements", "status": "ongoing", "detail": "Forum, ZecHub, coinholder votes." }
   ]
 }

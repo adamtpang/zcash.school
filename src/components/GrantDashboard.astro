@@ -80,6 +80,15 @@ const cadence = grant.cadence.map((c) => ({
 	...c,
 	...(c.discrete ? discrete(c) : pace(c.current, c.target)),
 }));
+
+const milestones = (grant.milestones || []).map((m) => {
+	const t = new Date(`${m.date}T23:59:59Z`).getTime();
+	const fmt = new Date(`${m.date}T12:00:00Z`).toLocaleDateString('en-GB', {
+		day: 'numeric', month: 'short', timeZone: 'UTC',
+	});
+	const color = m.status === 'complete' ? GREEN : m.status === 'active' ? YELLOW : '#9AA0AC';
+	return { ...m, fmt, color, past: t <= now };
+});
 ---
 
 <section class="grant">
@@ -93,6 +102,19 @@ const cadence = grant.cadence.map((c) => ({
 			program elapsed. The vertical tick on each bar marks where you should be today.
 		</p>
 	</div>
+
+	{milestones.length > 0 && (
+		<div class="milestones">
+			{milestones.map((m) => (
+				<div class="ms">
+					<span class="ms-dot" style={`background:${m.color}`}></span>
+					<span class="ms-label">{m.label}</span>
+					<span class="ms-date">{m.fmt}</span>
+					<span class="ms-status" style={`color:${m.color}`}>{m.status}</span>
+				</div>
+			))}
+		</div>
+	)}
 
 	<h2>Headline KPIs</h2>
 	<div class="kpi-row">
@@ -176,6 +198,13 @@ const cadence = grant.cadence.map((c) => ({
 	.grant-summary .num { font-family: var(--zs-font-display, inherit); font-size: 2.8rem; font-weight: 700; color: var(--zs-red, #E5322D); }
 	.grant-summary .lbl { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--sl-color-gray-3); }
 	.grant-summary .elapsed { margin: 0; font-size: 0.95rem; color: var(--sl-color-gray-2); }
+
+	.milestones { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.9rem; }
+	.ms { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.7rem; border: 1px solid var(--sl-color-gray-5); border-radius: 999px; font-size: 0.85rem; }
+	.ms-dot { width: 8px; height: 8px; border-radius: 999px; }
+	.ms-label { font-weight: 700; }
+	.ms-date { color: var(--sl-color-gray-3); }
+	.ms-status { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
 
 	.kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 	@media (max-width: 36rem) { .kpi-row { grid-template-columns: 1fr; } }
