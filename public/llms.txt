@@ -1,0 +1,19 @@
+# Zcash School (zcash.school)
+
+> A free, opinionated, end-to-end course on Zcash, the privacy-preserving cryptocurrency that keeps transaction amounts and parties private by default using zero-knowledge proofs.
+
+Zcash School teaches Zcash from first principles across five modules: why financial privacy matters, how zero-knowledge proofs work, how the Zcash protocol runs (addresses, pools, notes, nullifiers, Orchard), how to actually use Zcash, and the ecosystem and economics. It is for people who want to understand shielded money without a cryptography background, hedging claims against the spec and linking to primary sources.
+
+The site is also part of the Zcash Network School (ZNS), a three-month program supported by a Zcash Foundation community grant, with a wallet quickstart, a merchant onboarding guide, and a $5 ZEC airdrop claim. It is an independent educational project, not affiliated with the Electric Coin Company or the Zcash Foundation. Built with Astro and Starlight, deployed as a static site on Vercel.
+
+## Key links
+- [Home](https://zcash.school/): course welcome and the five-module curriculum.
+- [Get a wallet in 60s](https://zcash.school/start/): fastest path to a working Zcash wallet.
+- [Claim airdrop](https://zcash.school/airdrops/): claim $5 ZEC and join the newsletter.
+- [Accept Zcash (merchants)](https://zcash.school/merchants/): guide for accepting Zcash as a merchant.
+- [Network School (ZNS)](https://zcash.school/ns/): the Zcash Network School program landing page.
+- [Roadmap](https://zcash.school/roadmap/): what is planned and shipped, plus the grant dashboard.
+
+## About
+- Part of adam.inc, the internet portfolio of Adam Pangelinan (Anchor Marianas LLC).
+- Builder: https://adampang.com
