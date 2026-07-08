@@ -8,7 +8,9 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
 	site: 'https://zcash.school',
 	output: 'static',
-	adapter: vercel(),
+	adapter: vercel({
+		webAnalytics: { enabled: true },
+	}),
 	integrations: [
 		starlight({
 			title: 'zcash.school',
@@ -21,6 +23,7 @@ export default defineConfig({
 			],
 			components: {
 				Header: './src/components/Header.astro',
+				Footer: './src/components/Footer.astro',
 			},
 			customCss: ['./src/styles/custom.css'],
 			head: [
