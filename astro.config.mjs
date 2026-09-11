@@ -8,9 +8,7 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
 	site: 'https://zcash.school',
 	output: 'static',
-	adapter: vercel({
-		webAnalytics: { enabled: true },
-	}),
+	adapter: vercel(),
 	integrations: [
 		starlight({
 			title: 'zcash.school',
@@ -27,6 +25,7 @@ export default defineConfig({
 			},
 			customCss: ['./src/styles/custom.css'],
 			head: [
+				{ tag: 'script', attrs: { 'data-posthog-fleet': '' }, content: "(function(){if(window.__posthogFleet)return;window.__posthogFleet=1;var s=document.createElement('script');s.async=true;s.src='https://us-assets.i.posthog.com/static/array.js';s.onload=function(){if(!window.posthog||!window.posthog.init)return;window.posthog.init('phc_FCpCP9mIsb9IcxpX0Qqi6FmJ48sVvscAYIrZmtRHIq4',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only',capture_pageview:'history_change',capture_pageleave:true,autocapture:false,disable_session_recording:true,disable_surveys:true,loaded:function(p){p.register({site:location.hostname})}});};document.head.appendChild(s);})();" },
 				{
 					tag: 'meta',
 					attrs: { property: 'og:image', content: 'https://zcash.school/og-image.png' },
