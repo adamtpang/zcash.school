@@ -35,6 +35,10 @@
 		"published": "2026-05-11T05:08:04.000Z",
 		"modified": "2026-05-22T04:11:53.000Z"
 	},
+	"src/content/docs/contact/index.mdx": {
+		"published": "2026-11-01T22:45:09.000Z",
+		"modified": "2026-11-01T22:45:09.000Z"
+	},
 	"src/content/docs/ecosystem/supply-and-halvings.mdx": {
 		"published": "2026-05-10T04:52:31.000Z",
 		"modified": "2026-05-16T08:25:01.000Z"
@@ -57,7 +61,7 @@
 	},
 	"src/content/docs/index.mdx": {
 		"published": "2026-05-10T04:51:53.000Z",
-		"modified": "2026-05-22T04:11:54.000Z"
+		"modified": "2026-11-01T22:45:09.000Z"
 	},
 	"src/content/docs/intro/bitcoin-transparency-problem.mdx": {
 		"published": "2026-05-10T04:52:31.000Z",
@@ -78,6 +82,10 @@
 	"src/content/docs/ns/index.mdx": {
 		"published": "2026-05-11T05:08:04.000Z",
 		"modified": "2026-05-22T04:11:53.000Z"
+	},
+	"src/content/docs/privacy/index.mdx": {
+		"published": "2026-11-01T22:45:09.000Z",
+		"modified": "2026-11-01T22:45:09.000Z"
 	},
 	"src/content/docs/protocol/addresses.mdx": {
 		"published": "2026-05-10T04:52:31.000Z",
