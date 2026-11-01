@@ -1,13 +1,24 @@
 ---
 /**
- * Custom Footer — the default Starlight Footer (v0.39.2) with a small
- * builder credit line appended. Styling follows the muted footer text
+ * Custom Footer: the default Starlight Footer (v0.39.2) with a small
+ * builder credit line, site-information links and a short
+ * not-advice note appended. Styling follows the muted footer text
  * conventions already used by Starlight (--sl-color-gray-3).
  */
 import Default from '@astrojs/starlight/components/Footer.astro';
 ---
 
 <Default><slot /></Default>
+<nav class="zs-trust" aria-label="Site information">
+	<a href="/about/">About</a>
+	<a href="/contact/">Contact</a>
+	<a href="/privacy/">Privacy</a>
+</nav>
+<p class="zs-credit">
+	zcash.school is an independent educational course about Zcash. It is not
+	a wallet, an exchange, a price page, or financial or investment advice, and
+	it is not affiliated with the Electric Coin Company or the Zcash Foundation.
+</p>
 <p class="zs-credit">
 	built by <a href="https://adampang.com">Adam Pangelinan</a>
 </p>
@@ -18,10 +29,19 @@ import Default from '@astrojs/starlight/components/Footer.astro';
 		font-size: var(--sl-text-xs);
 		color: var(--sl-color-gray-3);
 	}
+	.zs-trust {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-top: 1.5rem;
+		font-size: var(--sl-text-xs);
+	}
+	.zs-trust a,
 	.zs-credit a {
 		color: var(--sl-color-gray-3);
 		text-decoration: underline;
 	}
+	.zs-trust a:hover,
 	.zs-credit a:hover {
 		color: var(--sl-color-white);
 	}

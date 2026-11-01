@@ -1,0 +1,68 @@
+---
+title: Privacy
+description: What zcash.school collects, which services process it, and what it does not collect. Analytics, the airdrop and feedback forms, and hosting.
+template: doc
+---
+
+zcash.school is a static course site with two small forms. This page
+lists everything that actually runs on it, so you can decide what to
+share. Questions or corrections: see [Contact](/contact/).
+
+## Analytics (PostHog)
+
+zcash.school uses PostHog (US cloud, `us.i.posthog.com`) to count
+visits. The PostHog script records page views, when you leave a page,
+Core Web Vitals performance timings, heatmap data (where on a page
+people click and how far they scroll), and clicks that do nothing
+("dead clicks"). General autocapture of every click, session
+recording, and surveys are turned off in the site's code. PostHog
+stores a random identifier in a first-party cookie and local storage so
+repeat visits can be counted; visitors are not identified by name or
+email.
+
+PostHog does not receive what you type into the forms on this site.
+
+## The airdrop form (/airdrops and /claim)
+
+The airdrop form collects your public Zcash unified address (`u1...`),
+your email, and an optional event name. Your browser's user-agent
+string is sent along with it. The form never asks for seed phrases,
+private keys, or funds.
+
+Each submission is sent to a Google Apps Script that writes it to the
+Zcash Network School team's Google Sheet. A copy of the submission,
+including your IP address, is also written to the site's server logs
+on Vercel so a failed delivery can be recovered. The email is used for
+the shielded newsletter and, rarely, a follow-up if a claim bounces.
+
+## The feedback form (/feedback)
+
+The feedback form collects your feedback, an optional rating, an
+optional page or topic, and an optional name and email, plus your
+browser's user-agent string. It goes to the same Google Apps Script and
+Google Sheet as the airdrop form, and a copy including your IP address
+is written to the Vercel server logs.
+
+## Hosting (Vercel)
+
+Vercel hosts zcash.school and runs the two form endpoints. Like any web
+host, Vercel processes your IP address and request details to serve
+pages. The form endpoints keep your IP address in memory for about a
+minute to limit repeated submissions.
+
+## Fonts (Google Fonts)
+
+The Space Grotesk heading font is loaded from Google Fonts
+(`fonts.googleapis.com` and `fonts.gstatic.com`), so your browser
+requests it from Google, which receives your IP address and browser
+details like any web request.
+
+## What zcash.school does not do
+
+- No advertising trackers, no sold or rented lists, no third-party
+  form provider or CRM.
+- No account system and no payments on this site.
+- No request for seed phrases, private keys, or funds.
+
+To have a form submission removed, ask through any channel on the
+[Contact](/contact/) page.

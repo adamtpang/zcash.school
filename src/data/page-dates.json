@@ -1,0 +1,146 @@
+{
+	"src/content/docs/404.md": {
+		"published": "2026-05-10T23:00:15.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/about/index.mdx": {
+		"published": "2026-05-16T08:25:01.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/airdrops/index.mdx": {
+		"published": "2026-05-22T04:11:53.000Z",
+		"modified": "2026-05-22T04:11:53.000Z"
+	},
+	"src/content/docs/blog/index.mdx": {
+		"published": "2026-05-17T09:15:09.000Z",
+		"modified": "2026-06-02T08:15:59.000Z"
+	},
+	"src/content/docs/blog/why-network-school.mdx": {
+		"published": "2026-05-17T09:15:09.000Z",
+		"modified": "2026-05-17T09:15:09.000Z"
+	},
+	"src/content/docs/blog/why-zcash.mdx": {
+		"published": "2026-05-17T09:15:09.000Z",
+		"modified": "2026-05-17T09:15:09.000Z"
+	},
+	"src/content/docs/blog/zns-month-1-report.mdx": {
+		"published": "2026-06-02T08:15:59.000Z",
+		"modified": "2026-06-02T08:15:59.000Z"
+	},
+	"src/content/docs/changelog/index.mdx": {
+		"published": "2026-05-16T08:25:01.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/claim/index.mdx": {
+		"published": "2026-05-11T05:08:04.000Z",
+		"modified": "2026-05-22T04:11:53.000Z"
+	},
+	"src/content/docs/ecosystem/supply-and-halvings.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/ecosystem/the-three-orgs.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/ecosystem/zips-and-upgrades.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/feedback/index.mdx": {
+		"published": "2026-06-02T08:15:06.000Z",
+		"modified": "2026-06-02T08:15:06.000Z"
+	},
+	"src/content/docs/grant/index.mdx": {
+		"published": "2026-06-15T08:21:41.000Z",
+		"modified": "2026-06-15T08:21:41.000Z"
+	},
+	"src/content/docs/index.mdx": {
+		"published": "2026-05-10T04:51:53.000Z",
+		"modified": "2026-05-22T04:11:54.000Z"
+	},
+	"src/content/docs/intro/bitcoin-transparency-problem.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/intro/the-zcash-thesis.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/intro/why-privacy.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/merchants/index.mdx": {
+		"published": "2026-05-11T05:08:04.000Z",
+		"modified": "2026-05-22T04:11:53.000Z"
+	},
+	"src/content/docs/ns/index.mdx": {
+		"published": "2026-05-11T05:08:04.000Z",
+		"modified": "2026-05-22T04:11:53.000Z"
+	},
+	"src/content/docs/protocol/addresses.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/protocol/notes-and-nullifiers.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/protocol/orchard-and-halo2.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/protocol/pools-and-shielding.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/protocol/project-tachyon.mdx": {
+		"published": "2026-05-10T23:00:40.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/resources.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-27T03:54:28.000Z"
+	},
+	"src/content/docs/roadmap/index.mdx": {
+		"published": "2026-05-16T08:25:01.000Z",
+		"modified": "2026-06-15T08:29:54.000Z"
+	},
+	"src/content/docs/start/index.mdx": {
+		"published": "2026-05-11T05:08:04.000Z",
+		"modified": "2026-05-17T09:15:11.000Z"
+	},
+	"src/content/docs/team/index.mdx": {
+		"published": "2026-05-16T07:03:38.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/using/merchants.mdx": {
+		"published": "2026-05-10T23:01:04.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/using/selective-disclosure.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/using/wallets.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-17T09:15:11.000Z"
+	},
+	"src/content/docs/using/your-first-shielded-tx.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/zk/intuition.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/zk/trusted-setups-and-halo.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	},
+	"src/content/docs/zk/zk-snarks.mdx": {
+		"published": "2026-05-10T04:52:31.000Z",
+		"modified": "2026-05-16T08:25:01.000Z"
+	}
+}

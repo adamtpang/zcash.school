@@ -11,7 +11,8 @@
     "og": "node scripts/generate-og.mjs",
     "qr": "node scripts/generate-qr.mjs",
     "favicon": "node scripts/generate-favicon.mjs",
-    "design:sync": "node scripts/design-sync.mjs"
+    "design:sync": "node scripts/design-sync.mjs",
+    "dates": "node scripts/page-dates.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
